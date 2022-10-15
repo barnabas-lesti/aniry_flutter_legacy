@@ -17,17 +17,16 @@ class ShoppingListRow extends StatelessWidget {
       color: Colors.transparent,
       child: GestureDetector(
         onTap: () => onCheck!(!item.isChecked),
-        child: Row(
-          children: [
-            Checkbox(
-              value: item.isChecked,
-              onChanged: (bool? value) => onCheck!(value ?? false),
-            ),
-            Text(
-              item.text,
-              style: TextStyle(decoration: item.isChecked ? TextDecoration.lineThrough : TextDecoration.none),
-            ),
-          ],
+        child: ListTile(
+          contentPadding: const EdgeInsets.all(0),
+          leading: Checkbox(
+            value: item.isChecked,
+            onChanged: (bool? value) => onCheck!(value ?? false),
+          ),
+          title: Text(
+            item.text,
+            style: TextStyle(decoration: item.isChecked ? TextDecoration.lineThrough : TextDecoration.none),
+          ),
         ),
       ),
     );

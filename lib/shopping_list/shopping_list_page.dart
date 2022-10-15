@@ -24,11 +24,11 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.only(top: 16, bottom: 16),
+              padding: const EdgeInsets.only(bottom: 16),
               child: ShoppingListInput(onSubmit: _createNewItem),
             ),
             ShoppingList(items: _items),
