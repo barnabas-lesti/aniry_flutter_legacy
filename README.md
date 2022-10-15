@@ -29,6 +29,7 @@ Follow [Flutters test-drive](https://docs.flutter.dev/get-started/test-drive) in
 
 ## Resources
 - https://docs.flutter.dev/
+- https://dart.dev/guides/language/effective-dart/style
 - https://blog.logrocket.com/how-to-build-a-bottom-navigation-bar-in-flutter/
 - https://fonts.google.com/icons?selected=Material+Icons
 - https://codewithandrea.com/articles/multiple-navigators-bottom-navigation-bar/
