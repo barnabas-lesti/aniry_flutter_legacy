@@ -19,10 +19,21 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
     setState(() => _items = [ShoppingListItem(text: newItem), ..._items]);
   }
 
+  void _deleteItems() {
+    setState(() => _items = []);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
+      floatingActionButton: _items.isNotEmpty
+          ? FloatingActionButton(
+              onPressed: () => _deleteItems(),
+              backgroundColor: Colors.red[400],
+              child: const Icon(Icons.delete),
+            )
+          : null,
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
         child: Column(
