@@ -1,4 +1,10 @@
 {
   "editor.tabSize": 2,
-  "editor.renderWhitespace": "all"
+  "editor.renderWhitespace": "all",
+  "dart.lineLength": 120,
+  "[dart]": {
+    "editor.rulers": [
+        120
+    ],
+  }
 }
