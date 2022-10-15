@@ -15,8 +15,16 @@ class ShoppingListPage extends StatefulWidget {
 class _ShoppingListPageState extends State<ShoppingListPage> {
   List<ShoppingListItem> _items = [];
 
-  void _createNewItem(String newItem) {
-    setState(() => _items = [ShoppingListItem(text: newItem), ..._items]);
+  void _addItem(String text) {
+    setState(() => _items.add(ShoppingListItem(text: text)));
+  }
+
+  void _checkItem(int index, bool isChecked) {
+    setState(() => _items[index].isChecked = isChecked);
+  }
+
+  void _deleteItem(int index) {
+    setState(() => _items.removeAt(index));
   }
 
   void _deleteItems() {
@@ -29,7 +37,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       appBar: AppBar(title: Text(widget.title)),
       floatingActionButton: _items.isNotEmpty
           ? FloatingActionButton(
-              onPressed: () => _deleteItems(),
+              onPressed: _deleteItems,
               backgroundColor: Colors.red[400],
               child: const Icon(Icons.delete),
             )
@@ -40,9 +48,13 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           children: [
             Container(
               padding: const EdgeInsets.only(bottom: 16),
-              child: ShoppingListInput(onSubmit: _createNewItem),
+              child: ShoppingListInput(onSubmit: _addItem),
             ),
-            ShoppingList(items: _items),
+            ShoppingList(
+              items: _items,
+              onCheck: _checkItem,
+              onDelete: _deleteItem,
+            ),
           ],
         ),
       ),
