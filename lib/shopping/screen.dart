@@ -1,37 +1,37 @@
 import 'package:aniry_shopping_list/app/confirmation_dialog.dart';
 import 'package:aniry_shopping_list/app/realm.dart';
-import 'package:aniry_shopping_list/shopping_list/list.dart';
-import 'package:aniry_shopping_list/shopping_list/input.dart';
-import 'package:aniry_shopping_list/shopping_list/item.dart';
+import 'package:aniry_shopping_list/shopping/list.dart';
+import 'package:aniry_shopping_list/shopping/input.dart';
+import 'package:aniry_shopping_list/shopping/item.dart';
 import 'package:flutter/material.dart';
 import 'package:realm/realm.dart';
 
-class ShoppingListPage extends StatefulWidget {
-  const ShoppingListPage({super.key});
+class ShoppingScreen extends StatefulWidget {
+  const ShoppingScreen({super.key});
 
   final String title = 'Shopping List';
 
   @override
-  State<ShoppingListPage> createState() => _ShoppingListPageState();
+  State<ShoppingScreen> createState() => _ShoppingScreenState();
 }
 
-class _ShoppingListPageState extends State<ShoppingListPage> {
-  late RealmResults<ShoppingListItem> _items;
+class _ShoppingScreenState extends State<ShoppingScreen> {
+  late RealmResults<ShoppingItem> _items;
 
-  _ShoppingListPageState() {
-    _items = appRealm.all<ShoppingListItem>();
+  _ShoppingScreenState() {
+    _items = appRealm.all<ShoppingItem>();
   }
 
   void _addItem(String text) =>
-      setState(() => appRealm.write(() => appRealm.add(ShoppingListItem(Uuid.v4(), text, _items.toList().length))));
+      setState(() => appRealm.write(() => appRealm.add(ShoppingItem(Uuid.v4(), text, _items.toList().length))));
 
-  void _checkItem(ShoppingListItem item, bool checked) => setState(() => appRealm.write(() => item.checked = checked));
+  void _checkItem(ShoppingItem item, bool checked) => setState(() => appRealm.write(() => item.checked = checked));
 
-  void _deleteItem(ShoppingListItem item) => setState(() => appRealm.write(() => appRealm.delete(item)));
+  void _deleteItem(ShoppingItem item) => setState(() => appRealm.write(() => appRealm.delete(item)));
 
-  void _deleteItems() => setState(() => appRealm.write(() => appRealm.deleteAll<ShoppingListItem>()));
+  void _deleteItems() => setState(() => appRealm.write(() => appRealm.deleteAll<ShoppingItem>()));
 
-  void _changeItemsOrder(List<ShoppingListItem> updatedItems) => setState(() => appRealm.write(() {
+  void _changeItemsOrder(List<ShoppingItem> updatedItems) => setState(() => appRealm.write(() {
         for (int i = 0; i < updatedItems.length; i++) {
           final item = _items.singleWhere((element) => element.id == updatedItems[i].id);
           if (item.order != i) {
@@ -40,8 +40,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
         }
       }));
 
-  List<ShoppingListItem> _sortByOrder(List<ShoppingListItem> items) =>
-      items..sort((a, b) => a.order.compareTo(b.order));
+  List<ShoppingItem> _sortByOrder(List<ShoppingItem> items) => items..sort((a, b) => a.order.compareTo(b.order));
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           children: [
             Container(
               padding: const EdgeInsets.only(bottom: 16),
-              child: ShoppingListInput(onSubmit: _addItem),
+              child: ShoppingInput(onSubmit: _addItem),
             ),
             ShoppingList(
               items: _sortByOrder(_items.toList()),

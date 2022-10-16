@@ -1,4 +1,4 @@
-import 'package:aniry_shopping_list/shopping_list/page.dart';
+import 'package:aniry_shopping_list/shopping/screen.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -9,7 +9,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Aniry Shopping List',
       theme: ThemeData(primarySwatch: Colors.indigo),
-      home: const ShoppingListPage(),
+      home: const ShoppingScreen(),
     );
   }
 }

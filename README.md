@@ -6,14 +6,14 @@ Aniry shopping list mobile application.
 ### Install and configure the following tools:
 - [Git](https://git-scm.com/downloads)
   - On Mac, install [Xcode](https://developer.apple.com/xcode/) from the App Store and verify that **Git** is available:
-```
+```bash
 git --version
 ```
 - [Flutter](https://docs.flutter.dev/get-started/install)
 - Clone the repository
   - Authenticate using GitHub
   - Set git username and email for the repo:
-```
+```bash
 git config user.name "Barnabas Lesti"
 git config user.email "barnabas.lesti@gmail.com"
 ```
@@ -26,6 +26,13 @@ git config user.email "barnabas.lesti@gmail.com"
 
 ## Development
 Follow [Flutters test-drive](https://docs.flutter.dev/get-started/test-drive) instructions.
+
+### Common scripts
+```bash
+# Generate Realm model
+# Realm files need to be deleted from the device after re-generation
+flutter pub run realm generate
+```
 
 ## Resources
 - https://docs.flutter.dev/
