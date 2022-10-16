@@ -1,9 +1,12 @@
-class ShoppingListItem {
-  bool isChecked;
-  String text;
+import 'package:realm/realm.dart';
 
-  ShoppingListItem({
-    required this.text,
-    this.isChecked = false,
-  });
+part 'shopping_list_item.g.dart';
+
+@RealmModel()
+class _ShoppingListItem {
+  @PrimaryKey()
+  late final Uuid id;
+  late String text;
+  late int order;
+  late bool checked = false;
 }

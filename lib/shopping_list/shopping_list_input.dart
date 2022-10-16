@@ -9,10 +9,10 @@ class ShoppingListInput extends StatelessWidget {
   final void Function(String) onSubmit;
   final _controller = TextEditingController();
 
-  void _onSubmitHandler(String newItem) {
-    if (newItem.isNotEmpty) {
+  void _onSubmit(String text) {
+    if (text.isNotEmpty) {
       _controller.clear();
-      onSubmit(newItem);
+      onSubmit(text);
     }
   }
 
@@ -21,7 +21,7 @@ class ShoppingListInput extends StatelessWidget {
     return TextFormField(
       autocorrect: false,
       controller: _controller,
-      onFieldSubmitted: _onSubmitHandler,
+      onFieldSubmitted: _onSubmit,
       decoration: const InputDecoration(
         labelText: 'Add new list item',
         border: OutlineInputBorder(),

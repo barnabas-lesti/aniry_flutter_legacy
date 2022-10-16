@@ -31,12 +31,12 @@ class ShoppingList extends StatelessWidget {
       child: ReorderableListView(
         onReorder: _onReorder,
         children: [
-          for (int index = 0; index < items.length; index += 1)
+          for (int i = 0; i < items.length; i++)
             ShoppingListTile(
               key: UniqueKey(),
-              onDelete: () => onDelete(index),
-              item: items[index],
-              onCheck: (isChecked) => onCheck(index, isChecked),
+              onDelete: () => onDelete(i),
+              item: items[i],
+              onCheck: (checked) => onCheck(i, checked),
             )
         ],
       ),

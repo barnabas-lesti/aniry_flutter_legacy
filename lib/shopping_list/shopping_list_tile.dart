@@ -21,16 +21,16 @@ class ShoppingListTile extends StatelessWidget {
         key: super.key ?? UniqueKey(),
         onDismissed: (_) => onDelete(),
         child: GestureDetector(
-          onTap: () => onCheck(!item.isChecked),
+          onTap: () => onCheck(!item.checked),
           child: ListTile(
             contentPadding: const EdgeInsets.all(0),
             leading: Checkbox(
-              value: item.isChecked,
+              value: item.checked,
               onChanged: (bool? value) => onCheck(value ?? false),
             ),
             title: Text(
               item.text,
-              style: TextStyle(decoration: item.isChecked ? TextDecoration.lineThrough : TextDecoration.none),
+              style: TextStyle(decoration: item.checked ? TextDecoration.lineThrough : TextDecoration.none),
             ),
           ),
         ),

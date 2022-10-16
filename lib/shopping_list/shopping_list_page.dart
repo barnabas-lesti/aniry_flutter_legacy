@@ -3,6 +3,7 @@ import 'package:aniry_shopping_list/shopping_list/shopping_list.dart';
 import 'package:aniry_shopping_list/shopping_list/shopping_list_input.dart';
 import 'package:aniry_shopping_list/shopping_list/shopping_list_item.dart';
 import 'package:flutter/material.dart';
+import 'package:realm/realm.dart';
 
 class ShoppingListPage extends StatefulWidget {
   const ShoppingListPage({super.key});
@@ -14,13 +15,52 @@ class ShoppingListPage extends StatefulWidget {
 }
 
 class _ShoppingListPageState extends State<ShoppingListPage> {
-  List<ShoppingListItem> _items = [];
+  final Realm realm = Realm(Configuration.local([ShoppingListItem.schema]));
+  late List<ShoppingListItem> _items;
 
-  void _addItem(String text) => setState(() => _items.add(ShoppingListItem(text: text)));
-  void _checkItem(int index, bool isChecked) => setState(() => _items[index].isChecked = isChecked);
-  void _deleteItem(int index) => setState(() => _items.removeAt(index));
-  void _deleteItems() => setState(() => _items = []);
-  void _onReorder(List<ShoppingListItem> items) => setState(() => _items = items);
+  _ShoppingListPageState() {
+    _items = realm.all<ShoppingListItem>().toList();
+  }
+
+  void _addItem(String text) {
+    final item = ShoppingListItem(Uuid.v4(), text, _items.length);
+    _items.add(item);
+    realm.write(() => realm.add(item));
+    setState(() => {});
+  }
+
+  void _checkItem(int index, bool checked) {
+    realm.write(() => _items[index].checked = checked);
+    setState(() => {});
+  }
+
+  void _deleteItem(int index) {
+    final item = _items.removeAt(index);
+    realm.write(() => realm.delete(item));
+    setState(() => {});
+  }
+
+  void _deleteItems() {
+    _items = [];
+    realm.write(() => realm.deleteAll<ShoppingListItem>());
+    setState(() => {});
+  }
+
+  void _changeOrder(List<ShoppingListItem> updatedItems) {
+    realm.write(() {
+      for (int i = 0; i < updatedItems.length; i++) {
+        final item = _items.singleWhere((element) => element.id == updatedItems[i].id);
+        if (item.order != i) {
+          item.order = i;
+        }
+      }
+    });
+    setState(() => {});
+  }
+
+  List<ShoppingListItem> _sortByOrder(List<ShoppingListItem> items) {
+    return items..sort((a, b) => a.order.compareTo(b.order));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +86,10 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
               child: ShoppingListInput(onSubmit: _addItem),
             ),
             ShoppingList(
-              items: _items,
+              items: _sortByOrder(_items),
               onCheck: _checkItem,
               onDelete: _deleteItem,
-              onReorder: _onReorder,
+              onReorder: _changeOrder,
             ),
           ],
         ),
