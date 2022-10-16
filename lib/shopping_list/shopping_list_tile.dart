@@ -1,12 +1,12 @@
 import 'package:aniry_shopping_list/shopping_list/shopping_list_item.dart';
 import 'package:flutter/material.dart';
 
-class ShoppingListRow extends StatelessWidget {
-  const ShoppingListRow({
-    Key? key,
+class ShoppingListTile extends StatelessWidget {
+  const ShoppingListTile({
     required this.item,
     required this.onDelete,
     required this.onCheck,
+    Key? key,
   }) : super(key: key);
 
   final ShoppingListItem item;
@@ -18,7 +18,7 @@ class ShoppingListRow extends StatelessWidget {
     return Container(
       color: Colors.transparent,
       child: Dismissible(
-        key: UniqueKey(),
+        key: super.key ?? UniqueKey(),
         onDismissed: (_) => onDelete(),
         child: GestureDetector(
           onTap: () => onCheck(!item.isChecked),
