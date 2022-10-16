@@ -16,21 +16,11 @@ class ShoppingListPage extends StatefulWidget {
 class _ShoppingListPageState extends State<ShoppingListPage> {
   List<ShoppingListItem> _items = [];
 
-  void _addItem(String text) {
-    setState(() => _items.add(ShoppingListItem(text: text)));
-  }
-
-  void _checkItem(int index, bool isChecked) {
-    setState(() => _items[index].isChecked = isChecked);
-  }
-
-  void _deleteItem(int index) {
-    setState(() => _items.removeAt(index));
-  }
-
-  void _deleteItems() {
-    setState(() => _items = []);
-  }
+  void _addItem(String text) => setState(() => _items.add(ShoppingListItem(text: text)));
+  void _checkItem(int index, bool isChecked) => setState(() => _items[index].isChecked = isChecked);
+  void _deleteItem(int index) => setState(() => _items.removeAt(index));
+  void _deleteItems() => setState(() => _items = []);
+  void _onReorder(List<ShoppingListItem> items) => setState(() => _items = items);
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +49,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
               items: _items,
               onCheck: _checkItem,
               onDelete: _deleteItem,
+              onReorder: _onReorder,
             ),
           ],
         ),

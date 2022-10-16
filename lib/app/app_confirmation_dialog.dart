@@ -4,27 +4,26 @@ Future<String?> showAppConfirmationDialog({
   required BuildContext context,
   required String text,
   required void Function() onConfirm,
-}) {
-  return showDialog<String>(
-    context: context,
-    builder: (BuildContext context) => AppConfirmationDialog(
-      text: text,
-      onConfirm: onConfirm,
-    ),
-  );
-}
+}) =>
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AppConfirmationDialog(
+        text: text,
+        onConfirm: onConfirm,
+      ),
+    );
 
 class AppConfirmationDialog extends StatelessWidget {
   const AppConfirmationDialog({
     required this.text,
     required this.onConfirm,
-    Key? key,
     this.onCancel,
+    Key? key,
   }) : super(key: key);
 
   final String text;
-  final void Function()? onCancel;
   final void Function() onConfirm;
+  final void Function()? onCancel;
 
   @override
   Widget build(BuildContext context) {
