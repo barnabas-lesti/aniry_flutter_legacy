@@ -1,6 +1,6 @@
 import 'package:realm/realm.dart';
 
-part 'shopping_list_item.g.dart';
+part 'item.g.dart';
 
 @RealmModel()
 class _ShoppingListItem {

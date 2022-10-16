@@ -1,4 +1,4 @@
-import 'package:aniry_shopping_list/shopping_list/shopping_list_page.dart';
+import 'package:aniry_shopping_list/shopping_list/page.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {

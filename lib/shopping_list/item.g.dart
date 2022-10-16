@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'shopping_list_item.dart';
+part of 'item.dart';
 
 // **************************************************************************
 // RealmObjectGenerator

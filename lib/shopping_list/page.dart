@@ -1,8 +1,8 @@
-import 'package:aniry_shopping_list/app/app_confirmation_dialog.dart';
+import 'package:aniry_shopping_list/app/confirmation_dialog.dart';
 import 'package:aniry_shopping_list/app/realm.dart';
-import 'package:aniry_shopping_list/shopping_list/shopping_list.dart';
-import 'package:aniry_shopping_list/shopping_list/shopping_list_input.dart';
-import 'package:aniry_shopping_list/shopping_list/shopping_list_item.dart';
+import 'package:aniry_shopping_list/shopping_list/list.dart';
+import 'package:aniry_shopping_list/shopping_list/input.dart';
+import 'package:aniry_shopping_list/shopping_list/item.dart';
 import 'package:flutter/material.dart';
 import 'package:realm/realm.dart';
 
@@ -19,19 +19,19 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
   late RealmResults<ShoppingListItem> _items;
 
   _ShoppingListPageState() {
-    _items = realm.all<ShoppingListItem>();
+    _items = appRealm.all<ShoppingListItem>();
   }
 
   void _addItem(String text) =>
-      setState(() => realm.write(() => realm.add(ShoppingListItem(Uuid.v4(), text, _items.toList().length))));
+      setState(() => appRealm.write(() => appRealm.add(ShoppingListItem(Uuid.v4(), text, _items.toList().length))));
 
-  void _checkItem(ShoppingListItem item, bool checked) => setState(() => realm.write(() => item.checked = checked));
+  void _checkItem(ShoppingListItem item, bool checked) => setState(() => appRealm.write(() => item.checked = checked));
 
-  void _deleteItem(ShoppingListItem item) => setState(() => realm.write(() => realm.delete(item)));
+  void _deleteItem(ShoppingListItem item) => setState(() => appRealm.write(() => appRealm.delete(item)));
 
-  void _deleteItems() => setState(() => realm.write(() => realm.deleteAll<ShoppingListItem>()));
+  void _deleteItems() => setState(() => appRealm.write(() => appRealm.deleteAll<ShoppingListItem>()));
 
-  void _changeItemsOrder(List<ShoppingListItem> updatedItems) => setState(() => realm.write(() {
+  void _changeItemsOrder(List<ShoppingListItem> updatedItems) => setState(() => appRealm.write(() {
         for (int i = 0; i < updatedItems.length; i++) {
           final item = _items.singleWhere((element) => element.id == updatedItems[i].id);
           if (item.order != i) {

@@ -1,5 +1,5 @@
-import 'package:aniry_shopping_list/shopping_list/shopping_list_item.dart';
-import 'package:aniry_shopping_list/shopping_list/shopping_list_tile.dart';
+import 'package:aniry_shopping_list/shopping_list/item.dart';
+import 'package:aniry_shopping_list/shopping_list/list_tile.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingList extends StatelessWidget {
