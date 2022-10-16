@@ -1,4 +1,5 @@
 import 'package:aniry_shopping_list/app/app_confirmation_dialog.dart';
+import 'package:aniry_shopping_list/app/realm.dart';
 import 'package:aniry_shopping_list/shopping_list/shopping_list.dart';
 import 'package:aniry_shopping_list/shopping_list/shopping_list_input.dart';
 import 'package:aniry_shopping_list/shopping_list/shopping_list_item.dart';
@@ -15,41 +16,29 @@ class ShoppingListPage extends StatefulWidget {
 }
 
 class _ShoppingListPageState extends State<ShoppingListPage> {
-  final Realm realm = Realm(Configuration.local([ShoppingListItem.schema]));
   late RealmResults<ShoppingListItem> _items;
 
   _ShoppingListPageState() {
     _items = realm.all<ShoppingListItem>();
   }
 
-  void _addItem(String text) {
-    setState(() => realm.write(() => realm.add(ShoppingListItem(Uuid.v4(), text, _items.toList().length))));
-  }
+  void _addItem(String text) =>
+      setState(() => realm.write(() => realm.add(ShoppingListItem(Uuid.v4(), text, _items.toList().length))));
 
-  void _checkItem(ShoppingListItem item, bool checked) {
-    setState(() => realm.write(() => item.checked = checked));
-  }
+  void _checkItem(ShoppingListItem item, bool checked) => setState(() => realm.write(() => item.checked = checked));
 
-  void _deleteItem(ShoppingListItem item) {
-    setState(() => realm.write(() => realm.delete(item)));
-  }
+  void _deleteItem(ShoppingListItem item) => setState(() => realm.write(() => realm.delete(item)));
 
-  void _deleteItems() {
-    setState(() => realm.write(() => realm.deleteAll<ShoppingListItem>()));
-  }
+  void _deleteItems() => setState(() => realm.write(() => realm.deleteAll<ShoppingListItem>()));
 
-  void _changeOrder(List<ShoppingListItem> updatedItems) {
-    setState(() {
-      realm.write(() {
+  void _changeItemsOrder(List<ShoppingListItem> updatedItems) => setState(() => realm.write(() {
         for (int i = 0; i < updatedItems.length; i++) {
           final item = _items.singleWhere((element) => element.id == updatedItems[i].id);
           if (item.order != i) {
             item.order = i;
           }
         }
-      });
-    });
-  }
+      }));
 
   List<ShoppingListItem> _sortByOrder(List<ShoppingListItem> items) =>
       items..sort((a, b) => a.order.compareTo(b.order));
@@ -81,7 +70,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
               items: _sortByOrder(_items.toList()),
               onCheck: _checkItem,
               onDelete: _deleteItem,
-              onReorder: _changeOrder,
+              onReorder: _changeItemsOrder,
             ),
           ],
         ),
