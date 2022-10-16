@@ -1,4 +1,4 @@
-import 'package:aniry_shopping_list/shopping_list/shopping_list_item.dart';
+import 'package:aniry_shopping_list/shopping_list/item.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingListTile extends StatelessWidget {
@@ -21,16 +21,16 @@ class ShoppingListTile extends StatelessWidget {
         key: super.key ?? UniqueKey(),
         onDismissed: (_) => onDelete(),
         child: GestureDetector(
-          onTap: () => onCheck(!item.isChecked),
+          onTap: () => onCheck(!item.checked),
           child: ListTile(
             contentPadding: const EdgeInsets.all(0),
             leading: Checkbox(
-              value: item.isChecked,
+              value: item.checked,
               onChanged: (bool? value) => onCheck(value ?? false),
             ),
             title: Text(
               item.text,
-              style: TextStyle(decoration: item.isChecked ? TextDecoration.lineThrough : TextDecoration.none),
+              style: TextStyle(decoration: item.checked ? TextDecoration.lineThrough : TextDecoration.none),
             ),
           ),
         ),

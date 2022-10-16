@@ -1,5 +1,5 @@
-import 'package:aniry_shopping_list/shopping_list/shopping_list_item.dart';
-import 'package:aniry_shopping_list/shopping_list/shopping_list_tile.dart';
+import 'package:aniry_shopping_list/shopping_list/item.dart';
+import 'package:aniry_shopping_list/shopping_list/list_tile.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingList extends StatelessWidget {
@@ -12,8 +12,8 @@ class ShoppingList extends StatelessWidget {
   }) : super(key: key);
 
   final List<ShoppingListItem> items;
-  final void Function(int, bool) onCheck;
-  final void Function(int) onDelete;
+  final void Function(ShoppingListItem, bool) onCheck;
+  final void Function(ShoppingListItem) onDelete;
   final void Function(List<ShoppingListItem>) onReorder;
 
   void _onReorder(int oldIndex, int newIndex) {
@@ -31,12 +31,12 @@ class ShoppingList extends StatelessWidget {
       child: ReorderableListView(
         onReorder: _onReorder,
         children: [
-          for (int index = 0; index < items.length; index += 1)
+          for (int i = 0; i < items.length; i++)
             ShoppingListTile(
               key: UniqueKey(),
-              onDelete: () => onDelete(index),
-              item: items[index],
-              onCheck: (isChecked) => onCheck(index, isChecked),
+              onDelete: () => onDelete(items[i]),
+              item: items[i],
+              onCheck: (checked) => onCheck(items[i], checked),
             )
         ],
       ),
