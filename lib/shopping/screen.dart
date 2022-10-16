@@ -1,10 +1,9 @@
 import 'package:aniry_shopping_list/app/confirmation_dialog.dart';
-import 'package:aniry_shopping_list/app/realm.dart';
 import 'package:aniry_shopping_list/shopping/list.dart';
 import 'package:aniry_shopping_list/shopping/input.dart';
 import 'package:aniry_shopping_list/shopping/item.dart';
+import 'package:aniry_shopping_list/shopping/service.dart';
 import 'package:flutter/material.dart';
-import 'package:realm/realm.dart';
 
 class ShoppingScreen extends StatefulWidget {
   const ShoppingScreen({super.key});
@@ -16,31 +15,23 @@ class ShoppingScreen extends StatefulWidget {
 }
 
 class _ShoppingScreenState extends State<ShoppingScreen> {
-  late RealmResults<ShoppingItem> _items;
+  late ShoppingServiceResult<ShoppingItem> _items;
 
   _ShoppingScreenState() {
-    _items = appRealm.all<ShoppingItem>();
+    _items = shoppingService.getAllItems();
   }
 
-  void _addItem(String text) =>
-      setState(() => appRealm.write(() => appRealm.add(ShoppingItem(Uuid.v4(), text, _items.toList().length))));
+  void _addItem(String text) => setState(() => shoppingService.addItem(text, _items.toList().length));
 
-  void _checkItem(ShoppingItem item, bool checked) => setState(() => appRealm.write(() => item.checked = checked));
+  void _checkItem(ShoppingItem item, bool checked) => setState(() => shoppingService.checkItem(item, checked));
 
-  void _deleteItem(ShoppingItem item) => setState(() => appRealm.write(() => appRealm.delete(item)));
+  void _deleteItem(ShoppingItem item) => setState(() => shoppingService.deleteItem(item));
 
-  void _deleteItems() => setState(() => appRealm.write(() => appRealm.deleteAll<ShoppingItem>()));
+  void _deleteItems() => setState(() => shoppingService.deleteAllItems());
 
-  void _changeItemsOrder(List<ShoppingItem> updatedItems) => setState(() => appRealm.write(() {
-        for (int i = 0; i < updatedItems.length; i++) {
-          final item = _items.singleWhere((element) => element.id == updatedItems[i].id);
-          if (item.order != i) {
-            item.order = i;
-          }
-        }
-      }));
+  void _reorderItems(List<ShoppingItem> items) => setState(() => shoppingService.reorderItems(_items, items));
 
-  List<ShoppingItem> _sortByOrder(List<ShoppingItem> items) => items..sort((a, b) => a.order.compareTo(b.order));
+  List<ShoppingItem> _sortByOrder(List<ShoppingItem> items) => shoppingService.sortItemsByOrder(items);
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +60,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
               items: _sortByOrder(_items.toList()),
               onCheck: _checkItem,
               onDelete: _deleteItem,
-              onReorder: _changeItemsOrder,
+              onReorder: _reorderItems,
             ),
           ],
         ),
