@@ -12,8 +12,8 @@ class ShoppingList extends StatelessWidget {
   }) : super(key: key);
 
   final List<ShoppingListItem> items;
-  final void Function(int, bool) onCheck;
-  final void Function(int) onDelete;
+  final void Function(ShoppingListItem, bool) onCheck;
+  final void Function(ShoppingListItem) onDelete;
   final void Function(List<ShoppingListItem>) onReorder;
 
   void _onReorder(int oldIndex, int newIndex) {
@@ -34,9 +34,9 @@ class ShoppingList extends StatelessWidget {
           for (int i = 0; i < items.length; i++)
             ShoppingListTile(
               key: UniqueKey(),
-              onDelete: () => onDelete(i),
+              onDelete: () => onDelete(items[i]),
               item: items[i],
-              onCheck: (checked) => onCheck(i, checked),
+              onCheck: (checked) => onCheck(items[i], checked),
             )
         ],
       ),
