@@ -6,17 +6,17 @@ part of 'item.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
-class ShoppingListItem extends _ShoppingListItem with RealmEntity, RealmObject {
+class ShoppingItem extends _ShoppingItem with RealmEntity, RealmObject {
   static var _defaultsSet = false;
 
-  ShoppingListItem(
+  ShoppingItem(
     Uuid id,
     String text,
     int order, {
     bool checked = false,
   }) {
     if (!_defaultsSet) {
-      _defaultsSet = RealmObject.setDefaults<ShoppingListItem>({
+      _defaultsSet = RealmObject.setDefaults<ShoppingItem>({
         'checked': false,
       });
     }
@@ -26,7 +26,7 @@ class ShoppingListItem extends _ShoppingListItem with RealmEntity, RealmObject {
     RealmObject.set(this, 'checked', checked);
   }
 
-  ShoppingListItem._();
+  ShoppingItem._();
 
   @override
   Uuid get id => RealmObject.get<Uuid>(this, 'id') as Uuid;
@@ -49,17 +49,17 @@ class ShoppingListItem extends _ShoppingListItem with RealmEntity, RealmObject {
   set checked(bool value) => RealmObject.set(this, 'checked', value);
 
   @override
-  Stream<RealmObjectChanges<ShoppingListItem>> get changes =>
-      RealmObject.getChanges<ShoppingListItem>(this);
+  Stream<RealmObjectChanges<ShoppingItem>> get changes =>
+      RealmObject.getChanges<ShoppingItem>(this);
 
   @override
-  ShoppingListItem freeze() => RealmObject.freezeObject<ShoppingListItem>(this);
+  ShoppingItem freeze() => RealmObject.freezeObject<ShoppingItem>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
-    RealmObject.registerFactory(ShoppingListItem._);
-    return const SchemaObject(ShoppingListItem, 'ShoppingListItem', [
+    RealmObject.registerFactory(ShoppingItem._);
+    return const SchemaObject(ShoppingItem, 'ShoppingItem', [
       SchemaProperty('id', RealmPropertyType.uuid, primaryKey: true),
       SchemaProperty('text', RealmPropertyType.string),
       SchemaProperty('order', RealmPropertyType.int),

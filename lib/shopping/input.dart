@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ShoppingListInput extends StatelessWidget {
-  ShoppingListInput({
+class ShoppingInput extends StatelessWidget {
+  ShoppingInput({
     required this.onSubmit,
     Key? key,
   }) : super(key: key);
@@ -23,7 +23,7 @@ class ShoppingListInput extends StatelessWidget {
       controller: _controller,
       onFieldSubmitted: _onSubmit,
       decoration: const InputDecoration(
-        labelText: 'Add new list item',
+        labelText: 'Add new item',
         border: OutlineInputBorder(),
       ),
     );

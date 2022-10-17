@@ -7,23 +7,21 @@ Future<String?> showAppConfirmationDialog({
 }) =>
     showDialog<String>(
       context: context,
-      builder: (BuildContext context) => AppConfirmationDialog(
+      builder: (BuildContext context) => _AppConfirmationDialog(
         text: text,
         onConfirm: onConfirm,
       ),
     );
 
-class AppConfirmationDialog extends StatelessWidget {
-  const AppConfirmationDialog({
+class _AppConfirmationDialog extends StatelessWidget {
+  const _AppConfirmationDialog({
     required this.text,
     required this.onConfirm,
-    this.onCancel,
     Key? key,
   }) : super(key: key);
 
   final String text;
   final void Function() onConfirm;
-  final void Function()? onCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +31,6 @@ class AppConfirmationDialog extends StatelessWidget {
         TextButton(
           child: const Text('Cancel'),
           onPressed: () {
-            onCancel?.call();
             Navigator.pop(context);
           },
         ),
