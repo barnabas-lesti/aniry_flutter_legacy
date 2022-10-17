@@ -1,4 +1,5 @@
 import 'package:aniry_shopping_list/app/confirmation_dialog.dart';
+import 'package:aniry_shopping_list/app/fab.dart';
 import 'package:aniry_shopping_list/shopping/list.dart';
 import 'package:aniry_shopping_list/shopping/input.dart';
 import 'package:aniry_shopping_list/shopping/item.dart';
@@ -38,14 +39,14 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       floatingActionButton: _items.isNotEmpty
-          ? FloatingActionButton(
+          ? AppFab(
               onPressed: () => showAppConfirmationDialog(
                 context: context,
                 text: 'Are you sure you want to clear your list?',
                 onConfirm: _deleteItems,
               ),
-              backgroundColor: Colors.red[400],
-              child: const Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
+              color: Colors.red[400],
             )
           : null,
       body: Padding(
