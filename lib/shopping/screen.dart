@@ -1,9 +1,9 @@
-import 'package:aniry_shopping_list/app/confirmation_dialog.dart';
-import 'package:aniry_shopping_list/app/fab.dart';
-import 'package:aniry_shopping_list/shopping/list.dart';
-import 'package:aniry_shopping_list/shopping/input.dart';
-import 'package:aniry_shopping_list/shopping/item.dart';
-import 'package:aniry_shopping_list/shopping/service.dart';
+import 'package:aniry/app/confirmation_dialog.dart';
+import 'package:aniry/app/fab.dart';
+import 'package:aniry/shopping/list.dart';
+import 'package:aniry/shopping/input.dart';
+import 'package:aniry/shopping/item.dart';
+import 'package:aniry/shopping/service.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingScreen extends StatefulWidget {

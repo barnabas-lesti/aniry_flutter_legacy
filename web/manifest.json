@@ -1,6 +1,6 @@
 {
-    "name": "aniry_shopping_list",
-    "short_name": "aniry_shopping_list",
+    "name": "aniry",
+    "short_name": "aniry",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

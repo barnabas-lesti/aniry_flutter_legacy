@@ -1,9 +1,9 @@
-import 'package:aniry_shopping_list/shopping/screen.dart';
+import 'package:aniry/shopping/screen.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(
       MaterialApp(
-        title: 'Aniry Shopping List',
+        title: 'Aniry',
         theme: ThemeData(primarySwatch: Colors.indigo),
         home: const ShoppingScreen(),
       ),
