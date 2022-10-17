@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AppFab extends StatelessWidget {
-  const AppFab({
+class AppFabWidget extends StatelessWidget {
+  const AppFabWidget({
     required this.icon,
     required this.onPressed,
     this.color = Colors.indigo,

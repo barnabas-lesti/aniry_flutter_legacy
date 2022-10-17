@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ShoppingInput extends StatelessWidget {
-  ShoppingInput({
+class ShoppingInputWidget extends StatelessWidget {
+  ShoppingInputWidget({
     required this.onSubmit,
     Key? key,
   }) : super(key: key);

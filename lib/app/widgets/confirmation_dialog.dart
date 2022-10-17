@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-Future<String?> showAppConfirmationDialog({
+Future<String?> showAppConfirmationDialogWidget({
   required BuildContext context,
   required String text,
   required void Function() onConfirm,
 }) =>
     showDialog<String>(
       context: context,
-      builder: (BuildContext context) => _AppConfirmationDialog(
+      builder: (BuildContext context) => _AppConfirmationDialogWidget(
         text: text,
         onConfirm: onConfirm,
       ),
     );
 
-class _AppConfirmationDialog extends StatelessWidget {
-  const _AppConfirmationDialog({
+class _AppConfirmationDialogWidget extends StatelessWidget {
+  const _AppConfirmationDialogWidget({
     required this.text,
     required this.onConfirm,
     Key? key,

@@ -1,30 +1,31 @@
-import 'package:aniry/shopping/item.dart';
+import 'package:aniry/shopping/models/item.dart';
 import 'package:realm/realm.dart';
 
 typedef ShoppingServiceResult<T extends RealmObject> = RealmResults<T>;
 
-class _ShoppingService {
+class _Service {
   late final Realm _realm;
 
-  _ShoppingService() {
-    _realm = Realm(Configuration.local([ShoppingItem.schema]));
+  _Service() {
+    _realm = Realm(Configuration.local([ShoppingItemModel.schema]));
   }
 
-  ShoppingItem createItem(String text, int order) => ShoppingItem(Uuid.v4(), text, order);
+  ShoppingItemModel createItem(String text, int order) => ShoppingItemModel(Uuid.v4(), text, order);
 
-  ShoppingServiceResult<ShoppingItem> getAllItems() => _realm.all<ShoppingItem>();
+  ShoppingServiceResult<ShoppingItemModel> getAllItems() => _realm.all<ShoppingItemModel>();
 
-  List<ShoppingItem> sortItemsByOrder(List<ShoppingItem> items) => items..sort((a, b) => a.order.compareTo(b.order));
+  List<ShoppingItemModel> sortItemsByOrder(List<ShoppingItemModel> items) =>
+      items..sort((a, b) => a.order.compareTo(b.order));
 
   void addItem(String text, int order) => _realm.write(() => _realm.add(createItem(text, order)));
 
-  void checkItem(ShoppingItem item, bool checked) => _realm.write(() => item.checked = checked);
+  void checkItem(ShoppingItemModel item, bool checked) => _realm.write(() => item.checked = checked);
 
-  void deleteItem(ShoppingItem item) => _realm.write(() => _realm.delete(item));
+  void deleteItem(ShoppingItemModel item) => _realm.write(() => _realm.delete(item));
 
-  void deleteAllItems() => _realm.write(() => _realm.deleteAll<ShoppingItem>());
+  void deleteAllItems() => _realm.write(() => _realm.deleteAll<ShoppingItemModel>());
 
-  void reorderItems(ShoppingServiceResult<ShoppingItem> existingItems, List<ShoppingItem> updatedItems) {
+  void reorderItems(ShoppingServiceResult<ShoppingItemModel> existingItems, List<ShoppingItemModel> updatedItems) {
     _realm.write(() {
       for (int i = 0; i < updatedItems.length; i++) {
         final item = existingItems.singleWhere((element) => element.id == updatedItems[i].id);
@@ -36,4 +37,4 @@ class _ShoppingService {
   }
 }
 
-final shoppingService = _ShoppingService();
+final shoppingService = _Service();
