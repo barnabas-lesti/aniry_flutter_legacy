@@ -1,4 +1,4 @@
-# Aniry Shopping List
+# Aniry
 
 Aniry shopping list mobile application.
 

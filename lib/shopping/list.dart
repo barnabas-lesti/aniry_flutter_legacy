@@ -1,4 +1,4 @@
-import 'package:aniry_shopping_list/shopping/item.dart';
+import 'package:aniry/shopping/item.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingList extends StatelessWidget {
