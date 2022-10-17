@@ -1,8 +1,8 @@
-import 'package:aniry/shopping/item.dart';
+import 'package:aniry/shopping/models/item.dart';
 import 'package:flutter/material.dart';
 
-class ShoppingList extends StatelessWidget {
-  const ShoppingList({
+class ShoppingListWidget extends StatelessWidget {
+  const ShoppingListWidget({
     required this.items,
     required this.onDelete,
     required this.onCheck,
@@ -10,16 +10,16 @@ class ShoppingList extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final List<ShoppingItem> items;
-  final void Function(ShoppingItem, bool) onCheck;
-  final void Function(ShoppingItem) onDelete;
-  final void Function(List<ShoppingItem>) onReorder;
+  final List<ShoppingItemModel> items;
+  final void Function(ShoppingItemModel, bool) onCheck;
+  final void Function(ShoppingItemModel) onDelete;
+  final void Function(List<ShoppingItemModel>) onReorder;
 
   void _onReorder(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) {
       newIndex -= 1;
     }
-    final ShoppingItem item = items.removeAt(oldIndex);
+    final ShoppingItemModel item = items.removeAt(oldIndex);
     items.insert(newIndex, item);
     onReorder([...items]);
   }
@@ -31,7 +31,7 @@ class ShoppingList extends StatelessWidget {
         onReorder: _onReorder,
         children: [
           for (int i = 0; i < items.length; i++)
-            _ShoppingListTile(
+            _ShoppingListTileWidget(
               key: UniqueKey(),
               onDelete: () => onDelete(items[i]),
               item: items[i],
@@ -43,15 +43,15 @@ class ShoppingList extends StatelessWidget {
   }
 }
 
-class _ShoppingListTile extends StatelessWidget {
-  const _ShoppingListTile({
+class _ShoppingListTileWidget extends StatelessWidget {
+  const _ShoppingListTileWidget({
     required this.item,
     required this.onDelete,
     required this.onCheck,
     Key? key,
   }) : super(key: key);
 
-  final ShoppingItem item;
+  final ShoppingItemModel item;
   final void Function(bool) onCheck;
   final void Function() onDelete;
 

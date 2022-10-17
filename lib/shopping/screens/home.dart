@@ -1,46 +1,46 @@
-import 'package:aniry/app/confirmation_dialog.dart';
-import 'package:aniry/app/fab.dart';
-import 'package:aniry/shopping/list.dart';
-import 'package:aniry/shopping/input.dart';
-import 'package:aniry/shopping/item.dart';
+import 'package:aniry/app/widgets/confirmation_dialog.dart';
+import 'package:aniry/app/widgets/fab.dart';
+import 'package:aniry/shopping/widgets/list.dart';
+import 'package:aniry/shopping/widgets/input.dart';
+import 'package:aniry/shopping/models/item.dart';
 import 'package:aniry/shopping/service.dart';
 import 'package:flutter/material.dart';
 
-class ShoppingScreen extends StatefulWidget {
-  const ShoppingScreen({super.key});
+class ShoppingHomeScreen extends StatefulWidget {
+  const ShoppingHomeScreen({super.key});
 
   final String title = 'Shopping List';
 
   @override
-  State<ShoppingScreen> createState() => _ShoppingScreenState();
+  State<ShoppingHomeScreen> createState() => _ShoppingHomeScreenState();
 }
 
-class _ShoppingScreenState extends State<ShoppingScreen> {
-  late ShoppingServiceResult<ShoppingItem> _items;
+class _ShoppingHomeScreenState extends State<ShoppingHomeScreen> {
+  late ShoppingServiceResult<ShoppingItemModel> _items;
 
-  _ShoppingScreenState() {
+  _ShoppingHomeScreenState() {
     _items = shoppingService.getAllItems();
   }
 
   void _addItem(String text) => setState(() => shoppingService.addItem(text, _items.toList().length));
 
-  void _checkItem(ShoppingItem item, bool checked) => setState(() => shoppingService.checkItem(item, checked));
+  void _checkItem(ShoppingItemModel item, bool checked) => setState(() => shoppingService.checkItem(item, checked));
 
-  void _deleteItem(ShoppingItem item) => setState(() => shoppingService.deleteItem(item));
+  void _deleteItem(ShoppingItemModel item) => setState(() => shoppingService.deleteItem(item));
 
   void _deleteItems() => setState(() => shoppingService.deleteAllItems());
 
-  void _reorderItems(List<ShoppingItem> items) => setState(() => shoppingService.reorderItems(_items, items));
+  void _reorderItems(List<ShoppingItemModel> items) => setState(() => shoppingService.reorderItems(_items, items));
 
-  List<ShoppingItem> _sortByOrder(List<ShoppingItem> items) => shoppingService.sortItemsByOrder(items);
+  List<ShoppingItemModel> _sortByOrder(List<ShoppingItemModel> items) => shoppingService.sortItemsByOrder(items);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       floatingActionButton: _items.isNotEmpty
-          ? AppFab(
-              onPressed: () => showAppConfirmationDialog(
+          ? AppFabWidget(
+              onPressed: () => showAppConfirmationDialogWidget(
                 context: context,
                 text: 'Are you sure you want to clear your list?',
                 onConfirm: _deleteItems,
@@ -55,9 +55,9 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
           children: [
             Container(
               padding: const EdgeInsets.only(bottom: 16),
-              child: ShoppingInput(onSubmit: _addItem),
+              child: ShoppingInputWidget(onSubmit: _addItem),
             ),
-            ShoppingList(
+            ShoppingListWidget(
               items: _sortByOrder(_items.toList()),
               onCheck: _checkItem,
               onDelete: _deleteItem,
