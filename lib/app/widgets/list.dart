@@ -23,15 +23,27 @@ class AppListWidget extends StatelessWidget {
     onReorder([...items]);
   }
 
+  Widget _proxyDecorator(Widget child, int index, Animation<double> animation) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget? child) => Material(
+        elevation: 2,
+        child: child,
+      ),
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ReorderableListView(
+        proxyDecorator: _proxyDecorator,
         onReorder: _onReorder,
         children: [
           for (int i = 0; i < items.length; i++)
             _AppListTileWidget(
-              key: UniqueKey(),
+              key: Key(items[i].id),
               onDelete: () => onDelete(items[i]),
               item: items[i],
               onCheck: (checked) => onCheck(items[i], checked),
@@ -75,16 +87,21 @@ class _AppListTileWidget extends StatelessWidget {
         onDismissed: (_) => onDelete(),
         child: GestureDetector(
           onTap: () => onCheck(!item.checked),
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(0),
-            leading: Checkbox(
-              value: item.checked,
-              onChanged: (bool? value) => onCheck(value ?? false),
-            ),
-            title: Text(
-              item.text,
-              style: TextStyle(decoration: item.checked ? TextDecoration.lineThrough : TextDecoration.none),
-            ),
+          child: Column(
+            children: [
+              ListTile(
+                contentPadding: const EdgeInsets.all(0),
+                leading: Checkbox(
+                  value: item.checked,
+                  onChanged: (bool? value) => onCheck(value ?? false),
+                ),
+                title: Text(
+                  item.text,
+                  style: TextStyle(decoration: item.checked ? TextDecoration.lineThrough : TextDecoration.none),
+                ),
+              ),
+              const Divider(height: 0),
+            ],
           ),
         ),
       ),
