@@ -1,6 +1,6 @@
 # Aniry
 
-Aniry shopping list mobile application.
+Aniry calorie counter mobile application.
 
 ## First time setup
 ### Install and configure the following tools:
@@ -27,8 +27,14 @@ git config user.email "barnabas.lesti@gmail.com"
 ## Development
 Follow [Flutters test-drive](https://docs.flutter.dev/get-started/test-drive) instructions.
 
-### Common scripts
+
 ```bash
+# Start development server on simulator
+flutter run
+
+# Deploy release version to device
+flutter run --release
+
 # Generate Realm model
 # Realm files need to be deleted from the device after re-generation
 flutter pub run realm generate
@@ -41,3 +47,5 @@ flutter pub run realm generate
 - https://www.mongodb.com/docs/realm/sdk/flutter/quick-start/
 - https://codewithandrea.com/articles/multiple-navigators-bottom-navigation-bar/
 - https://blog.logrocket.com/how-to-build-a-bottom-navigation-bar-in-flutter/
+- https://www.geeksforgeeks.org/how-to-install-flutter-app-on-ios/
+
