@@ -1,5 +1,5 @@
 import 'package:aniry/app/widgets/confirmation_dialog.dart';
-import 'package:aniry/app/widgets/fab.dart';
+import 'package:aniry/app/widgets/screen.dart';
 import 'package:aniry/shopping/widgets/list.dart';
 import 'package:aniry/shopping/widgets/input.dart';
 import 'package:aniry/shopping/models/item.dart';
@@ -34,38 +34,35 @@ class _ShoppingHomeScreenState extends State<ShoppingHomeScreen> {
 
   List<ShoppingItemModel> _sortByOrder(List<ShoppingItemModel> items) => shoppingService.sortItemsByOrder(items);
 
+  void _onDeletePress() => showAppConfirmationDialogWidget(
+        context: context,
+        text: 'Are you sure you want to clear your list?',
+        onConfirm: _deleteItems,
+      );
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
-      floatingActionButton: _items.isNotEmpty
-          ? AppFabWidget(
-              onPressed: () => showAppConfirmationDialogWidget(
-                context: context,
-                text: 'Are you sure you want to clear your list?',
-                onConfirm: _deleteItems,
-              ),
-              icon: const Icon(Icons.delete),
-              color: Colors.red[400],
-            )
-          : null,
-      body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: ShoppingInputWidget(onSubmit: _addItem),
-            ),
-            ShoppingListWidget(
-              items: _sortByOrder(_items.toList()),
-              onCheck: _checkItem,
-              onDelete: _deleteItem,
-              onReorder: _reorderItems,
-            ),
-          ],
+    return AppScreenWidget(
+      title: 'Shopping List',
+      actions: [
+        AppScreenWidgetAction(
+          icon: Icons.delete,
+          tooltip: 'Clear list',
+          onPressed: _items.isNotEmpty ? _onDeletePress : null,
         ),
-      ),
+      ],
+      children: [
+        Container(
+          padding: const EdgeInsets.only(bottom: AppScreenWidget.gutter),
+          child: ShoppingInputWidget(onSubmit: _addItem),
+        ),
+        ShoppingListWidget(
+          items: _sortByOrder(_items.toList()),
+          onCheck: _checkItem,
+          onDelete: _deleteItem,
+          onReorder: _reorderItems,
+        ),
+      ],
     );
   }
 }
