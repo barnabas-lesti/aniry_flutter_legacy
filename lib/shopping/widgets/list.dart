@@ -1,3 +1,4 @@
+import 'package:aniry/app/widgets/list.dart';
 import 'package:aniry/shopping/models/item.dart';
 import 'package:flutter/material.dart';
 
@@ -15,68 +16,21 @@ class ShoppingListWidget extends StatelessWidget {
   final void Function(ShoppingItemModel) onDelete;
   final void Function(List<ShoppingItemModel>) onReorder;
 
-  void _onReorder(int oldIndex, int newIndex) {
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
-    final ShoppingItemModel item = items.removeAt(oldIndex);
-    items.insert(newIndex, item);
-    onReorder([...items]);
-  }
+  AppListItem _toAppListItem(ShoppingItemModel item) => AppListItem(
+        id: item.id,
+        text: item.text,
+        checked: item.checked,
+      );
+
+  ShoppingItemModel _toShoppingItem(AppListItem listItem) => items.singleWhere((item) => item.id == listItem.id);
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ReorderableListView(
-        onReorder: _onReorder,
-        children: [
-          for (int i = 0; i < items.length; i++)
-            _ShoppingListTileWidget(
-              key: UniqueKey(),
-              onDelete: () => onDelete(items[i]),
-              item: items[i],
-              onCheck: (checked) => onCheck(items[i], checked),
-            )
-        ],
-      ),
-    );
-  }
-}
-
-class _ShoppingListTileWidget extends StatelessWidget {
-  const _ShoppingListTileWidget({
-    required this.item,
-    required this.onDelete,
-    required this.onCheck,
-    Key? key,
-  }) : super(key: key);
-
-  final ShoppingItemModel item;
-  final void Function(bool) onCheck;
-  final void Function() onDelete;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      child: Dismissible(
-        key: super.key ?? UniqueKey(),
-        onDismissed: (_) => onDelete(),
-        child: GestureDetector(
-          onTap: () => onCheck(!item.checked),
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(0),
-            leading: Checkbox(
-              value: item.checked,
-              onChanged: (bool? value) => onCheck(value ?? false),
-            ),
-            title: Text(
-              item.text,
-              style: TextStyle(decoration: item.checked ? TextDecoration.lineThrough : TextDecoration.none),
-            ),
-          ),
-        ),
-      ),
+    return AppListWidget(
+      items: items.map((item) => _toAppListItem(item)).toList(),
+      onDelete: (listItem) => onDelete(_toShoppingItem(listItem)),
+      onCheck: (listItem, checked) => onCheck(_toShoppingItem(listItem), checked),
+      onReorder: (listItems) => onReorder(listItems.map((listItem) => _toShoppingItem(listItem)).toList()),
     );
   }
 }
