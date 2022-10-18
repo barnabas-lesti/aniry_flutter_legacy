@@ -28,16 +28,33 @@ class _ShoppingHomeScreenState extends State<ShoppingHomeScreen> {
 
   void _deleteItem(ShoppingItemModel item) => setState(() => shoppingService.deleteItem(item));
 
-  void _deleteItems() => setState(() => shoppingService.deleteAllItems());
+  void _deleteCheckedItems() =>
+      setState(() => shoppingService.deleteItems(_items.where((item) => item.checked).toList()));
+
+  void _deleteAllItems() => setState(() => shoppingService.deleteItems(_items.toList()));
 
   void _reorderItems(List<ShoppingItemModel> items) => setState(() => shoppingService.reorderItems(_items, items));
 
   List<ShoppingItemModel> _sortByOrder(List<ShoppingItemModel> items) => shoppingService.sortItemsByOrder(items);
 
+  bool _hasCheckedItems() => _items.where((item) => item.checked).isNotEmpty;
+
   void _onDeletePress() => showAppConfirmationDialogWidget(
         context: context,
-        text: 'Are you sure you want to clear your list?',
-        onConfirm: _deleteItems,
+        text: _hasCheckedItems() ? 'Delete only the Checked items or All items?' : 'Delete All items?',
+        actions: [
+          if (_hasCheckedItems())
+            AppConfirmationDialogAction(
+              label: 'Checked',
+              color: Colors.red[500],
+              onPressed: _deleteCheckedItems,
+            ),
+          AppConfirmationDialogAction(
+            label: 'All',
+            color: Colors.red[500],
+            onPressed: _deleteAllItems,
+          ),
+        ],
       );
 
   @override
@@ -45,7 +62,7 @@ class _ShoppingHomeScreenState extends State<ShoppingHomeScreen> {
     return AppScreenWidget(
       title: 'Shopping List',
       actions: [
-        AppScreenWidgetAction(
+        AppScreenAction(
           icon: Icons.delete,
           tooltip: 'Clear list',
           onPressed: _items.isNotEmpty ? _onDeletePress : null,
