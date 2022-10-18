@@ -1,5 +1,5 @@
 import 'package:aniry/app/widgets/confirmation_dialog.dart';
-import 'package:aniry/app/widgets/header.dart';
+import 'package:aniry/app/widgets/screen.dart';
 import 'package:aniry/shopping/widgets/list.dart';
 import 'package:aniry/shopping/widgets/input.dart';
 import 'package:aniry/shopping/models/item.dart';
@@ -42,34 +42,27 @@ class _ShoppingHomeScreenState extends State<ShoppingHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: showAppHeaderWidget(
-        title: 'Shopping List',
-        actions: [
-          AppHeaderWidgetAction(
-            icon: Icons.delete,
-            tooltip: 'Clear list',
-            onPressed: _items.isNotEmpty ? _onDeletePress : null,
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: ShoppingInputWidget(onSubmit: _addItem),
-            ),
-            ShoppingListWidget(
-              items: _sortByOrder(_items.toList()),
-              onCheck: _checkItem,
-              onDelete: _deleteItem,
-              onReorder: _reorderItems,
-            ),
-          ],
+    return AppScreenWidget(
+      title: 'Shopping List',
+      actions: [
+        AppScreenWidgetAction(
+          icon: Icons.delete,
+          tooltip: 'Clear list',
+          onPressed: _items.isNotEmpty ? _onDeletePress : null,
         ),
-      ),
+      ],
+      children: [
+        Container(
+          padding: const EdgeInsets.only(bottom: AppScreenWidget.gutter),
+          child: ShoppingInputWidget(onSubmit: _addItem),
+        ),
+        ShoppingListWidget(
+          items: _sortByOrder(_items.toList()),
+          onCheck: _checkItem,
+          onDelete: _deleteItem,
+          onReorder: _reorderItems,
+        ),
+      ],
     );
   }
 }
