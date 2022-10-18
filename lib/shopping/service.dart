@@ -10,7 +10,7 @@ class _Service {
     _realm = Realm(Configuration.local([ShoppingItemModel.schema]));
   }
 
-  ShoppingItemModel createItem(String text, int order) => ShoppingItemModel(Uuid.v4(), text, order);
+  ShoppingItemModel createItem(String text, int order) => ShoppingItemModel(Uuid.v4().toString(), text, order);
 
   ShoppingServiceResult<ShoppingItemModel> getAllItems() => _realm.all<ShoppingItemModel>();
 

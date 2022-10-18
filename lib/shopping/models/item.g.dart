@@ -11,7 +11,7 @@ class ShoppingItemModel extends _ShoppingItemModel
   static var _defaultsSet = false;
 
   ShoppingItemModel(
-    Uuid id,
+    String id,
     String text,
     int order, {
     bool checked = false,
@@ -30,9 +30,9 @@ class ShoppingItemModel extends _ShoppingItemModel
   ShoppingItemModel._();
 
   @override
-  Uuid get id => RealmObject.get<Uuid>(this, 'id') as Uuid;
+  String get id => RealmObject.get<String>(this, 'id') as String;
   @override
-  set id(Uuid value) => throw RealmUnsupportedSetError();
+  set id(String value) => throw RealmUnsupportedSetError();
 
   @override
   String get text => RealmObject.get<String>(this, 'text') as String;
@@ -62,7 +62,7 @@ class ShoppingItemModel extends _ShoppingItemModel
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(ShoppingItemModel._);
     return const SchemaObject(ShoppingItemModel, 'ShoppingItemModel', [
-      SchemaProperty('id', RealmPropertyType.uuid, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('text', RealmPropertyType.string),
       SchemaProperty('order', RealmPropertyType.int),
       SchemaProperty('checked', RealmPropertyType.bool),
