@@ -5,7 +5,7 @@ class AppScreenWidget extends StatelessWidget {
 
   final String title;
   final List<Widget> children;
-  final List<AppScreenWidgetAction> actions;
+  final List<AppScreenAction> actions;
 
   const AppScreenWidget({
     required this.title,
@@ -36,12 +36,12 @@ class AppScreenWidget extends StatelessWidget {
   }
 }
 
-class AppScreenWidgetAction {
+class AppScreenAction {
   final IconData icon;
   final String tooltip;
   final void Function()? onPressed;
 
-  const AppScreenWidgetAction({
+  const AppScreenAction({
     required this.icon,
     required this.tooltip,
     this.onPressed,

@@ -23,7 +23,7 @@ class _Service {
 
   void deleteItem(ShoppingItemModel item) => _realm.write(() => _realm.delete(item));
 
-  void deleteAllItems() => _realm.write(() => _realm.deleteAll<ShoppingItemModel>());
+  void deleteItems(List<ShoppingItemModel> items) => _realm.write(() => _realm.deleteMany(items));
 
   void reorderItems(ShoppingServiceResult<ShoppingItemModel> existingItems, List<ShoppingItemModel> updatedItems) {
     _realm.write(() {
