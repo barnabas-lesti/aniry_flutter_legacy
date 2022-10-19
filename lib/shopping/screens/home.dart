@@ -22,40 +22,26 @@ class _ShoppingHomeScreenState extends State<ShoppingHomeScreen> {
     _items = shoppingService.getAllItems();
   }
 
-  void _addItem(String text) => setState(() => shoppingService.addItem(text, _items.toList().length));
-
-  void _checkItem(ShoppingItemModel item, bool checked) => setState(() => shoppingService.checkItem(item, checked));
-
-  void _deleteItem(ShoppingItemModel item) => setState(() => shoppingService.deleteItem(item));
-
-  void _deleteCheckedItems() =>
-      setState(() => shoppingService.deleteItems(_items.where((item) => item.checked).toList()));
-
-  void _deleteAllItems() => setState(() => shoppingService.deleteItems(_items.toList()));
-
-  void _reorderItems(List<ShoppingItemModel> items) => setState(() => shoppingService.reorderItems(_items, items));
-
-  List<ShoppingItemModel> _sortByOrder(List<ShoppingItemModel> items) => shoppingService.sortItemsByOrder(items);
-
-  bool _hasCheckedItems() => _items.where((item) => item.checked).isNotEmpty;
-
-  void _onDeletePress() => showAppConfirmationDialogWidget(
-        context: context,
-        text: _hasCheckedItems() ? 'Delete only the Checked items or All items?' : 'Delete All items?',
-        actions: [
-          if (_hasCheckedItems())
-            AppConfirmationDialogAction(
-              label: 'Checked',
-              color: Colors.red[500],
-              onPressed: _deleteCheckedItems,
-            ),
+  void _onDeletePress() {
+    final List<ShoppingItemModel> checkedItems = _items.where((item) => item.checked).toList();
+    showAppConfirmationDialogWidget(
+      context: context,
+      text: checkedItems.isNotEmpty ? 'Delete only the Checked items or All items?' : 'Delete All items?',
+      actions: [
+        if (checkedItems.isNotEmpty)
           AppConfirmationDialogAction(
-            label: 'All',
+            label: 'Checked',
             color: Colors.red[500],
-            onPressed: _deleteAllItems,
+            onPressed: () => setState(() => shoppingService.deleteItems(checkedItems)),
           ),
-        ],
-      );
+        AppConfirmationDialogAction(
+          label: 'All',
+          color: Colors.red[500],
+          onPressed: () => setState(() => shoppingService.deleteItems(_items.toList())),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +57,15 @@ class _ShoppingHomeScreenState extends State<ShoppingHomeScreen> {
       children: [
         Container(
           padding: const EdgeInsets.only(bottom: AppScreenWidget.gutter),
-          child: ShoppingInputWidget(onSubmit: _addItem),
+          child: ShoppingInputWidget(
+            onSubmit: (text) => setState(() => shoppingService.addItem(text, _items.toList().length)),
+          ),
         ),
         ShoppingListWidget(
-          items: _sortByOrder(_items.toList()),
-          onCheck: _checkItem,
-          onDelete: _deleteItem,
-          onReorder: _reorderItems,
+          items: shoppingService.sortItemsByOrder(_items.toList()),
+          onCheck: (item, checked) => setState(() => shoppingService.checkItem(item, checked)),
+          onDelete: (item) => setState(() => shoppingService.deleteItem(item)),
+          onReorder: (items) => setState(() => shoppingService.reorderItems(_items, items)),
         ),
       ],
     );

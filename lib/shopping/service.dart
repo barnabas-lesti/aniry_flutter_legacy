@@ -28,7 +28,7 @@ class _Service {
   void reorderItems(ShoppingServiceResult<ShoppingItemModel> existingItems, List<ShoppingItemModel> updatedItems) {
     _realm.write(() {
       for (int i = 0; i < updatedItems.length; i++) {
-        final item = existingItems.singleWhere((element) => element.id == updatedItems[i].id);
+        final item = existingItems.singleWhere((existingItem) => existingItem.id == updatedItems[i].id);
         if (item.order != i) {
           item.order = i;
         }
