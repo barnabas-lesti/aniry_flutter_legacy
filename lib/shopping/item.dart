@@ -1,5 +1,9 @@
 import 'package:aniry/app/item.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'item.g.dart';
+
+@JsonSerializable()
 class ShoppingItem extends AppItem {
   ShoppingItem({
     required String id,
@@ -10,4 +14,8 @@ class ShoppingItem extends AppItem {
           text: text,
           checked: checked,
         );
+
+  factory ShoppingItem.fromJson(Map<String, dynamic> json) => _$ShoppingItemFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ShoppingItemToJson(this);
 }
