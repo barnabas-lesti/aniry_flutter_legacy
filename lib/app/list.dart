@@ -1,7 +1,8 @@
+import 'package:aniry/app/item.dart';
 import 'package:flutter/material.dart';
 
-class AppListWidget extends StatelessWidget {
-  const AppListWidget({
+class AppList<T extends AppItem> extends StatelessWidget {
+  const AppList({
     required this.items,
     required this.onDelete,
     required this.onCheck,
@@ -9,40 +10,34 @@ class AppListWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final List<AppListItem> items;
-  final void Function(AppListItem, bool) onCheck;
-  final void Function(AppListItem) onDelete;
-  final void Function(List<AppListItem>) onReorder;
+  final List<T> items;
+  final void Function(T, bool) onCheck;
+  final void Function(T) onDelete;
+  final void Function(List<T>) onReorder;
 
   void _onReorder(int oldIndex, int newIndex) {
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
-    final AppListItem item = items.removeAt(oldIndex);
-    items.insert(newIndex, item);
-    onReorder([...items]);
+    if (oldIndex < newIndex) newIndex -= 1;
+    items.insert(newIndex, items.removeAt(oldIndex));
+    onReorder(items);
   }
 
   Widget _proxyDecorator(Widget child, int index, Animation<double> animation) {
     return AnimatedBuilder(
       animation: animation,
-      builder: (BuildContext context, Widget? child) => Material(
-        elevation: 2,
-        child: child,
-      ),
+      builder: (context, child) => Material(elevation: 2, child: child),
       child: child,
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Expanded(
       child: ReorderableListView(
         proxyDecorator: _proxyDecorator,
         onReorder: _onReorder,
         children: [
           for (int i = 0; i < items.length; i++)
-            _AppListTileWidget(
+            _AppListTile(
               key: Key(items[i].id),
               onDelete: () => onDelete(items[i]),
               item: items[i],
@@ -54,36 +49,24 @@ class AppListWidget extends StatelessWidget {
   }
 }
 
-class AppListItem {
-  final String id;
-  final String text;
-  final bool checked;
-
-  AppListItem({
-    required this.id,
-    required this.text,
-    this.checked = false,
-  });
-}
-
-class _AppListTileWidget extends StatelessWidget {
-  const _AppListTileWidget({
+class _AppListTile<T extends AppItem> extends StatelessWidget {
+  const _AppListTile({
     required this.item,
     required this.onDelete,
     required this.onCheck,
     Key? key,
   }) : super(key: key);
 
-  final AppListItem item;
+  final T item;
   final void Function(bool) onCheck;
   final void Function() onDelete;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Container(
       color: Colors.transparent,
       child: Dismissible(
-        key: super.key ?? UniqueKey(),
+        key: super.key ?? Key(item.id),
         onDismissed: (_) => onDelete(),
         child: GestureDetector(
           onTap: () => onCheck(!item.checked),
@@ -93,7 +76,7 @@ class _AppListTileWidget extends StatelessWidget {
                 contentPadding: const EdgeInsets.all(0),
                 leading: Checkbox(
                   value: item.checked,
-                  onChanged: (bool? value) => onCheck(value ?? false),
+                  onChanged: (value) => onCheck(value ?? false),
                 ),
                 title: Text(
                   item.text,
