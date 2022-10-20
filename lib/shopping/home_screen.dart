@@ -36,7 +36,7 @@ class ShoppingHomeScreen extends StatelessWidget {
   @override
   Widget build(context) {
     return AppScreen(
-      title: 'Shopping List',
+      title: title,
       actions: [
         Consumer<ShoppingProvider>(
           builder: (context, shoppingProvider, widget) => buildAppScreenAction(
