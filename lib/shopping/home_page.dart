@@ -1,30 +1,28 @@
-import 'package:aniry/app/confirmation_dialog.dart';
-import 'package:aniry/app/screen.dart';
+import 'package:aniry/common/confirmation_dialog.dart';
+import 'package:aniry/common/page.dart';
 import 'package:aniry/shopping/list.dart';
 import 'package:aniry/shopping/input.dart';
 import 'package:aniry/shopping/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ShoppingHomeScreen extends StatelessWidget {
-  const ShoppingHomeScreen({super.key});
-
-  final String title = 'Shopping List';
+class ShoppingHomePage extends StatelessWidget {
+  const ShoppingHomePage({super.key});
 
   void Function() _buildOnDeletePress(BuildContext context, ShoppingProvider shoppingProvider) => () {
-        showAppConfirmationDialog(
+        showCommonConfirmationDialog(
           context: context,
           text: shoppingProvider.checkedItems.isNotEmpty
               ? 'Delete only the Checked items or All items?'
               : 'Delete All items?',
           actions: [
             if (shoppingProvider.checkedItems.isNotEmpty)
-              AppConfirmationDialogAction(
+              CommonConfirmationDialogAction(
                 label: 'Checked',
                 color: Colors.red[500],
                 onPressed: () => shoppingProvider.deleteCheckedItems(),
               ),
-            AppConfirmationDialogAction(
+            CommonConfirmationDialogAction(
               label: 'All',
               color: Colors.red[500],
               onPressed: () => shoppingProvider.deleteAllItems(),
@@ -35,20 +33,20 @@ class ShoppingHomeScreen extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return AppScreen(
+    return CommonPage(
       title: 'Shopping List',
       actions: [
         Consumer<ShoppingProvider>(
-          builder: (context, shoppingProvider, widget) => buildAppScreenAction(
-            Icons.delete,
-            'Clear list',
+          builder: (context, shoppingProvider, widget) => CommonPageAction(
+            icon: Icons.delete,
+            tooltip: 'Clear list',
             onPressed: shoppingProvider.items.isNotEmpty ? _buildOnDeletePress(context, shoppingProvider) : null,
           ),
         ),
       ],
       children: [
         Container(
-          padding: const EdgeInsets.only(bottom: AppScreen.gutter),
+          padding: const EdgeInsets.only(bottom: CommonPage.gutter),
           child: ShoppingInput(),
         ),
         const ShoppingList(),

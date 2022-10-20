@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:aniry/app/item.dart';
+import 'package:aniry/common/item.dart';
 import 'package:path_provider/path_provider.dart';
 
-enum AppCollection {
+enum CommonCollection {
   shopping;
 }
 
-class AppStorage<T extends AppItem> {
-  final AppCollection collection;
+class CommonStorage<T extends CommonItem> {
+  final CommonCollection collection;
   final T Function(Map<String, dynamic>) fromJson;
 
-  AppStorage({
+  CommonStorage({
     required this.collection,
     required this.fromJson,
   });

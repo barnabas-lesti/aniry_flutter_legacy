@@ -38,6 +38,7 @@ dependencies:
   json_serializable: ^6.5.3
   build_runner: ^2.3.2
   json_annotation: ^4.7.0
+  beamer: ^1.5.3
 
 dev_dependencies:
   flutter_test:

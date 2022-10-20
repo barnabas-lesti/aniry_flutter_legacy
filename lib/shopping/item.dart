@@ -1,10 +1,10 @@
-import 'package:aniry/app/item.dart';
+import 'package:aniry/common/item.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'item.g.dart';
 
 @JsonSerializable()
-class ShoppingItem extends AppItem {
+class ShoppingItem extends CommonItem {
   ShoppingItem({
     required String id,
     required String text,

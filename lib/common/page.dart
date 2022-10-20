@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 
-IconButton buildAppScreenAction(IconData icon, String tooltip, {void Function()? onPressed}) => IconButton(
-      icon: Icon(icon),
-      tooltip: tooltip,
-      onPressed: onPressed,
-    );
-
-class AppScreen extends StatelessWidget {
+class CommonPage extends StatelessWidget {
   static const double gutter = 16;
 
   final String title;
   final List<Widget> children;
   final List<Widget> actions;
 
-  const AppScreen({
+  const CommonPage({
     required this.title,
     required this.children,
     this.actions = const [],
@@ -31,6 +25,28 @@ class AppScreen extends StatelessWidget {
         padding: const EdgeInsets.only(left: gutter, right: gutter, top: gutter),
         child: Column(children: children),
       ),
+    );
+  }
+}
+
+class CommonPageAction extends StatelessWidget {
+  final IconData icon;
+  final String tooltip;
+  final void Function()? onPressed;
+
+  const CommonPageAction({
+    required this.icon,
+    required this.tooltip,
+    this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(context) {
+    return IconButton(
+      icon: Icon(icon),
+      tooltip: tooltip,
+      onPressed: onPressed,
     );
   }
 }
