@@ -1,4 +1,4 @@
-import 'package:aniry/app/page.dart';
+import 'package:aniry/common/page.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 
@@ -7,12 +7,12 @@ class IngredientHomePage extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return AppPage(
+    return CommonPage(
       title: 'Ingredients',
       actions: [
-        buildAppPageAction(
-          Icons.add,
-          'Create ingredient',
+        CommonPageAction(
+          icon: Icons.add,
+          tooltip: 'Create ingredient',
           onPressed: () => Beamer.of(context).beamToNamed('/ingredient/edit'),
         ),
       ],

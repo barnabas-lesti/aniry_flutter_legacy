@@ -1,4 +1,4 @@
-import 'package:aniry/app/page.dart';
+import 'package:aniry/common/page.dart';
 import 'package:flutter/material.dart';
 
 class IngredientEditPage extends StatelessWidget {
@@ -11,7 +11,7 @@ class IngredientEditPage extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return const AppPage(
+    return const CommonPage(
       title: 'Edit ingredient',
       children: [
         Text('Hello IngredientsEdit!'),

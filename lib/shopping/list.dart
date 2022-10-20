@@ -1,4 +1,4 @@
-import 'package:aniry/app/list.dart';
+import 'package:aniry/common/list.dart';
 import 'package:aniry/shopping/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +9,7 @@ class ShoppingList extends StatelessWidget {
   @override
   Widget build(context) {
     final shoppingProvider = Provider.of<ShoppingProvider>(context);
-    return AppList(
+    return CommonList(
       items: shoppingProvider.items,
       onDelete: (item) => shoppingProvider.deleteItem(item),
       onCheck: (item, checked) => shoppingProvider.checkItem(item, checked),
