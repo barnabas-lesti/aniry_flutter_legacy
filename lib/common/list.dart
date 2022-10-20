@@ -7,13 +7,17 @@ class CommonList<T extends CommonItem> extends StatelessWidget {
     required this.onDelete,
     required this.onCheck,
     required this.onReorder,
+    this.onTileTap,
+    this.noItemsText = '',
     Key? key,
   }) : super(key: key);
 
   final List<T> items;
+  final String noItemsText;
   final void Function(T, bool) onCheck;
   final void Function(T) onDelete;
   final void Function(List<T>) onReorder;
+  final void Function()? onTileTap;
 
   void _onReorder(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) newIndex -= 1;
@@ -31,6 +35,16 @@ class CommonList<T extends CommonItem> extends StatelessWidget {
 
   @override
   Widget build(context) {
+    if (items.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Text(
+          noItemsText,
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
     return Expanded(
       child: ReorderableListView(
         proxyDecorator: _proxyDecorator,
@@ -42,6 +56,7 @@ class CommonList<T extends CommonItem> extends StatelessWidget {
               onDelete: () => onDelete(items[i]),
               item: items[i],
               onCheck: (checked) => onCheck(items[i], checked),
+              onTap: onTileTap,
             )
         ],
       ),
@@ -54,12 +69,24 @@ class _CommonListTile<T extends CommonItem> extends StatelessWidget {
     required this.item,
     required this.onDelete,
     required this.onCheck,
+    this.onTap,
     Key? key,
   }) : super(key: key);
 
   final T item;
   final void Function(bool) onCheck;
   final void Function() onDelete;
+  final void Function()? onTap;
+
+  void _onCheck(bool? checked) {
+    onCheck(checked ?? false);
+    onTap!();
+  }
+
+  void _onTap() {
+    onCheck(!item.checked);
+    onTap!();
+  }
 
   @override
   Widget build(context) {
@@ -69,14 +96,14 @@ class _CommonListTile<T extends CommonItem> extends StatelessWidget {
         key: super.key ?? Key(item.id),
         onDismissed: (_) => onDelete(),
         child: GestureDetector(
-          onTap: () => onCheck(!item.checked),
+          onTap: _onTap,
           child: Column(
             children: [
               ListTile(
                 contentPadding: const EdgeInsets.all(0),
                 leading: Checkbox(
                   value: item.checked,
-                  onChanged: (value) => onCheck(value ?? false),
+                  onChanged: _onCheck,
                 ),
                 title: Text(
                   item.text,

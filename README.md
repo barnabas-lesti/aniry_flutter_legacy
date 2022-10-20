@@ -43,7 +43,7 @@ flutter pub run build_runner build
 - https://docs.flutter.dev/
 - https://dart.dev/guides/language/effective-dart/style
 - https://fonts.google.com/icons?selected=Material+Icons
-- https://codewithandrea.com/articles/multiple-navigators-bottom-navigation-bar/
+- https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter-beamer/
 - https://blog.logrocket.com/how-to-build-a-bottom-navigation-bar-in-flutter/
 - https://www.geeksforgeeks.org/how-to-install-flutter-app-on-ios/
 - https://github.com/flutter/samples/tree/main/provider_shopper
