@@ -1,4 +1,4 @@
-class AppItem {
+abstract class AppItem {
   final String id;
   final String text;
   bool checked;
