@@ -37,6 +37,9 @@ flutter run --release
 
 # Generate JSON serializable models (*.g.dart files)
 flutter pub run build_runner build
+
+# Generate localized message files
+flutter gen-l10n
 ```
 
 ## Resources
@@ -47,4 +50,5 @@ flutter pub run build_runner build
 - https://blog.logrocket.com/how-to-build-a-bottom-navigation-bar-in-flutter/
 - https://www.geeksforgeeks.org/how-to-install-flutter-app-on-ios/
 - https://github.com/flutter/samples/tree/main/provider_shopper
-
+- https://docs.flutter.dev/development/accessibility-and-localization/internationalization
+- https://localizely.com/flutter-arb/

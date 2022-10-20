@@ -1,6 +1,7 @@
 import 'package:aniry/common/confirmation_dialog.dart';
 import 'package:aniry/common/list.dart';
 import 'package:aniry/common/page.dart';
+import 'package:aniry/i10n.dart';
 import 'package:aniry/shopping/input.dart';
 import 'package:aniry/shopping/item.dart';
 import 'package:aniry/shopping/provider.dart';
@@ -21,17 +22,17 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
         showCommonConfirmationDialog(
           context: context,
           text: shoppingProvider.checkedItems.isNotEmpty
-              ? 'Delete only the Checked items or All items?'
-              : 'Delete All items?',
+              ? appI10N(context)!.shoppingHomePageDeleteCheckedText
+              : appI10N(context)!.shoppingHomePageDeleteAllText,
           actions: [
             if (shoppingProvider.checkedItems.isNotEmpty)
               CommonConfirmationDialogAction(
-                label: 'Checked',
+                label: appI10N(context)!.shoppingHomePageDeleteCheckedButton,
                 color: Colors.red[500],
                 onPressed: () => shoppingProvider.deleteCheckedItems(),
               ),
             CommonConfirmationDialogAction(
-              label: 'All',
+              label: appI10N(context)!.shoppingHomePageDeleteAllButton,
               color: Colors.red[500],
               onPressed: () => shoppingProvider.deleteAllItems(),
             ),
@@ -60,12 +61,12 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
   @override
   Widget build(context) {
     return CommonPage(
-      title: 'Shopping List',
+      title: appI10N(context)!.shoppingHomePageTitle,
       actions: [
         Consumer<ShoppingProvider>(
           builder: (context, shoppingProvider, widget) => CommonPageAction(
             icon: Icons.delete,
-            tooltip: 'Clear list',
+            tooltip: appI10N(context)!.shoppingHomePageDeleteTooltip,
             onPressed: shoppingProvider.items.isNotEmpty ? _buildOnDeletePress(context, shoppingProvider) : null,
           ),
         ),
@@ -85,7 +86,7 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
               onDelete: (item) => shoppingProvider.deleteItem(item),
               onCheck: _buildOnItemCheck(shoppingProvider),
               onReorder: (items) => shoppingProvider.items = items,
-              noItemsText: 'There are no items in your list, add some using the input above.'),
+              noItemsText: appI10N(context)!.shoppingHomePageNoItems),
         ),
       ],
     );
