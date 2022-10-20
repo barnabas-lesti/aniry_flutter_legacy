@@ -1,4 +1,4 @@
-import 'package:aniry/i10n.dart';
+import 'package:aniry/app/i10n.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingInput extends StatefulWidget {

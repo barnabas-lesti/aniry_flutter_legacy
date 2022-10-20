@@ -1,9 +1,9 @@
-abstract class CommonItem {
+abstract class AppItem {
   final String id;
   final String text;
   bool checked;
 
-  CommonItem({
+  AppItem({
     required this.id,
     required this.text,
     this.checked = false,

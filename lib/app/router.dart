@@ -1,4 +1,4 @@
-import 'package:aniry/i10n.dart';
+import 'package:aniry/app/i10n.dart';
 import 'package:aniry/ingredient/routes.dart';
 import 'package:aniry/shopping/routes.dart';
 import 'package:beamer/beamer.dart';

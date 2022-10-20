@@ -1,9 +1,9 @@
-import 'package:aniry/common/confirmation_dialog.dart';
-import 'package:aniry/common/list.dart';
-import 'package:aniry/common/page.dart';
-import 'package:aniry/i10n.dart';
-import 'package:aniry/shopping/input.dart';
-import 'package:aniry/shopping/item.dart';
+import 'package:aniry/app/widgets/confirmation_dialog.dart';
+import 'package:aniry/app/widgets/list.dart';
+import 'package:aniry/app/widgets/page.dart';
+import 'package:aniry/app/i10n.dart';
+import 'package:aniry/shopping/widgets/input.dart';
+import 'package:aniry/shopping/models/item.dart';
 import 'package:aniry/shopping/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,19 +19,19 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
   final FocusNode inputFocusNode = FocusNode();
 
   void Function() _buildOnDeletePress(BuildContext context, ShoppingProvider shoppingProvider) => () {
-        showCommonConfirmationDialog(
+        showAppConfirmationDialog(
           context: context,
           text: shoppingProvider.checkedItems.isNotEmpty
               ? appI10N(context)!.shoppingHomePageDeleteCheckedText
               : appI10N(context)!.shoppingHomePageDeleteAllText,
           actions: [
             if (shoppingProvider.checkedItems.isNotEmpty)
-              CommonConfirmationDialogAction(
+              AppConfirmationDialogAction(
                 label: appI10N(context)!.shoppingHomePageDeleteCheckedButton,
                 color: Colors.red[500],
                 onPressed: () => shoppingProvider.deleteCheckedItems(),
               ),
-            CommonConfirmationDialogAction(
+            AppConfirmationDialogAction(
               label: appI10N(context)!.shoppingHomePageDeleteAllButton,
               color: Colors.red[500],
               onPressed: () => shoppingProvider.deleteAllItems(),
@@ -60,11 +60,11 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
 
   @override
   Widget build(context) {
-    return CommonPage(
+    return AppPageScaffold(
       title: appI10N(context)!.shoppingHomePageTitle,
       actions: [
         Consumer<ShoppingProvider>(
-          builder: (context, shoppingProvider, widget) => CommonPageAction(
+          builder: (context, shoppingProvider, widget) => AppPageAction(
             icon: Icons.delete,
             tooltip: appI10N(context)!.shoppingHomePageDeleteTooltip,
             onPressed: shoppingProvider.items.isNotEmpty ? _buildOnDeletePress(context, shoppingProvider) : null,
@@ -73,7 +73,7 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
       ],
       children: [
         Container(
-          padding: const EdgeInsets.only(bottom: CommonPage.gutter),
+          padding: const EdgeInsets.only(bottom: AppPageScaffold.gutter),
           child: ShoppingInput(
             focusNode: inputFocusNode,
             onCreate: _buildOnCreate(context),
@@ -81,7 +81,7 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
           ),
         ),
         Consumer<ShoppingProvider>(
-          builder: (context, shoppingProvider, widget) => CommonList(
+          builder: (context, shoppingProvider, widget) => AppList(
               items: shoppingProvider.items,
               onDelete: (item) => shoppingProvider.deleteItem(item),
               onCheck: _buildOnItemCheck(shoppingProvider),

@@ -1,5 +1,5 @@
-import 'package:aniry/ingredient/edit_page.dart';
-import 'package:aniry/ingredient/home_page.dart';
+import 'package:aniry/ingredient/pages/edit_page.dart';
+import 'package:aniry/ingredient/pages/home_page.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 

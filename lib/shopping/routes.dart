@@ -1,5 +1,5 @@
-import 'package:aniry/i10n.dart';
-import 'package:aniry/shopping/home_page.dart';
+import 'package:aniry/app/i10n.dart';
+import 'package:aniry/shopping/pages/home_page.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 

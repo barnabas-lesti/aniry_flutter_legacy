@@ -1,8 +1,8 @@
-import 'package:aniry/common/item.dart';
+import 'package:aniry/app/models/item.dart';
 import 'package:flutter/material.dart';
 
-class CommonList<T extends CommonItem> extends StatelessWidget {
-  const CommonList({
+class AppList<T extends AppItem> extends StatelessWidget {
+  const AppList({
     required this.items,
     required this.onDelete,
     required this.onCheck,
@@ -51,7 +51,7 @@ class CommonList<T extends CommonItem> extends StatelessWidget {
         onReorder: _onReorder,
         children: [
           for (int i = 0; i < items.length; i++)
-            _CommonListTile(
+            _AppListTile(
               key: Key(items[i].id),
               onDelete: () => onDelete(items[i]),
               item: items[i],
@@ -64,8 +64,8 @@ class CommonList<T extends CommonItem> extends StatelessWidget {
   }
 }
 
-class _CommonListTile<T extends CommonItem> extends StatelessWidget {
-  const _CommonListTile({
+class _AppListTile<T extends AppItem> extends StatelessWidget {
+  const _AppListTile({
     required this.item,
     required this.onDelete,
     required this.onCheck,

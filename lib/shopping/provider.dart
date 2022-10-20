@@ -1,13 +1,13 @@
-import 'package:aniry/common/storage.dart';
-import 'package:aniry/shopping/item.dart';
+import 'package:aniry/app/storage.dart';
+import 'package:aniry/shopping/models/item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
 class ShoppingProvider extends ChangeNotifier {
-  late final CommonStorage storage;
+  late final AppStorage storage;
 
   ShoppingProvider() {
-    storage = CommonStorage<ShoppingItem>(collection: CommonCollection.shopping, fromJson: ShoppingItem.fromJson);
+    storage = AppStorage<ShoppingItem>(collection: AppCollection.shopping, fromJson: ShoppingItem.fromJson);
     storage.fetchItems().then((storedItems) => items = storedItems as List<ShoppingItem>);
   }
 

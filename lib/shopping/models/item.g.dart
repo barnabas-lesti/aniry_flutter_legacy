@@ -12,8 +12,7 @@ ShoppingItem _$ShoppingItemFromJson(Map<String, dynamic> json) => ShoppingItem(
       checked: json['checked'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$ShoppingItemToJson(ShoppingItem instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ShoppingItemToJson(ShoppingItem instance) => <String, dynamic>{
       'id': instance.id,
       'text': instance.text,
       'checked': instance.checked,
