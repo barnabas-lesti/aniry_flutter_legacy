@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CommonPage extends StatelessWidget {
+class AppPageScaffold extends StatelessWidget {
   static const double gutter = 16;
 
   final String title;
   final List<Widget> children;
   final List<Widget> actions;
 
-  const CommonPage({
+  const AppPageScaffold({
     required this.title,
     required this.children,
     this.actions = const [],
@@ -29,12 +29,12 @@ class CommonPage extends StatelessWidget {
   }
 }
 
-class CommonPageAction extends StatelessWidget {
+class AppPageAction extends StatelessWidget {
   final IconData icon;
   final String tooltip;
   final void Function()? onPressed;
 
-  const CommonPageAction({
+  const AppPageAction({
     required this.icon,
     required this.tooltip,
     this.onPressed,

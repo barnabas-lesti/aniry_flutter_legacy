@@ -1,3 +1,4 @@
+import 'package:aniry/app/i10n.dart';
 import 'package:aniry/ingredient/routes.dart';
 import 'package:aniry/shopping/routes.dart';
 import 'package:beamer/beamer.dart';
@@ -5,14 +6,14 @@ import 'package:flutter/material.dart';
 
 final appRouteGroups = <_AppRouteGroup>[
   _AppRouteGroup(
-    label: 'Ingredients',
     icon: Icons.local_dining,
     routerDelegate: ingredientRouterDelegate,
+    label: (context) => appI10N(context)!.ingredientHomePageTabLabel,
   ),
   _AppRouteGroup(
-    label: 'Shopping',
     icon: Icons.playlist_add_check,
     routerDelegate: shoppingRouterDelegate,
+    label: (context) => appI10N(context)!.shoppingHomePageTabLabel,
   )
 ];
 
@@ -72,7 +73,7 @@ class _AppRootScaffoldState extends State<_AppRootScaffold> {
           items: [
             for (int i = 0; i < appRouteGroups.length; i++)
               BottomNavigationBarItem(
-                label: appRouteGroups[i].label,
+                label: appRouteGroups[i].label(context),
                 icon: Icon(appRouteGroups[i].icon),
               ),
           ],
@@ -89,13 +90,13 @@ class _AppRootScaffoldState extends State<_AppRootScaffold> {
 }
 
 class _AppRouteGroup {
-  final String label;
   final IconData icon;
   final BeamerDelegate routerDelegate;
+  final String Function(BuildContext) label;
 
   const _AppRouteGroup({
-    required this.label,
     required this.icon,
     required this.routerDelegate,
+    required this.label,
   });
 }

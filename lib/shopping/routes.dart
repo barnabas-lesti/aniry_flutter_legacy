@@ -1,4 +1,5 @@
-import 'package:aniry/shopping/home_page.dart';
+import 'package:aniry/app/i10n.dart';
+import 'package:aniry/shopping/pages/home_page.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 
@@ -18,11 +19,11 @@ class _ShoppingRoutes extends BeamLocation<BeamState> {
 
   @override
   List<BeamPage> buildPages(BuildContext context, BeamState state) => [
-        const BeamPage(
-          key: ValueKey('shopping'),
-          title: 'Shopping',
+        BeamPage(
+          key: const ValueKey('shopping'),
+          title: appI10N(context)!.shoppingHomePageTitle,
           type: BeamPageType.noTransition,
-          child: ShoppingHomePage(),
+          child: const ShoppingHomePage(),
         ),
       ];
 }

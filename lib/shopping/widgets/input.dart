@@ -1,3 +1,4 @@
+import 'package:aniry/app/i10n.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingInput extends StatefulWidget {
@@ -42,9 +43,9 @@ class _ShoppingInputState extends State<ShoppingInput> {
       textCapitalization: TextCapitalization.sentences,
       controller: _controller,
       onTap: widget.onTap,
-      decoration: const InputDecoration(
-        labelText: 'Add new item',
-        border: OutlineInputBorder(),
+      decoration: InputDecoration(
+        labelText: appI10N(context)!.shoppingInputLabel,
+        border: const OutlineInputBorder(),
       ),
     );
   }

@@ -1,39 +1,39 @@
 import 'package:flutter/material.dart';
 
-Future<String?> showCommonConfirmationDialog({
+Future<String?> showAppConfirmationDialog({
   required BuildContext context,
   required String text,
-  required List<CommonConfirmationDialogAction> actions,
+  required List<AppConfirmationDialogAction> actions,
 }) =>
     showDialog<String>(
       context: context,
-      builder: (context) => _CommonConfirmationDialog(
+      builder: (context) => _AppConfirmationDialog(
         text: text,
         actions: actions,
       ),
     );
 
-class CommonConfirmationDialogAction {
+class AppConfirmationDialogAction {
   final String label;
   final void Function() onPressed;
   final Color? color;
 
-  const CommonConfirmationDialogAction({
+  const AppConfirmationDialogAction({
     required this.label,
     required this.onPressed,
     this.color,
   });
 }
 
-class _CommonConfirmationDialog extends StatelessWidget {
-  const _CommonConfirmationDialog({
+class _AppConfirmationDialog extends StatelessWidget {
+  const _AppConfirmationDialog({
     required this.text,
     required this.actions,
     Key? key,
   }) : super(key: key);
 
   final String text;
-  final List<CommonConfirmationDialogAction> actions;
+  final List<AppConfirmationDialogAction> actions;
 
   @override
   Widget build(BuildContext context) {
