@@ -1,25 +1,47 @@
-import 'package:aniry/shopping/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class ShoppingInput extends StatelessWidget {
-  ShoppingInput({Key? key}) : super(key: key);
+class ShoppingInput extends StatefulWidget {
+  final void Function(String) onCreate;
+  final FocusNode? focusNode;
+  final void Function()? onTap;
 
+  const ShoppingInput({
+    required this.onCreate,
+    this.focusNode,
+    this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<ShoppingInput> createState() => _ShoppingInputState();
+}
+
+class _ShoppingInputState extends State<ShoppingInput> {
   final _controller = TextEditingController();
 
-  void Function(String) _buildOnSubmit(BuildContext context) => (String text) {
-        if (text.isNotEmpty) {
-          Provider.of<ShoppingProvider>(context, listen: false).addItem(text);
-          _controller.clear();
-        }
-      };
+  void _onCreate() {
+    if (_controller.text.isNotEmpty) {
+      widget.onCreate(_controller.text);
+      _controller.clear();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(context) {
     return TextFormField(
+      focusNode: widget.focusNode,
+      onEditingComplete: _onCreate,
+      textInputAction: TextInputAction.next,
       autocorrect: false,
+      textCapitalization: TextCapitalization.sentences,
       controller: _controller,
-      onFieldSubmitted: _buildOnSubmit(context),
+      onTap: widget.onTap,
       decoration: const InputDecoration(
         labelText: 'Add new item',
         border: OutlineInputBorder(),
