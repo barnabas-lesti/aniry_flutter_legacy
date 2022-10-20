@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
 
-Future<String?> showAppConfirmationDialogWidget({
+Future<String?> showAppConfirmationDialog({
   required BuildContext context,
   required String text,
   required List<AppConfirmationDialogAction> actions,
 }) =>
     showDialog<String>(
       context: context,
-      builder: (BuildContext context) => _AppConfirmationDialogWidget(
+      builder: (context) => _AppConfirmationDialog(
         text: text,
         actions: actions,
       ),
     );
 
-class _AppConfirmationDialogWidget extends StatelessWidget {
-  const _AppConfirmationDialogWidget({
+class AppConfirmationDialogAction {
+  final String label;
+  final void Function() onPressed;
+  final Color? color;
+
+  const AppConfirmationDialogAction({
+    required this.label,
+    required this.onPressed,
+    this.color,
+  });
+}
+
+class _AppConfirmationDialog extends StatelessWidget {
+  const _AppConfirmationDialog({
     required this.text,
     required this.actions,
     Key? key,
@@ -27,12 +39,10 @@ class _AppConfirmationDialogWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Text(text),
-      actions: <Widget>[
+      actions: [
         TextButton(
           child: const Text('Cancel'),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         for (int i = 0; i < actions.length; i++)
           TextButton(
@@ -48,16 +58,4 @@ class _AppConfirmationDialogWidget extends StatelessWidget {
       ],
     );
   }
-}
-
-class AppConfirmationDialogAction {
-  final String label;
-  final void Function() onPressed;
-  final Color? color;
-
-  const AppConfirmationDialogAction({
-    required this.label,
-    required this.onPressed,
-    this.color,
-  });
 }
