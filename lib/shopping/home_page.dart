@@ -1,15 +1,13 @@
 import 'package:aniry/app/confirmation_dialog.dart';
-import 'package:aniry/app/screen.dart';
+import 'package:aniry/app/page.dart';
 import 'package:aniry/shopping/list.dart';
 import 'package:aniry/shopping/input.dart';
 import 'package:aniry/shopping/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ShoppingHomeScreen extends StatelessWidget {
-  const ShoppingHomeScreen({super.key});
-
-  final String title = 'Shopping List';
+class ShoppingHomePage extends StatelessWidget {
+  const ShoppingHomePage({super.key});
 
   void Function() _buildOnDeletePress(BuildContext context, ShoppingProvider shoppingProvider) => () {
         showAppConfirmationDialog(
@@ -35,11 +33,11 @@ class ShoppingHomeScreen extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return AppScreen(
-      title: title,
+    return AppPage(
+      title: 'Shopping List',
       actions: [
         Consumer<ShoppingProvider>(
-          builder: (context, shoppingProvider, widget) => buildAppScreenAction(
+          builder: (context, shoppingProvider, widget) => buildAppPageAction(
             Icons.delete,
             'Clear list',
             onPressed: shoppingProvider.items.isNotEmpty ? _buildOnDeletePress(context, shoppingProvider) : null,
@@ -48,7 +46,7 @@ class ShoppingHomeScreen extends StatelessWidget {
       ],
       children: [
         Container(
-          padding: const EdgeInsets.only(bottom: AppScreen.gutter),
+          padding: const EdgeInsets.only(bottom: AppPage.gutter),
           child: ShoppingInput(),
         ),
         const ShoppingList(),

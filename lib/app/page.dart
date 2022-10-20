@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-IconButton buildAppScreenAction(IconData icon, String tooltip, {void Function()? onPressed}) => IconButton(
+IconButton buildAppPageAction(IconData icon, String tooltip, {void Function()? onPressed}) => IconButton(
       icon: Icon(icon),
       tooltip: tooltip,
       onPressed: onPressed,
     );
 
-class AppScreen extends StatelessWidget {
+class AppPage extends StatelessWidget {
   static const double gutter = 16;
 
   final String title;
   final List<Widget> children;
   final List<Widget> actions;
 
-  const AppScreen({
+  const AppPage({
     required this.title,
     required this.children,
     this.actions = const [],
