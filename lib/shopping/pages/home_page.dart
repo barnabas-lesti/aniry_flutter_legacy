@@ -1,10 +1,9 @@
 import 'package:aniry/app/widgets/confirmation_dialog.dart';
-import 'package:aniry/app/widgets/list.dart';
 import 'package:aniry/app/widgets/page.dart';
 import 'package:aniry/app/i10n.dart';
 import 'package:aniry/shopping/widgets/input.dart';
-import 'package:aniry/shopping/models/item.dart';
 import 'package:aniry/shopping/provider.dart';
+import 'package:aniry/shopping/widgets/list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,21 +46,11 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
   void Function(String) _buildOnTap(ShoppingProvider shoppingProvider) =>
       (id) => inputFocusNode.hasFocus ? inputFocusNode.unfocus() : shoppingProvider.checkItem(id);
 
-  void _onInputTap() {
-    if (inputFocusNode.hasFocus) {
-      inputFocusNode.unfocus();
-    }
-  }
-
   @override
   void dispose() {
     inputFocusNode.dispose();
     super.dispose();
   }
-
-  AppListItem _toListItem(ShoppingItem item) => AppListItem(id: item.id, textLeftPrimary: item.name);
-
-  List<AppListItem> _toListItems(List<ShoppingItem> items) => items.map(_toListItem).toList();
 
   @override
   Widget build(context) {
@@ -82,18 +71,16 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
           child: ShoppingInput(
             focusNode: inputFocusNode,
             onCreate: _buildOnCreate(context),
-            onTap: _onInputTap,
+            onTap: inputFocusNode.hasFocus ? () => inputFocusNode.unfocus() : null,
           ),
         ),
         Consumer<ShoppingProvider>(
-          builder: (context, shoppingProvider, widget) => AppList(
-            withCheckbox: true,
-            items: _toListItems(shoppingProvider.items),
-            onDelete: (id) => shoppingProvider.deleteItem(id),
+          builder: (context, shoppingProvider, widget) => ShoppingList(
+            items: shoppingProvider.items,
+            onDelete: shoppingProvider.deleteItem,
             onTap: _buildOnTap(shoppingProvider),
-            onReorder: (ids) => shoppingProvider.reorderItems(ids),
-            noItemsText: appI10N(context)!.shoppingHomePageNoItems,
-            selectedItems: _toListItems(shoppingProvider.checkedItems),
+            onReorder: shoppingProvider.reorderItems,
+            checkedItems: shoppingProvider.checkedItems,
           ),
         ),
       ],

@@ -53,15 +53,15 @@ class ShoppingProvider extends ChangeNotifier {
     _postChange();
   }
 
+  void _postChange() {
+    notifyListeners();
+    _storeItems();
+  }
+
   Future<void> _fetchItems() async {
     final data = await _storage.fetchData() as List<dynamic>;
     items = data.map((raw) => ShoppingItem.fromJson(raw)).toList();
   }
 
   Future<void> _storeItems() async => _storage.storeData(_items);
-
-  void _postChange() {
-    notifyListeners();
-    _storeItems();
-  }
 }

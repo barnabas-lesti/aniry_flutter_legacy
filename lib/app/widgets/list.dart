@@ -121,23 +121,18 @@ class AppListTile extends StatelessWidget {
 
   Widget _buildTile() => GestureDetector(
         onTap: onTap,
-        child: Column(
-          children: [
-            ListTile(
-              contentPadding: const EdgeInsets.all(0),
-              leading: (withCheckbox ?? false)
-                  ? Checkbox(
-                      value: selected,
-                      onChanged: (checked) => _onCheck(checked ?? false),
-                    )
-                  : null,
-              title: Text(
-                item.textLeftPrimary,
-                style: TextStyle(decoration: (selected ?? false) ? TextDecoration.lineThrough : TextDecoration.none),
-              ),
-            ),
-            const Divider(height: 0),
-          ],
+        child: ListTile(
+          contentPadding: const EdgeInsets.all(0),
+          leading: (withCheckbox ?? false)
+              ? Checkbox(
+                  value: selected,
+                  onChanged: (checked) => _onCheck(checked ?? false),
+                )
+              : null,
+          title: Text(
+            item.textLeftPrimary,
+            style: TextStyle(decoration: (selected ?? false) ? TextDecoration.lineThrough : TextDecoration.none),
+          ),
         ),
       );
 
@@ -146,7 +141,7 @@ class AppListTile extends StatelessWidget {
           SlidableAction(
             onPressed: (_) => onDelete!(),
             backgroundColor: Colors.transparent,
-            foregroundColor: Theme.of(context).colorScheme.errorContainer,
+            foregroundColor: Colors.red[300],
             icon: Icons.delete,
           )
       ];
@@ -156,16 +151,21 @@ class AppListTile extends StatelessWidget {
     final tile = _buildTile();
     final actions = _buildActions(context);
 
-    return actions.isNotEmpty
-        ? Slidable(
-            key: ValueKey(item.id),
-            endActionPane: ActionPane(
-              motion: const ScrollMotion(),
-              extentRatio: 0.2 * actions.length,
-              children: actions,
-            ),
-            child: tile,
-          )
-        : tile;
+    return Column(
+      children: [
+        actions.isNotEmpty
+            ? Slidable(
+                key: ValueKey(item.id),
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  extentRatio: 0.2 * actions.length,
+                  children: actions,
+                ),
+                child: tile,
+              )
+            : tile,
+        const Divider(height: 0),
+      ],
+    );
   }
 }
