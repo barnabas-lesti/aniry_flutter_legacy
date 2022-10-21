@@ -8,12 +8,13 @@ part of 'item.dart';
 
 ShoppingItem _$ShoppingItemFromJson(Map<String, dynamic> json) => ShoppingItem(
       id: json['id'] as String,
-      text: json['text'] as String,
+      name: json['name'] as String,
       checked: json['checked'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$ShoppingItemToJson(ShoppingItem instance) => <String, dynamic>{
+Map<String, dynamic> _$ShoppingItemToJson(ShoppingItem instance) =>
+    <String, dynamic>{
       'id': instance.id,
-      'text': instance.text,
+      'name': instance.name,
       'checked': instance.checked,
     };

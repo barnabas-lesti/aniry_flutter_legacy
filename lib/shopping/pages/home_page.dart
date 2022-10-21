@@ -40,11 +40,12 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
         );
       };
 
-  void Function(String) _buildOnCreate(BuildContext context) =>
-      (String text) => Provider.of<ShoppingProvider>(context, listen: false).addItem(text);
+  void Function(String) _buildOnCreate(BuildContext context) => (String text) {
+        Provider.of<ShoppingProvider>(context, listen: false).addItem(text);
+      };
 
-  void Function(ShoppingItem, bool) _buildOnItemCheck(ShoppingProvider shoppingProvider) =>
-      (item, checked) => inputFocusNode.hasFocus ? inputFocusNode.unfocus() : shoppingProvider.checkItem(item, checked);
+  void Function(String) _buildOnTap(ShoppingProvider shoppingProvider) =>
+      (id) => inputFocusNode.hasFocus ? inputFocusNode.unfocus() : shoppingProvider.checkItem(id);
 
   void _onInputTap() {
     if (inputFocusNode.hasFocus) {
@@ -57,6 +58,10 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
     inputFocusNode.dispose();
     super.dispose();
   }
+
+  AppListItem _toListItem(ShoppingItem item) => AppListItem(id: item.id, textLeftPrimary: item.name);
+
+  List<AppListItem> _toListItems(List<ShoppingItem> items) => items.map(_toListItem).toList();
 
   @override
   Widget build(context) {
@@ -82,11 +87,14 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
         ),
         Consumer<ShoppingProvider>(
           builder: (context, shoppingProvider, widget) => AppList(
-              items: shoppingProvider.items,
-              onDelete: (item) => shoppingProvider.deleteItem(item),
-              onCheck: _buildOnItemCheck(shoppingProvider),
-              onReorder: (items) => shoppingProvider.items = items,
-              noItemsText: appI10N(context)!.shoppingHomePageNoItems),
+            withCheckbox: true,
+            items: _toListItems(shoppingProvider.items),
+            onDelete: (id) => shoppingProvider.deleteItem(id),
+            onTap: _buildOnTap(shoppingProvider),
+            onReorder: (ids) => shoppingProvider.reorderItems(ids),
+            noItemsText: appI10N(context)!.shoppingHomePageNoItems,
+            selectedItems: _toListItems(shoppingProvider.checkedItems),
+          ),
         ),
       ],
     );

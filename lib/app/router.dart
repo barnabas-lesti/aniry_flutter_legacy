@@ -51,39 +51,36 @@ class _AppRootScaffoldState extends State<_AppRootScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        body: IndexedStack(
-          index: _currentIndex,
-          children: [
-            for (int i = 0; i < appRouteGroups.length; i++)
-              Beamer(
-                routerDelegate: appRouteGroups[i].routerDelegate,
-              )
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          selectedItemColor: Theme.of(context).colorScheme.primary,
-          iconSize: 30,
-          selectedFontSize: 10,
-          unselectedFontSize: 10,
-          elevation: 10,
-          items: [
-            for (int i = 0; i < appRouteGroups.length; i++)
-              BottomNavigationBarItem(
-                label: appRouteGroups[i].label(context),
-                icon: Icon(appRouteGroups[i].icon),
-              ),
-          ],
-          onTap: (index) {
-            if (index != _currentIndex) {
-              setState(() => _currentIndex = index);
-              appRouteGroups[_currentIndex].routerDelegate.update(rebuild: false);
-            }
-          },
-        ),
+    return Scaffold(
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [
+          for (int i = 0; i < appRouteGroups.length; i++)
+            Beamer(
+              routerDelegate: appRouteGroups[i].routerDelegate,
+            )
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        iconSize: 30,
+        selectedFontSize: 10,
+        unselectedFontSize: 10,
+        elevation: 10,
+        items: [
+          for (int i = 0; i < appRouteGroups.length; i++)
+            BottomNavigationBarItem(
+              label: appRouteGroups[i].label(context),
+              icon: Icon(appRouteGroups[i].icon),
+            ),
+        ],
+        onTap: (index) {
+          if (index != _currentIndex) {
+            setState(() => _currentIndex = index);
+            appRouteGroups[_currentIndex].routerDelegate.update(rebuild: false);
+          }
+        },
       ),
     );
   }

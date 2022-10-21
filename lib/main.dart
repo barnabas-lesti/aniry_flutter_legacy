@@ -14,21 +14,24 @@ class _App extends StatelessWidget {
   Widget build(context) {
     return ChangeNotifierProvider(
       create: (context) => ShoppingProvider(),
-      child: MaterialApp.router(
-        title: 'Aniry',
-        theme: ThemeData(primarySwatch: Colors.indigo),
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en', ''),
-        ],
-        routerDelegate: appRouterDelegate,
-        routeInformationParser: appRouteInformationParser,
-        backButtonDispatcher: appBackButtonDispatcher,
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: MaterialApp.router(
+          title: 'Aniry',
+          theme: ThemeData(primarySwatch: Colors.indigo),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', ''),
+          ],
+          routerDelegate: appRouterDelegate,
+          routeInformationParser: appRouteInformationParser,
+          backButtonDispatcher: appBackButtonDispatcher,
+        ),
       ),
     );
   }

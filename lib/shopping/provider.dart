@@ -4,12 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
 class ShoppingProvider extends ChangeNotifier {
-  late final AppStorage storage;
-
   ShoppingProvider() {
-    storage = AppStorage<ShoppingItem>(collection: AppCollection.shopping, fromJson: ShoppingItem.fromJson);
-    storage.fetchItems().then((storedItems) => items = storedItems as List<ShoppingItem>);
+    _storage = AppStorage(partition: AppPartition.shopping);
+    _fetchItems();
   }
+
+  late final AppStorage _storage;
 
   List<ShoppingItem> _items = [];
 
@@ -22,18 +22,19 @@ class ShoppingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addItem(String text) {
-    _items.add(ShoppingItem(id: const Uuid().v4(), text: text));
+  void addItem(String name) {
+    _items.add(ShoppingItem(id: const Uuid().v4(), name: name));
     _postChange();
   }
 
-  void checkItem(ShoppingItem item, bool checked) {
-    _items[_items.indexWhere((i) => i.id == item.id)].checked = checked;
+  void checkItem(String id) {
+    final index = _items.indexWhere((item) => item.id == id);
+    _items[index].checked = !_items[index].checked;
     _postChange();
   }
 
-  void deleteItem(ShoppingItem item) {
-    _items = _items.where((i) => i.id != item.id).toList();
+  void deleteItem(String id) {
+    _items = _items.where((item) => item.id != id).toList();
     _postChange();
   }
 
@@ -42,13 +43,25 @@ class ShoppingProvider extends ChangeNotifier {
     _postChange();
   }
 
+  void reorderItems(List<String> ids) {
+    _items = ids.map((id) => _items.singleWhere((item) => item.id == id)).toList();
+    _postChange();
+  }
+
   void deleteAllItems() {
     _items.clear();
     _postChange();
   }
 
+  Future<void> _fetchItems() async {
+    final data = await _storage.fetchData() as List<dynamic>;
+    items = data.map((raw) => ShoppingItem.fromJson(raw)).toList();
+  }
+
+  Future<void> _storeItems() async => _storage.storeData(_items);
+
   void _postChange() {
     notifyListeners();
-    storage.storeItems(_items);
+    _storeItems();
   }
 }

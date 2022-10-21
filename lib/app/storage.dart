@@ -1,39 +1,33 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:aniry/app/models/item.dart';
 import 'package:path_provider/path_provider.dart';
 
-enum AppCollection {
+enum AppPartition {
   shopping;
 }
 
-class AppStorage<T extends AppItem> {
-  final AppCollection collection;
-  final T Function(Map<String, dynamic>) fromJson;
+class AppStorage {
+  final AppPartition partition;
 
-  AppStorage({
-    required this.collection,
-    required this.fromJson,
-  });
+  AppStorage({required this.partition});
 
   Future<File> get _storageFile async {
     final Directory appDocDir = await getApplicationDocumentsDirectory();
     final path = appDocDir.path;
-    return File('$path/${collection.name}.ani');
+    return File('$path/${partition.name}.ani');
   }
 
-  Future<List<T>> fetchItems() async {
+  Future<dynamic> fetchData() async {
     final file = await _storageFile;
     if (!await file.exists()) return [];
 
     final dataString = await file.readAsString();
-    final data = json.decode(dataString) as List<dynamic>;
-    return data.map((raw) => fromJson(raw)).toList();
+    return json.decode(dataString);
   }
 
-  void storeItems(List<T> items) async {
+  void storeData(dynamic data) async {
     final file = await _storageFile;
-    await file.writeAsString(json.encode(items));
+    await file.writeAsString(json.encode(data));
   }
 }
