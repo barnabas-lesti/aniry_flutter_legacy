@@ -5,63 +5,53 @@ import 'package:uuid/uuid.dart';
 
 class ShoppingProvider extends ChangeNotifier {
   ShoppingProvider() {
-    _storage = AppStorage(partition: AppPartition.shopping);
-    _fetchItems();
+    _loadItems();
   }
 
-  late final AppStorage _storage;
-
+  bool itemsLoaded = false;
   List<ShoppingItem> _items = [];
-
   List<ShoppingItem> get items => _items;
-
-  List<ShoppingItem> get checkedItems => _items.where((item) => item.checked).toList();
+  List<ShoppingItem> get checkedItems => items.where((item) => item.checked).toList();
 
   set items(List<ShoppingItem> items) {
     _items = items;
     notifyListeners();
+    if (itemsLoaded) _storeItems();
   }
 
   void addItem(String name) {
-    _items.add(ShoppingItem(id: const Uuid().v4(), name: name));
-    _postChange();
+    items = [...items, ShoppingItem(id: const Uuid().v4(), name: name)];
   }
 
   void checkItem(String id) {
     final index = _items.indexWhere((item) => item.id == id);
-    _items[index].checked = !_items[index].checked;
-    _postChange();
+    items[index].checked = !_items[index].checked;
+    items = [...items];
   }
 
   void deleteItem(String id) {
-    _items = _items.where((item) => item.id != id).toList();
-    _postChange();
+    items = items.where((item) => item.id != id).toList();
   }
 
   void deleteCheckedItems() {
-    _items = _items.where((item) => !item.checked).toList();
-    _postChange();
+    items = items.where((item) => !item.checked).toList();
   }
 
   void reorderItems(List<String> ids) {
-    _items = ids.map((id) => _items.singleWhere((item) => item.id == id)).toList();
-    _postChange();
+    items = ids.map((id) => items.singleWhere((item) => item.id == id)).toList();
   }
 
   void deleteAllItems() {
-    _items.clear();
-    _postChange();
+    items = [];
   }
 
-  void _postChange() {
-    notifyListeners();
-    _storeItems();
-  }
-
-  Future<void> _fetchItems() async {
-    final data = await _storage.fetchData() as List<dynamic>;
+  Future<void> _loadItems() async {
+    final data = await appStorage.fetchData(AppPartition.shopping) as List<dynamic>;
     items = data.map((raw) => ShoppingItem.fromJson(raw)).toList();
+    itemsLoaded = true;
   }
 
-  Future<void> _storeItems() async => _storage.storeData(_items);
+  Future<void> _storeItems() async {
+    appStorage.storeData(AppPartition.shopping, items);
+  }
 }
