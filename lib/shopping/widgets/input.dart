@@ -44,7 +44,7 @@ class _ShoppingInputState extends State<ShoppingInput> {
       controller: _controller,
       onTap: widget.onTap,
       decoration: InputDecoration(
-        labelText: appI10N(context)!.shoppingInputLabel,
+        labelText: appI10N(context).shoppingInputLabel,
         border: const OutlineInputBorder(),
       ),
     );
