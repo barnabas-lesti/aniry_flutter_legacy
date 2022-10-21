@@ -43,8 +43,9 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
         Provider.of<ShoppingProvider>(context, listen: false).addItem(text);
       };
 
-  void Function(String) _buildOnTap(ShoppingProvider shoppingProvider) =>
-      (id) => inputFocusNode.hasFocus ? inputFocusNode.unfocus() : shoppingProvider.checkItem(id);
+  void Function(String) _buildOnTap(ShoppingProvider shoppingProvider) => (id) {
+        inputFocusNode.hasFocus ? inputFocusNode.unfocus() : shoppingProvider.checkItem(id);
+      };
 
   @override
   void dispose() {
@@ -71,7 +72,6 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
           child: ShoppingInput(
             focusNode: inputFocusNode,
             onCreate: _buildOnCreate(context),
-            onTap: inputFocusNode.hasFocus ? () => inputFocusNode.unfocus() : null,
           ),
         ),
         Consumer<ShoppingProvider>(
