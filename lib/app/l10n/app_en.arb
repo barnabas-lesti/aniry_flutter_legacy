@@ -6,9 +6,10 @@
   "shoppingHomePageDeleteCheckedText":   "Delete only the Checked items or All items?",
   "shoppingHomePageDeleteCheckedButton": "Checked",
   "shoppingHomePageDeleteTooltip":       "Clear list", 
-  "shoppingHomePageNoItems":             "There are no items in your list, add some using the input above.",
   "shoppingHomePageTabLabel":            "Shopping",
   "shoppingHomePageTitle":               "Shopping list",
+  
+  "shoppingListNoItems": "There are no items in your list, add some using the input above.",
 
   "shoppingInputLabel": "Add new item" 
 }

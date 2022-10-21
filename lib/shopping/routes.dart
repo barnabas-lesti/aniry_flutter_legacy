@@ -21,7 +21,7 @@ class _ShoppingRoutes extends BeamLocation<BeamState> {
   List<BeamPage> buildPages(BuildContext context, BeamState state) => [
         BeamPage(
           key: const ValueKey('shopping'),
-          title: appI10N(context)!.shoppingHomePageTitle,
+          title: appI10N(context).shoppingHomePageTitle,
           type: BeamPageType.noTransition,
           child: const ShoppingHomePage(),
         ),

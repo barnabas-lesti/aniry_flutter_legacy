@@ -8,12 +8,12 @@ final appRouteGroups = <_AppRouteGroup>[
   _AppRouteGroup(
     icon: Icons.local_dining,
     routerDelegate: ingredientRouterDelegate,
-    label: (context) => appI10N(context)!.ingredientHomePageTabLabel,
+    label: (context) => appI10N(context).ingredientHomePageTabLabel,
   ),
   _AppRouteGroup(
     icon: Icons.playlist_add_check,
     routerDelegate: shoppingRouterDelegate,
-    label: (context) => appI10N(context)!.shoppingHomePageTabLabel,
+    label: (context) => appI10N(context).shoppingHomePageTabLabel,
   )
 ];
 
