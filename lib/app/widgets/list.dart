@@ -1,25 +1,6 @@
+import 'package:aniry/app/models/list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
-class AppListItem {
-  final String id;
-  final String textLeftPrimary;
-  final String? textLeftSecondary;
-  final String? textRightPrimary;
-  final String? textRightSecondary;
-  final IconData? icon;
-  final Color? iconColor;
-
-  const AppListItem({
-    required this.id,
-    required this.textLeftPrimary,
-    this.textLeftSecondary,
-    this.textRightPrimary,
-    this.textRightSecondary,
-    this.icon,
-    this.iconColor,
-  });
-}
 
 class AppList extends StatelessWidget {
   final List<AppListItem> items;
@@ -64,9 +45,9 @@ class AppList extends StatelessWidget {
     );
   }
 
-  List<AppListTile> _buildTiles() => [
+  List<_AppListTile> _buildTiles() => [
         for (int i = 0; i < items.length; i++)
-          AppListTile(
+          _AppListTile(
             key: Key(items[i].id),
             onDelete: onDelete != null ? () => onDelete!(items[i].id) : null,
             item: items[i],
@@ -78,7 +59,7 @@ class AppList extends StatelessWidget {
           )
       ];
 
-  List<AppListTile> _sortTiles(List<AppListTile> tiles) =>
+  List<_AppListTile> _sortTiles(List<_AppListTile> tiles) =>
       tiles..sort((a, b) => a.item.textLeftPrimary.compareTo(b.item.textLeftPrimary));
 
   @override
@@ -113,7 +94,7 @@ class AppList extends StatelessWidget {
   }
 }
 
-class AppListTile extends StatelessWidget {
+class _AppListTile extends StatelessWidget {
   final AppListItem item;
   final bool? selected;
   final bool? withCheckbox;
@@ -122,7 +103,7 @@ class AppListTile extends StatelessWidget {
   final void Function(bool)? onCheck;
   final void Function()? onDelete;
 
-  const AppListTile({
+  const _AppListTile({
     required this.item,
     this.selected,
     this.withCheckbox,

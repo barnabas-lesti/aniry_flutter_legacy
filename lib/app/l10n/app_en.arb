@@ -1,5 +1,11 @@
 {
+  "ingredientHomePageTitle": "Ingredients",
   "ingredientHomePageTabLabel": "Ingredients",
+  "ingredientHomePageCreateTooltip": "Create ingredient",
+
+  "ingredientCreatePageTitle": "Create ingredient",
+
+  "ingredientEditPageTitle": "Edit ingredient",
 
   "ingredientListNoItems": "No ingredients to display.",
 

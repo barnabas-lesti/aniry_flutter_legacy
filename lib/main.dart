@@ -1,4 +1,5 @@
 import 'package:aniry/app/router.dart';
+import 'package:aniry/ingredient/provider.dart';
 import 'package:aniry/shopping/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,8 +13,11 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return ChangeNotifierProvider(
-      create: (context) => ShoppingProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ShoppingProvider>(create: (_) => ShoppingProvider()),
+        ChangeNotifierProvider<IngredientProvider>(create: (_) => IngredientProvider()),
+      ],
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: MaterialApp.router(

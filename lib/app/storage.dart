@@ -4,7 +4,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 enum AppPartition {
-  shopping;
+  shopping,
+  ingredient,
 }
 
 final appStorage = _AppStorage();

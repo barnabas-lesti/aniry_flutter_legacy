@@ -1,3 +1,4 @@
+import 'package:aniry/app/models/list_item.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'item.g.dart';
@@ -17,4 +18,6 @@ class ShoppingItem {
   factory ShoppingItem.fromJson(Map<String, dynamic> json) => _$ShoppingItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$ShoppingItemToJson(this);
+
+  AppListItem toListItem() => AppListItem(id: id, textLeftPrimary: name);
 }
