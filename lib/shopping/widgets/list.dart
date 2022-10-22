@@ -32,6 +32,7 @@ class ShoppingList extends StatelessWidget {
       noItemsText: appI10N(context).shoppingListNoItems,
       selectedItems: _toListItems(checkedItems),
       withCheckbox: true,
+      dense: true,
     );
   }
 }

@@ -26,6 +26,7 @@ class AppList extends StatelessWidget {
   final List<AppListItem>? selectedItems;
   final String? noItemsText;
   final bool? withCheckbox;
+  final bool? dense;
   final void Function(String, bool)? onCheck;
   final void Function(String)? onDelete;
   final void Function(List<String>)? onReorder;
@@ -36,6 +37,7 @@ class AppList extends StatelessWidget {
     this.selectedItems = const [],
     this.noItemsText,
     this.withCheckbox,
+    this.dense,
     this.onCheck,
     this.onDelete,
     this.onReorder,
@@ -71,6 +73,7 @@ class AppList extends StatelessWidget {
             onCheck: onCheck != null ? (checked) => onCheck!(items[i].id, checked) : null,
             onTap: onTap != null ? () => onTap!(items[i].id) : null,
             withCheckbox: withCheckbox,
+            dense: dense,
             selected: selectedItems?.where((item) => items[i].id == item.id).isNotEmpty,
           )
       ];
@@ -83,14 +86,20 @@ class AppList extends StatelessWidget {
     final tiles = _buildTiles();
 
     return items.isEmpty
-        ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: noItemsText != null
-                ? Text(
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
                     noItemsText!,
                     textAlign: TextAlign.center,
-                  )
-                : null,
+                    style: const TextStyle(fontSize: 14, overflow: TextOverflow.clip),
+                  ),
+                ),
+              )
+            ],
           )
         : Expanded(
             child: onReorder != null
@@ -108,6 +117,7 @@ class AppListTile extends StatelessWidget {
   final AppListItem item;
   final bool? selected;
   final bool? withCheckbox;
+  final bool? dense;
   final void Function()? onTap;
   final void Function(bool)? onCheck;
   final void Function()? onDelete;
@@ -116,6 +126,7 @@ class AppListTile extends StatelessWidget {
     required this.item,
     this.selected,
     this.withCheckbox,
+    this.dense,
     this.onTap,
     this.onCheck,
     this.onDelete,
@@ -127,46 +138,45 @@ class AppListTile extends StatelessWidget {
     onTap?.call();
   }
 
-  Widget _buildColumn({
+  Widget _buildTextColumn({
     required String textPrimary,
     required CrossAxisAlignment crossAxisAlignment,
     String? textSecondary,
     bool? truncate,
     bool? lineThrough,
-  }) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: crossAxisAlignment,
-      children: [
-        Text(
-          textPrimary,
-          overflow: truncate != null ? TextOverflow.ellipsis : null,
-          style: TextStyle(
-            fontSize: 16,
-            decoration: (lineThrough ?? false) ? TextDecoration.lineThrough : null,
-          ),
-        ),
-        if (textSecondary != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 2),
-            child: Text(
-              textSecondary,
-              style: TextStyle(
-                fontSize: 14,
-                overflow: truncate != null ? TextOverflow.ellipsis : null,
-                color: Colors.grey[500],
-              ),
+  }) =>
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: crossAxisAlignment,
+        children: [
+          Text(
+            textPrimary,
+            overflow: truncate != null ? TextOverflow.ellipsis : null,
+            style: TextStyle(
+              fontSize: 14,
+              decoration: (lineThrough ?? false) ? TextDecoration.lineThrough : null,
             ),
           ),
-      ],
-    );
-  }
+          if (textSecondary != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                textSecondary,
+                style: TextStyle(
+                  fontSize: 12,
+                  overflow: truncate != null ? TextOverflow.ellipsis : null,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ),
+        ],
+      );
 
   Widget _buildTile() => GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+        child: SizedBox(
+          height: (dense ?? false) ? null : 64,
           child: Row(
             children: [
               if (withCheckbox ?? false)
@@ -184,7 +194,7 @@ class AppListTile extends StatelessWidget {
                   ),
                 ),
               Expanded(
-                child: _buildColumn(
+                child: _buildTextColumn(
                   textPrimary: item.textLeftPrimary,
                   textSecondary: item.textLeftSecondary,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,10 +203,13 @@ class AppListTile extends StatelessWidget {
                 ),
               ),
               if (item.textRightPrimary != null)
-                _buildColumn(
-                  textPrimary: item.textRightPrimary!,
-                  textSecondary: item.textRightSecondary,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: _buildTextColumn(
+                    textPrimary: item.textRightPrimary!,
+                    textSecondary: item.textRightSecondary,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                  ),
                 ),
             ],
           ),

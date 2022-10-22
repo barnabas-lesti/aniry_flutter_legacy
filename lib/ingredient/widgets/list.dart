@@ -24,8 +24,8 @@ class IngredientList extends StatelessWidget {
   final List<AppListItem> _items = [
     AppListItem(
       id: '1',
-      textLeftPrimary: ' A Red onions',
-      textLeftSecondary: '30g carbs, 25g protein, 5g fat',
+      textLeftPrimary: 'Fuszerkeverek (fokhagymas)',
+      // textLeftSecondary: '30g carbs, 25g protein, 5g fat',
       textRightPrimary: '100 g',
       textRightSecondary: '352 kcal',
       icon: Icons.apple,
@@ -36,13 +36,13 @@ class IngredientList extends StatelessWidget {
       textLeftPrimary: 'Tejfolos gomas csirke rizzsel',
       // textLeftSecondary: '100g carbs, 25g protein, 50g fat',
       textRightPrimary: '1 plate',
-      // textRightSecondary: '1532 kcal',
+      textRightSecondary: '1532 kcal',
       icon: Icons.settings,
       iconColor: Colors.indigo[400],
     ),
     AppListItem(
       id: '3',
-      textLeftPrimary: 'Onions af adf  fdafa sdfasdfas f asdf dsffd a fas f',
+      textLeftPrimary: 'Onions tejfolos gombas csirke rizzsel',
       textLeftSecondary: '300g carbs, 250g protein, 500g fat',
       textRightPrimary: '100 pieces',
       textRightSecondary: '3520kcal',
@@ -59,13 +59,13 @@ class IngredientList extends StatelessWidget {
   @override
   Widget build(context) {
     return AppList(
-      items: _items,
+      items: [],
       onDelete: _onDelete,
       onTap: _onTap,
       // onReorder: _onReorder,
       noItemsText: appI10N(context).ingredientListNoItems,
       selectedItems: _selectedItems,
-      withCheckbox: true,
+      // withCheckbox: true,
     );
   }
 }
