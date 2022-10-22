@@ -1,3 +1,4 @@
+import 'package:aniry/app/models/list_item.dart';
 import 'package:aniry/app/widgets/list.dart';
 import 'package:aniry/app/i10n.dart';
 import 'package:aniry/shopping/models/item.dart';
@@ -19,8 +20,7 @@ class ShoppingList extends StatelessWidget {
     super.key,
   });
 
-  List<AppListItem> _toListItems(List<ShoppingItem> items) =>
-      items.map((ShoppingItem item) => AppListItem(id: item.id, textLeftPrimary: item.name)).toList();
+  List<AppListItem> _toListItems(List<ShoppingItem> items) => items.map((item) => item.toListItem()).toList();
 
   @override
   Widget build(context) {
@@ -32,6 +32,7 @@ class ShoppingList extends StatelessWidget {
       noItemsText: appI10N(context).shoppingListNoItems,
       selectedItems: _toListItems(checkedItems),
       withCheckbox: true,
+      dense: true,
     );
   }
 }

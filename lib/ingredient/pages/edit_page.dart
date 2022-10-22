@@ -2,18 +2,20 @@ import 'package:aniry/app/widgets/page.dart';
 import 'package:flutter/material.dart';
 
 class IngredientEditPage extends StatelessWidget {
-  // final String id;
+  final String title;
+  final String? id;
 
   const IngredientEditPage({
-    // required this.id,
+    required this.title,
+    this.id,
     super.key,
   });
 
   @override
   Widget build(context) {
-    return const AppPageScaffold(
-      title: 'Edit ingredient',
-      children: [
+    return AppPageScaffold(
+      title: title,
+      children: const [
         Text('Hello IngredientsEdit!'),
       ],
     );
