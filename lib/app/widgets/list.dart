@@ -52,7 +52,12 @@ class AppList extends StatelessWidget {
   Widget _proxyDecorator(Widget child, int index, Animation<double> animation) {
     return AnimatedBuilder(
       animation: animation,
-      builder: (context, child) => Material(elevation: 2, child: child),
+      builder: (context, child) => Material(
+          elevation: 2,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: child,
+          )),
       child: child,
     );
   }
@@ -69,6 +74,9 @@ class AppList extends StatelessWidget {
             selected: selectedItems?.where((item) => items[i].id == item.id).isNotEmpty,
           )
       ];
+
+  List<AppListTile> _sortTiles(List<AppListTile> tiles) =>
+      tiles..sort((a, b) => a.item.textLeftPrimary.compareTo(b.item.textLeftPrimary));
 
   @override
   Widget build(context) {
@@ -91,7 +99,7 @@ class AppList extends StatelessWidget {
                     onReorder: _onReorder,
                     children: tiles,
                   )
-                : ListView(children: tiles),
+                : ListView(children: _sortTiles(tiles)),
           );
   }
 }
@@ -119,19 +127,78 @@ class AppListTile extends StatelessWidget {
     onTap?.call();
   }
 
+  Widget _buildColumn({
+    required String textPrimary,
+    required CrossAxisAlignment crossAxisAlignment,
+    String? textSecondary,
+    bool? truncate,
+    bool? lineThrough,
+  }) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: crossAxisAlignment,
+      children: [
+        Text(
+          textPrimary,
+          overflow: truncate != null ? TextOverflow.ellipsis : null,
+          style: TextStyle(
+            fontSize: 16,
+            decoration: (lineThrough ?? false) ? TextDecoration.lineThrough : null,
+          ),
+        ),
+        if (textSecondary != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Text(
+              textSecondary,
+              style: TextStyle(
+                fontSize: 14,
+                overflow: truncate != null ? TextOverflow.ellipsis : null,
+                color: Colors.grey[500],
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
   Widget _buildTile() => GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: onTap,
-        child: ListTile(
-          contentPadding: const EdgeInsets.all(0),
-          leading: (withCheckbox ?? false)
-              ? Checkbox(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            children: [
+              if (withCheckbox ?? false)
+                Checkbox(
                   value: selected,
                   onChanged: (checked) => _onCheck(checked ?? false),
-                )
-              : null,
-          title: Text(
-            item.textLeftPrimary,
-            style: TextStyle(decoration: (selected ?? false) ? TextDecoration.lineThrough : TextDecoration.none),
+                ),
+              if (item.icon != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Icon(
+                    item.icon,
+                    color: item.iconColor,
+                    size: 22,
+                  ),
+                ),
+              Expanded(
+                child: _buildColumn(
+                  textPrimary: item.textLeftPrimary,
+                  textSecondary: item.textLeftSecondary,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  truncate: true,
+                  lineThrough: selected,
+                ),
+              ),
+              if (item.textRightPrimary != null)
+                _buildColumn(
+                  textPrimary: item.textRightPrimary!,
+                  textSecondary: item.textRightSecondary,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                ),
+            ],
           ),
         ),
       );

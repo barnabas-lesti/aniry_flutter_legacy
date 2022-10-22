@@ -1,4 +1,5 @@
 import 'package:aniry/app/widgets/page.dart';
+import 'package:aniry/ingredient/widgets/list.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +17,8 @@ class IngredientHomePage extends StatelessWidget {
           onPressed: () => Beamer.of(context).beamToNamed('/ingredient/edit'),
         ),
       ],
-      children: const [
-        Text('Hello Ingredients!'),
+      children: [
+        IngredientList(),
       ],
     );
   }

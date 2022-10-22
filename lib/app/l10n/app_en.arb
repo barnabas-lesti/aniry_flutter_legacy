@@ -1,6 +1,8 @@
 {
   "ingredientHomePageTabLabel": "Ingredients",
 
+  "ingredientListNoItems": "No ingredients to display.",
+
   "shoppingHomePageDeleteAllText":       "Delete All items?",
   "shoppingHomePageDeleteAllButton":     "All",
   "shoppingHomePageDeleteCheckedText":   "Delete only the Checked items or All items?",
