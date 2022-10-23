@@ -1,9 +1,8 @@
-import 'package:aniry/app/models/nutrients.dart';
-import 'package:aniry/app/models/serving.dart';
-import 'package:aniry/app/models/serving_unit.dart';
 import 'package:aniry/app/storage.dart';
 import 'package:aniry/ingredient/models/item.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class IngredientProvider extends ChangeNotifier {
@@ -21,38 +20,25 @@ class IngredientProvider extends ChangeNotifier {
     if (itemsLoaded) _storeItems();
   }
 
-  void createItem({
-    required String name,
-    required double calories,
-    required double carbs,
-    required double protein,
-    required double fat,
-    required double servingValue,
-    required AppServingUnit servingUnit,
-    required String? description,
-  }) {
-    final item = IngredientItem(
-      id: const Uuid().v4(),
-      name: name,
-      calories: calories,
-      description: description,
-      nutrients: AppNutrients(
-        carbs: carbs,
-        protein: protein,
-        fat: fat,
-      ),
-      servings: [
-        AppServing(
-          unit: servingUnit,
-          value: servingValue,
-        )
-      ],
-    );
+  IngredientItem getItem(String id) {
+    return items.where((item) => item.id == id).first;
+  }
+
+  void createItem(IngredientItem item) {
+    item.id = const Uuid().v4();
     items = [...items, item];
+  }
+
+  void updateItem(IngredientItem update) {
+    items = [...items.where((item) => item.id != update.id).toList(), update];
   }
 
   void deleteItem(String id) {
     items = items.where((item) => item.id != id).toList();
+  }
+
+  static IngredientProvider of(BuildContext context) {
+    return Provider.of(context, listen: false);
   }
 
   Future<void> _loadItems() async {

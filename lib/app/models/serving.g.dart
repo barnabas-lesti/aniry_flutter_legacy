@@ -7,18 +7,12 @@ part of 'serving.dart';
 // **************************************************************************
 
 AppServing _$AppServingFromJson(Map<String, dynamic> json) => AppServing(
-      unit: $enumDecode(_$AppServingUnitEnumMap, json['unit']),
-      value: (json['value'] as num).toDouble(),
+      unit: json['unit'] as String? ?? AppUnit.g,
+      value: (json['value'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$AppServingToJson(AppServing instance) =>
     <String, dynamic>{
-      'unit': _$AppServingUnitEnumMap[instance.unit]!,
+      'unit': instance.unit,
       'value': instance.value,
     };
-
-const _$AppServingUnitEnumMap = {
-  AppServingUnit.g: 'g',
-  AppServingUnit.ml: 'ml',
-  AppServingUnit.kcal: 'kcal',
-};

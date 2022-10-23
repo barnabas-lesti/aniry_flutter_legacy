@@ -60,7 +60,7 @@ class AppList extends StatelessWidget {
       ];
 
   List<_AppListTile> _sortTiles(List<_AppListTile> tiles) =>
-      tiles..sort((a, b) => a.item.textLeftPrimary.compareTo(b.item.textLeftPrimary));
+      tiles..sort((a, b) => a.item.textLeftPrimary.toLowerCase().compareTo(b.item.textLeftPrimary.toLowerCase()));
 
   @override
   Widget build(context) {

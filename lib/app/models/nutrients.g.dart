@@ -7,9 +7,9 @@ part of 'nutrients.dart';
 // **************************************************************************
 
 AppNutrients _$AppNutrientsFromJson(Map<String, dynamic> json) => AppNutrients(
-      carbs: (json['carbs'] as num).toDouble(),
-      protein: (json['protein'] as num).toDouble(),
-      fat: (json['fat'] as num).toDouble(),
+      carbs: (json['carbs'] as num?)?.toDouble() ?? 0,
+      protein: (json['protein'] as num?)?.toDouble() ?? 0,
+      fat: (json['fat'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$AppNutrientsToJson(AppNutrients instance) =>

@@ -7,31 +7,36 @@ import 'package:aniry/shopping/widgets/list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ShoppingHomePage extends StatefulWidget {
-  const ShoppingHomePage({super.key});
+class ShoppingHome extends StatefulWidget {
+  final String title;
+
+  const ShoppingHome({
+    required this.title,
+    super.key,
+  });
 
   @override
-  State<ShoppingHomePage> createState() => _ShoppingHomePageState();
+  State<ShoppingHome> createState() => _ShoppingHomeState();
 }
 
-class _ShoppingHomePageState extends State<ShoppingHomePage> {
+class _ShoppingHomeState extends State<ShoppingHome> {
   final FocusNode inputFocusNode = FocusNode();
 
   void Function() _buildOnDelete(BuildContext context, ShoppingProvider shoppingProvider) => () {
         showAppConfirmationDialog(
           context: context,
           text: shoppingProvider.checkedItems.isNotEmpty
-              ? appI10N(context).shoppingHomePageDeleteCheckedText
-              : appI10N(context).shoppingHomePageDeleteAllText,
+              ? AppI10N.of(context).shoppingHomeDeleteCheckedText
+              : AppI10N.of(context).shoppingHomeDeleteAllText,
           actions: [
             if (shoppingProvider.checkedItems.isNotEmpty)
               AppConfirmationDialogAction(
-                label: appI10N(context).shoppingHomePageDeleteCheckedButton,
+                label: AppI10N.of(context).shoppingHomeDeleteCheckedButton,
                 color: Colors.red[500],
                 onPressed: () => shoppingProvider.deleteCheckedItems(),
               ),
             AppConfirmationDialogAction(
-              label: appI10N(context).shoppingHomePageDeleteAllButton,
+              label: AppI10N.of(context).shoppingHomeDeleteAllButton,
               color: Colors.red[500],
               onPressed: () => shoppingProvider.deleteAllItems(),
             ),
@@ -56,12 +61,12 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
   @override
   Widget build(context) {
     return AppPageScaffold(
-      title: appI10N(context).shoppingHomePageTitle,
+      title: widget.title,
       actions: [
         Consumer<ShoppingProvider>(
           builder: (context, shoppingProvider, widget) => AppPageAction(
             icon: Icons.delete,
-            tooltip: appI10N(context).shoppingHomePageDeleteTooltip,
+            tooltip: AppI10N.of(context).shoppingHomeDeleteTooltip,
             onPressed: shoppingProvider.items.isNotEmpty ? _buildOnDelete(context, shoppingProvider) : null,
           ),
         ),

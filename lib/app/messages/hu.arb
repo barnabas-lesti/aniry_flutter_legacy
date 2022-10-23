@@ -1,0 +1,19 @@
+{
+  "@@locale": "hu",
+
+  "ingredientHomeTabLabel": "",
+
+  "ingredientListNoItems": "",
+
+  "shoppingHomeDeleteAllText":       "Minden elemet törölni szeretnél?",
+  "shoppingHomeDeleteAllButton":     "Mindet",
+  "shoppingHomeDeleteCheckedText":   "Csak a pipált elemeket szeretnéd törölni vagy mindet?",
+  "shoppingHomeDeleteCheckedButton": "Pipált",
+  "shoppingHomeDeleteTooltip":       "Elemek törlése", 
+  "shoppingHomeTabLabel":            "Bevásárlás",
+  "shoppingHomeTitle":               "Bevásárlólista",
+  
+  "shoppingListNoItems": "Nincs semmi a bevásárlólistádban. Adj hozzá elemeket a fenti mező segítségével.",
+
+  "shoppingInputLabel": "Elem hozzáadása" 
+}

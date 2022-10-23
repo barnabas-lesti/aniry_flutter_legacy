@@ -6,10 +6,10 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class IngredientHomePage extends StatelessWidget {
+class IngredientHome extends StatelessWidget {
   final String title;
 
-  const IngredientHomePage({
+  const IngredientHome({
     required this.title,
     super.key,
   });
@@ -21,7 +21,7 @@ class IngredientHomePage extends StatelessWidget {
       actions: [
         AppPageAction(
           icon: Icons.add,
-          tooltip: appI10N(context).ingredientHomePageCreateTooltip,
+          tooltip: AppI10N.of(context).ingredientHomeCreateTooltip,
           onPressed: () => Beamer.of(context).beamToNamed('/ingredient/create'),
         ),
       ],
@@ -29,7 +29,7 @@ class IngredientHomePage extends StatelessWidget {
         Consumer<IngredientProvider>(
           builder: (context, ingredientProvider, widget) => IngredientList(
             items: ingredientProvider.items,
-            onTap: (id) => Beamer.of(context).beamToNamed('/ingredient/edit/:id'),
+            onTap: (id) => Beamer.of(context).beamToNamed('/ingredient/edit/$id'),
           ),
         ),
       ],

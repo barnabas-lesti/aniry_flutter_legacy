@@ -29,7 +29,7 @@ class ShoppingList extends StatelessWidget {
       onDelete: onDelete,
       onTap: onTap,
       onReorder: onReorder,
-      noItemsText: appI10N(context).shoppingListNoItems,
+      noItemsText: AppI10N.of(context).shoppingListNoItems,
       selectedItems: _toListItems(checkedItems),
       withCheckbox: true,
       dense: true,
