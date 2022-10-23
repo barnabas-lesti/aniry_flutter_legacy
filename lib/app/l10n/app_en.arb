@@ -8,8 +8,10 @@
   "ingredientEditPageTitle": "Edit ingredient",
   "ingredientEditPageSaveTooltip": "Save ingredient",
 
-  "ingredientFormNameInvalid": "Please enter the ingredients name",
+  "ingredientFormNameInvalid": "Please enter the name of the ingredient",
   "ingredientFormName": "Name",
+  "ingredientFormServing": "Serving",
+  "ingredientFormServingInvalid": "Please enter the serving amount",
   "ingredientFormCalories": "Calories",
   "ingredientFormCarbs": "Carbs",
   "ingredientFormProtein": "Protein",

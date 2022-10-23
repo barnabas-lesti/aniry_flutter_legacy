@@ -1,7 +1,7 @@
 import 'package:aniry/app/models/list_item.dart';
 import 'package:aniry/app/models/nutrients.dart';
 import 'package:aniry/app/models/serving.dart';
-import 'package:aniry/app/models/serving_unit.dart';
+import 'package:aniry/app/models/unit.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -26,11 +26,11 @@ class IngredientItem {
     this.description,
   });
 
-  static AppServingUnit defaultServingUnit = AppServingUnit.g;
+  static String defaultServingUnit = AppUnit.g;
   static double defaultServingValue = 100;
-  static List<AppServingUnit> primaryServingUnits = [
-    AppServingUnit.g,
-    AppServingUnit.ml,
+  static List<String> primaryServingUnits = [
+    AppUnit.g,
+    AppUnit.ml,
   ];
   static IconData icon = Icons.apple;
   static Color color = Colors.green[400]!;
@@ -48,7 +48,7 @@ class IngredientItem {
         textLeftPrimary: name,
         textLeftSecondary: nutrients.toString(),
         textRightPrimary: serving.toString(),
-        textRightSecondary: '${calories.toStringAsFixed(0)}${AppServingUnit.kcal.name}',
+        textRightSecondary: '${calories.toStringAsFixed(0)}${AppUnit.kcal}',
         icon: icon,
         iconColor: color,
       );

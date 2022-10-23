@@ -5,26 +5,41 @@ class AppInput extends StatelessWidget {
   final String? Function(String?)? validator;
   final String? initialValue;
   final String? label;
-  final void Function(String?)? onSaved;
-  final double? paddingBottom;
+  final void Function(String)? onSaved;
+  final void Function()? onTap;
+  final void Function(String)? onChanged;
   final bool? number;
+  final bool? readonly;
+  final TextAlign? textAlign;
+  final double? paddingBottom;
+  final TextEditingController? controller;
 
   const AppInput({
+    this.controller,
     this.validator,
     this.initialValue,
     this.label,
     this.onSaved,
-    this.paddingBottom,
     this.number,
+    this.readonly,
+    this.onTap,
+    this.textAlign,
+    this.paddingBottom,
+    this.onChanged,
     super.key,
   });
 
   @override
   Widget build(context) {
     final input = TextFormField(
+      controller: controller,
+      onChanged: onChanged,
+      textAlign: textAlign ?? TextAlign.start,
+      onTap: onTap,
+      readOnly: (readonly ?? false) ? readonly! : false,
       validator: validator,
       initialValue: initialValue,
-      onSaved: onSaved,
+      onSaved: (value) => onSaved?.call(value ?? ''),
       keyboardType: number ?? false ? const TextInputType.numberWithOptions(decimal: true) : null,
       inputFormatters: number ?? false
           ? <TextInputFormatter>[
@@ -43,7 +58,7 @@ class AppInput extends StatelessWidget {
       ),
     );
 
-    return paddingBottom != null && paddingBottom! > 0
+    return (paddingBottom != null && paddingBottom! > 0)
         ? Padding(
             padding: EdgeInsets.only(bottom: paddingBottom!),
             child: input,

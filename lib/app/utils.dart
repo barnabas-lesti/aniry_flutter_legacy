@@ -5,4 +5,8 @@ class AppUtils {
     if (hasFractional(number)) return (exact ?? false) ? number.toString() : number.toStringAsFixed(1);
     return number.toStringAsFixed(0);
   }
+
+  static double stringToDouble(String value) {
+    return value.isNotEmpty ? double.parse(value) : 0;
+  }
 }

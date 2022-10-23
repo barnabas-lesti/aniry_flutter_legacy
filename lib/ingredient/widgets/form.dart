@@ -4,6 +4,7 @@ import 'package:aniry/app/models/nutrients.dart';
 import 'package:aniry/app/models/serving.dart';
 import 'package:aniry/app/utils.dart';
 import 'package:aniry/app/widgets/input.dart';
+import 'package:aniry/app/widgets/serving_input.dart';
 import 'package:aniry/ingredient/models/item.dart';
 import 'package:flutter/material.dart';
 
@@ -21,11 +22,15 @@ class IngredientForm extends StatefulWidget {
 
 class _IngredientFormState extends State<IngredientForm> {
   final _formKey = GlobalKey<FormState>();
-  String name = '';
-  double calories = 0;
-  double carbs = 0;
-  double protein = 0;
-  double fat = 0;
+  String _name = '';
+  double _calories = 0;
+  double _carbs = 0;
+  double _protein = 0;
+  double _fat = 0;
+  AppServing _serving = AppServing(
+    unit: IngredientItem.defaultServingUnit,
+    value: IngredientItem.defaultServingValue,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +40,14 @@ class _IngredientFormState extends State<IngredientForm> {
       _formKey.currentState!.save();
       return IngredientItem(
         id: IngredientItem.createId(),
-        name: name,
-        calories: calories,
+        name: _name,
+        calories: _calories,
         nutrients: AppNutrients(
-          carbs: carbs,
-          protein: protein,
-          fat: fat,
+          carbs: _carbs,
+          protein: _protein,
+          fat: _fat,
         ),
-        servings: [AppServing()],
+        servings: [_serving],
       );
     });
 
@@ -51,38 +56,47 @@ class _IngredientFormState extends State<IngredientForm> {
       child: Column(
         children: [
           AppInput(
-            initialValue: name,
+            initialValue: _name,
             label: appI10N(context).ingredientFormName,
             validator: (value) => (value == null || value.isEmpty) ? appI10N(context).ingredientFormNameInvalid : null,
-            onSaved: (value) => name = value!,
+            onSaved: (value) => _name = value,
+            paddingBottom: 16,
+          ),
+          AppServingInput(
+            initialValue: _serving,
+            label: appI10N(context).ingredientFormServing,
+            validator: (value) => _serving.value > 0 ? null : appI10N(context).ingredientFormServingInvalid,
+            onSaved: (value) => _serving = value,
+            units: IngredientItem.primaryServingUnits,
             paddingBottom: 16,
           ),
           AppInput(
-            initialValue: AppUtils.doubleToString(calories, exact: true),
+            initialValue: AppUtils.doubleToString(_calories, exact: true),
             label: appI10N(context).ingredientFormCalories,
-            onSaved: (value) => calories = double.parse(value!),
+            onSaved: (value) => _calories = AppUtils.stringToDouble(value),
             number: true,
             paddingBottom: 16,
           ),
           AppInput(
-            initialValue: AppUtils.doubleToString(carbs, exact: true),
+            initialValue: AppUtils.doubleToString(_carbs, exact: true),
             label: appI10N(context).ingredientFormCarbs,
-            onSaved: (value) => carbs = double.parse(value!),
+            onSaved: (value) => _carbs = AppUtils.stringToDouble(value),
             number: true,
             paddingBottom: 16,
           ),
           AppInput(
-            initialValue: AppUtils.doubleToString(protein, exact: true),
+            initialValue: AppUtils.doubleToString(_protein, exact: true),
             label: appI10N(context).ingredientFormProtein,
-            onSaved: (value) => protein = double.parse(value!),
+            onSaved: (value) => _protein = AppUtils.stringToDouble(value),
             number: true,
             paddingBottom: 16,
           ),
           AppInput(
-            initialValue: AppUtils.doubleToString(fat, exact: true),
+            initialValue: AppUtils.doubleToString(_fat, exact: true),
             label: appI10N(context).ingredientFormFat,
-            onSaved: (value) => fat = double.parse(value!),
+            onSaved: (value) => _fat = AppUtils.stringToDouble(value),
             number: true,
+            paddingBottom: 16,
           ),
         ],
       ),

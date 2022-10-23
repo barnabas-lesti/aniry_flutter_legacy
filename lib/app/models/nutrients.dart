@@ -1,3 +1,4 @@
+import 'package:aniry/app/utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'nutrients.g.dart';
@@ -16,7 +17,7 @@ class AppNutrients {
 
   @override
   toString() =>
-      '${carbs.toStringAsFixed(0)}g carbs, ${protein.toStringAsFixed(0)}g protein, ${fat.toStringAsFixed(0)}g fat';
+      '${AppUtils.doubleToString(carbs)}g carbs, ${AppUtils.doubleToString(protein)}g protein, ${AppUtils.doubleToString(fat)}g fat';
 
   factory AppNutrients.fromJson(Map<String, dynamic> json) => _$AppNutrientsFromJson(json);
 
