@@ -40,7 +40,7 @@ class IngredientEditPage extends StatelessWidget {
       actions: [
         AppPageAction(
           icon: Icons.done,
-          tooltip: appI10N(context).ingredientEditPageSaveTooltip,
+          tooltip: AppI10N.of(context).ingredientEditPageSaveTooltip,
           onPressed: () => _buildOnSave(context),
         ),
       ],

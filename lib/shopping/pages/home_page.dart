@@ -26,17 +26,17 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
         showAppConfirmationDialog(
           context: context,
           text: shoppingProvider.checkedItems.isNotEmpty
-              ? appI10N(context).shoppingHomePageDeleteCheckedText
-              : appI10N(context).shoppingHomePageDeleteAllText,
+              ? AppI10N.of(context).shoppingHomePageDeleteCheckedText
+              : AppI10N.of(context).shoppingHomePageDeleteAllText,
           actions: [
             if (shoppingProvider.checkedItems.isNotEmpty)
               AppConfirmationDialogAction(
-                label: appI10N(context).shoppingHomePageDeleteCheckedButton,
+                label: AppI10N.of(context).shoppingHomePageDeleteCheckedButton,
                 color: Colors.red[500],
                 onPressed: () => shoppingProvider.deleteCheckedItems(),
               ),
             AppConfirmationDialogAction(
-              label: appI10N(context).shoppingHomePageDeleteAllButton,
+              label: AppI10N.of(context).shoppingHomePageDeleteAllButton,
               color: Colors.red[500],
               onPressed: () => shoppingProvider.deleteAllItems(),
             ),
@@ -66,7 +66,7 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
         Consumer<ShoppingProvider>(
           builder: (context, shoppingProvider, widget) => AppPageAction(
             icon: Icons.delete,
-            tooltip: appI10N(context).shoppingHomePageDeleteTooltip,
+            tooltip: AppI10N.of(context).shoppingHomePageDeleteTooltip,
             onPressed: shoppingProvider.items.isNotEmpty ? _buildOnDelete(context, shoppingProvider) : null,
           ),
         ),

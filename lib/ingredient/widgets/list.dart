@@ -21,7 +21,7 @@ class IngredientList extends StatelessWidget {
     return AppList(
       items: _toListItems(items),
       onTap: onTap,
-      noItemsText: appI10N(context).ingredientListNoItems,
+      noItemsText: AppI10N.of(context).ingredientListNoItems,
     );
   }
 }
