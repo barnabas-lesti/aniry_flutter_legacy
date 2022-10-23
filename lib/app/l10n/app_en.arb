@@ -4,8 +4,11 @@
   "ingredientHomePageCreateTooltip": "Create ingredient",
 
   "ingredientCreatePageTitle": "Create ingredient",
+  "ingredientFormNameInvalid": "Please enter the ingredients name",
+  "ingredientFormName": "Name",
 
   "ingredientEditPageTitle": "Edit ingredient",
+  "ingredientEditPageSaveTooltip": "Save ingredient",
 
   "ingredientListNoItems": "No ingredients to display.",
 

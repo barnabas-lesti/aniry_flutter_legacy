@@ -4,6 +4,7 @@ import 'package:aniry/app/models/serving.dart';
 import 'package:aniry/app/models/serving_unit.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 part 'item.g.dart';
 
@@ -33,6 +34,8 @@ class IngredientItem {
   ];
   static IconData icon = Icons.apple;
   static Color color = Colors.green[400]!;
+
+  static String createId() => const Uuid().v4().toString();
 
   AppServing get serving => servings[0];
 
