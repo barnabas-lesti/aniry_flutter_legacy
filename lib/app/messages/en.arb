@@ -14,6 +14,9 @@
   "ingredientEditDeleteTooltip": "Delete ingredient",
   "ingredientEditDeleteText": "Are you sure you want to delete this ingredient?",
   "ingredientEditDeleteButton": "Delete",
+  "ingredientEditCreated": "Ingredient successfully created!",
+  "ingredientEditUpdated": "Ingredient successfully updated!",
+  "ingredientEditDeleted": "Ingredient successfully deleted!",
 
   "ingredientFormNameInvalid": "Please enter the name of the ingredient",
   "ingredientFormName": "Name",

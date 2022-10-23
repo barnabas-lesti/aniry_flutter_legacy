@@ -1,6 +1,7 @@
 import 'package:aniry/app/i10n.dart';
 import 'package:aniry/app/item_form_controller.dart';
 import 'package:aniry/app/widgets/confirmation_dialog.dart';
+import 'package:aniry/app/widgets/notification.dart';
 import 'package:aniry/app/widgets/page.dart';
 import 'package:aniry/ingredient/models/item.dart';
 import 'package:aniry/ingredient/provider.dart';
@@ -18,16 +19,18 @@ class IngredientEdit extends StatelessWidget {
     super.key,
   });
 
-  final controller = AppItemFormController<IngredientItem>();
+  final _formController = AppItemFormController<IngredientItem>();
 
   void _buildOnSave(BuildContext context) {
-    final item = controller.getItem();
+    final item = _formController.getItem();
     if (item != null) {
       final ingredientProvider = IngredientProvider.of(context);
       if (item.id.isEmpty) {
         ingredientProvider.createItem(item);
+        ScaffoldMessenger.of(context).showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditCreated));
       } else {
         ingredientProvider.updateItem(item);
+        ScaffoldMessenger.of(context).showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditUpdated));
       }
       Beamer.of(context).popToNamed('/ingredient');
     }
@@ -43,6 +46,8 @@ class IngredientEdit extends StatelessWidget {
               color: Colors.red[500],
               onPressed: () {
                 ingredientProvider.deleteItem(id!);
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditDeleted));
                 Beamer.of(context).popToNamed('/ingredient');
               },
             ),
@@ -70,7 +75,7 @@ class IngredientEdit extends StatelessWidget {
       ],
       children: [
         IngredientForm(
-          controller: controller,
+          controller: _formController,
           item: (id != null) ? ingredientProvider.getItem(id!) : null,
         ),
       ],
