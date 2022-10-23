@@ -8,7 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ShoppingHomePage extends StatefulWidget {
-  const ShoppingHomePage({super.key});
+  final String title;
+
+  const ShoppingHomePage({
+    required this.title,
+    super.key,
+  });
 
   @override
   State<ShoppingHomePage> createState() => _ShoppingHomePageState();
@@ -56,7 +61,7 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
   @override
   Widget build(context) {
     return AppPageScaffold(
-      title: appI10N(context).shoppingHomePageTitle,
+      title: widget.title,
       actions: [
         Consumer<ShoppingProvider>(
           builder: (context, shoppingProvider, widget) => AppPageAction(

@@ -1,6 +1,7 @@
 {
+  "ingredientTabLabel": "Ingredients",
+
   "ingredientHomePageTitle": "Ingredients",
-  "ingredientHomePageTabLabel": "Ingredients",
   "ingredientHomePageCreateTooltip": "Create ingredient",
 
   "ingredientCreatePageTitle": "Create ingredient",

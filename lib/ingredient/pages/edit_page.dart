@@ -6,7 +6,6 @@ import 'package:aniry/ingredient/provider.dart';
 import 'package:aniry/ingredient/widgets/form.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class IngredientEditPage extends StatelessWidget {
   final String title;
@@ -23,7 +22,7 @@ class IngredientEditPage extends StatelessWidget {
   void _buildOnSave(BuildContext context) {
     final item = controller.getItem();
     if (item != null) {
-      final ingredientProvider = Provider.of<IngredientProvider>(context, listen: false);
+      final ingredientProvider = IngredientProvider.of(context);
       if (item.id.isEmpty) {
         ingredientProvider.createItem(item);
       } else {
@@ -35,6 +34,7 @@ class IngredientEditPage extends StatelessWidget {
 
   @override
   Widget build(context) {
+    final ingredientProvider = IngredientProvider.of(context);
     return AppPageScaffold(
       title: title,
       actions: [
@@ -45,11 +45,10 @@ class IngredientEditPage extends StatelessWidget {
         ),
       ],
       children: [
-        Consumer<IngredientProvider>(
-            builder: (context, ingredientProvider, widget) => IngredientForm(
-                  controller: controller,
-                  item: (id != null) ? ingredientProvider.getItem(id!) : null,
-                )),
+        IngredientForm(
+          controller: controller,
+          item: (id != null) ? ingredientProvider.getItem(id!) : null,
+        ),
       ],
     );
   }

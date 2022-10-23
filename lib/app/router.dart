@@ -1,24 +1,16 @@
-import 'package:aniry/app/i10n.dart';
-import 'package:aniry/ingredient/routes.dart';
-import 'package:aniry/shopping/routes.dart';
+import 'package:aniry/app/models/feature_router.dart';
+import 'package:aniry/ingredient/router.dart';
+import 'package:aniry/shopping/router.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 
-final appRouteGroups = <_AppRouteGroup>[
-  _AppRouteGroup(
-    icon: Icons.apple,
-    routerDelegate: ingredientRouterDelegate,
-    label: (context) => appI10N(context).ingredientHomePageTabLabel,
-  ),
-  _AppRouteGroup(
-    icon: Icons.playlist_add_check,
-    routerDelegate: shoppingRouterDelegate,
-    label: (context) => appI10N(context).shoppingHomePageTabLabel,
-  )
+final featureRouters = <AppFeatureRouter>[
+  ingredientRouter,
+  shoppingRouter,
 ];
 
 final appRouterDelegate = BeamerDelegate(
-  initialPath: appRouteGroups[0].routerDelegate.initialPath,
+  initialPath: featureRouters[0].routerDelegate.initialPath,
   locationBuilder: RoutesLocationBuilder(
     routes: {
       '*': (context, state, data) => const _AppRootScaffold(),
@@ -46,7 +38,7 @@ class _AppRootScaffoldState extends State<_AppRootScaffold> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final uriString = Beamer.of(context).configuration.location!;
-    _currentIndex = uriString.contains(appRouteGroups[0].routerDelegate.initialPath) ? 0 : 1;
+    _currentIndex = uriString.contains(featureRouters[0].routerDelegate.initialPath) ? 0 : 1;
   }
 
   @override
@@ -55,9 +47,9 @@ class _AppRootScaffoldState extends State<_AppRootScaffold> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          for (int i = 0; i < appRouteGroups.length; i++)
+          for (int i = 0; i < featureRouters.length; i++)
             Beamer(
-              routerDelegate: appRouteGroups[i].routerDelegate,
+              routerDelegate: featureRouters[i].routerDelegate,
             )
         ],
       ),
@@ -69,31 +61,19 @@ class _AppRootScaffoldState extends State<_AppRootScaffold> {
         unselectedFontSize: 10,
         elevation: 10,
         items: [
-          for (int i = 0; i < appRouteGroups.length; i++)
+          for (int i = 0; i < featureRouters.length; i++)
             BottomNavigationBarItem(
-              label: appRouteGroups[i].label(context),
-              icon: Icon(appRouteGroups[i].icon),
+              label: featureRouters[i].label(context),
+              icon: Icon(featureRouters[i].icon),
             ),
         ],
         onTap: (index) {
           if (index != _currentIndex) {
             setState(() => _currentIndex = index);
-            appRouteGroups[_currentIndex].routerDelegate.update(rebuild: false);
+            featureRouters[_currentIndex].routerDelegate.update(rebuild: false);
           }
         },
       ),
     );
   }
-}
-
-class _AppRouteGroup {
-  final IconData icon;
-  final BeamerDelegate routerDelegate;
-  final String Function(BuildContext) label;
-
-  const _AppRouteGroup({
-    required this.icon,
-    required this.routerDelegate,
-    required this.label,
-  });
 }

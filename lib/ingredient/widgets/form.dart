@@ -22,11 +22,11 @@ class IngredientForm extends StatefulWidget {
 
 class _IngredientFormState extends State<IngredientForm> {
   final _formKey = GlobalKey<FormState>();
-
   late IngredientItem _item;
 
   @override
   void initState() {
+    super.initState();
     _item = widget.item ?? IngredientItem();
   }
 
