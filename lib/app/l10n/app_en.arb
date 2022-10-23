@@ -4,11 +4,16 @@
   "ingredientHomePageCreateTooltip": "Create ingredient",
 
   "ingredientCreatePageTitle": "Create ingredient",
-  "ingredientFormNameInvalid": "Please enter the ingredients name",
-  "ingredientFormName": "Name",
 
   "ingredientEditPageTitle": "Edit ingredient",
   "ingredientEditPageSaveTooltip": "Save ingredient",
+
+  "ingredientFormNameInvalid": "Please enter the ingredients name",
+  "ingredientFormName": "Name",
+  "ingredientFormCalories": "Calories",
+  "ingredientFormCarbs": "Carbs",
+  "ingredientFormProtein": "Protein",
+  "ingredientFormFat": "Fat",
 
   "ingredientListNoItems": "No ingredients to display.",
 
