@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 final appRouteGroups = <_AppRouteGroup>[
   _AppRouteGroup(
-    icon: Icons.local_dining,
+    icon: Icons.apple,
     routerDelegate: ingredientRouterDelegate,
     label: (context) => appI10N(context).ingredientHomePageTabLabel,
   ),

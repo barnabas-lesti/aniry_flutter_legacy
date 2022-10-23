@@ -4,27 +4,33 @@ import 'package:aniry/app/models/serving.dart';
 import 'package:aniry/app/models/unit.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:uuid/uuid.dart';
 
 part 'item.g.dart';
 
 @JsonSerializable()
 class IngredientItem {
-  final String id;
-  String name;
-  double calories;
-  AppNutrients nutrients;
-  List<AppServing> servings;
-  String? description;
+  late String id;
+  late String name;
+  late double calories;
+  late AppNutrients nutrients;
+  late List<AppServing> servings;
+  late String description;
 
   IngredientItem({
-    required this.id,
-    required this.name,
-    required this.calories,
-    required this.nutrients,
-    required this.servings,
-    this.description,
-  });
+    id,
+    name,
+    calories,
+    nutrients,
+    servings,
+    description,
+  }) {
+    this.id = id ?? '';
+    this.name = name ?? '';
+    this.calories = calories ?? 0;
+    this.nutrients = nutrients ?? AppNutrients();
+    this.servings = servings ?? [AppServing(unit: defaultServingUnit, value: defaultServingValue)];
+    this.description = description ?? '';
+  }
 
   static String defaultServingUnit = AppUnit.g;
   static double defaultServingValue = 100;
@@ -34,8 +40,6 @@ class IngredientItem {
   ];
   static IconData icon = Icons.apple;
   static Color color = Colors.green[400]!;
-
-  static String createId() => const Uuid().v4().toString();
 
   AppServing get serving => servings[0];
 

@@ -29,7 +29,7 @@ class IngredientHomePage extends StatelessWidget {
         Consumer<IngredientProvider>(
           builder: (context, ingredientProvider, widget) => IngredientList(
             items: ingredientProvider.items,
-            onTap: (id) => Beamer.of(context).beamToNamed('/ingredient/edit/:id'),
+            onTap: (id) => Beamer.of(context).beamToNamed('/ingredient/edit/$id'),
           ),
         ),
       ],

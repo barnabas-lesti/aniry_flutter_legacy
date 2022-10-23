@@ -1,6 +1,7 @@
 import 'package:aniry/app/storage.dart';
 import 'package:aniry/ingredient/models/item.dart';
 import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
 
 class IngredientProvider extends ChangeNotifier {
   IngredientProvider() {
@@ -17,8 +18,17 @@ class IngredientProvider extends ChangeNotifier {
     if (itemsLoaded) _storeItems();
   }
 
-  void create(IngredientItem item) {
+  void createItem(IngredientItem item) {
+    item.id = const Uuid().v4();
     items = [...items, item];
+  }
+
+  void updateItem(IngredientItem update) {
+    items = [...items.where((item) => item.id != update.id).toList(), update];
+  }
+
+  IngredientItem getItem(String id) {
+    return items.where((item) => item.id == id).first;
   }
 
   void deleteItem(String id) {

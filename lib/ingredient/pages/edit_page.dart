@@ -21,9 +21,14 @@ class IngredientEditPage extends StatelessWidget {
   final controller = AppItemFormController<IngredientItem>();
 
   void _buildOnSave(BuildContext context) {
-    final ingredient = controller.getItem();
-    if (ingredient != null) {
-      Provider.of<IngredientProvider>(context, listen: false).create(ingredient);
+    final item = controller.getItem();
+    if (item != null) {
+      final ingredientProvider = Provider.of<IngredientProvider>(context, listen: false);
+      if (item.id.isEmpty) {
+        ingredientProvider.createItem(item);
+      } else {
+        ingredientProvider.updateItem(item);
+      }
       Beamer.of(context).popToNamed('/ingredient');
     }
   }
@@ -40,7 +45,11 @@ class IngredientEditPage extends StatelessWidget {
         ),
       ],
       children: [
-        IngredientForm(controller: controller),
+        Consumer<IngredientProvider>(
+            builder: (context, ingredientProvider, widget) => IngredientForm(
+                  controller: controller,
+                  item: (id != null) ? ingredientProvider.getItem(id!) : null,
+                )),
       ],
     );
   }
