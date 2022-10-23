@@ -1,8 +1,8 @@
 import 'package:aniry/app/i10n.dart';
 import 'package:aniry/app/models/feature_router.dart';
 import 'package:aniry/ingredient/models/item.dart';
-import 'package:aniry/ingredient/pages/edit_page.dart';
-import 'package:aniry/ingredient/pages/home_page.dart';
+import 'package:aniry/ingredient/pages/edit.dart';
+import 'package:aniry/ingredient/pages/home.dart';
 import 'package:beamer/beamer.dart';
 
 final ingredientRouter = AppFeatureRouter(
@@ -14,12 +14,12 @@ final ingredientRouter = AppFeatureRouter(
       '/ingredient': (context, state, data) {
         return BeamPage(
           type: BeamPageType.noTransition,
-          child: IngredientHomePage(title: AppI10N.of(context).ingredientHomePageTitle),
+          child: IngredientHome(title: AppI10N.of(context).ingredientHomePageTitle),
         );
       },
       '/ingredient/create': (context, state, data) {
         return BeamPage(
-          child: IngredientEditPage(
+          child: IngredientEdit(
             title: AppI10N.of(context).ingredientCreatePageTitle,
           ),
         );
@@ -27,7 +27,7 @@ final ingredientRouter = AppFeatureRouter(
       '/ingredient/edit/:id': (context, state, data) {
         return BeamPage(
           popToNamed: '/ingredient',
-          child: IngredientEditPage(
+          child: IngredientEdit(
             title: AppI10N.of(context).ingredientEditPageTitle,
             id: state.pathParameters['id']!,
           ),

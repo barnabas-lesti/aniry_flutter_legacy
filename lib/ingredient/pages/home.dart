@@ -6,10 +6,10 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class IngredientHomePage extends StatelessWidget {
+class IngredientHome extends StatelessWidget {
   final String title;
 
-  const IngredientHomePage({
+  const IngredientHome({
     required this.title,
     super.key,
   });

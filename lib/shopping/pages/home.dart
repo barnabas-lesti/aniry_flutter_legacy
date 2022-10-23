@@ -7,19 +7,19 @@ import 'package:aniry/shopping/widgets/list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ShoppingHomePage extends StatefulWidget {
+class ShoppingHome extends StatefulWidget {
   final String title;
 
-  const ShoppingHomePage({
+  const ShoppingHome({
     required this.title,
     super.key,
   });
 
   @override
-  State<ShoppingHomePage> createState() => _ShoppingHomePageState();
+  State<ShoppingHome> createState() => _ShoppingHomeState();
 }
 
-class _ShoppingHomePageState extends State<ShoppingHomePage> {
+class _ShoppingHomeState extends State<ShoppingHome> {
   final FocusNode inputFocusNode = FocusNode();
 
   void Function() _buildOnDelete(BuildContext context, ShoppingProvider shoppingProvider) => () {

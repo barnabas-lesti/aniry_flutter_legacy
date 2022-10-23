@@ -1,5 +1,5 @@
 import 'package:aniry/app/i10n.dart';
-import 'package:aniry/shopping/pages/home_page.dart';
+import 'package:aniry/shopping/pages/home.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:aniry/app/models/feature_router.dart';
@@ -13,7 +13,7 @@ final shoppingRouter = AppFeatureRouter(
       '/shopping': (context, state, data) {
         return BeamPage(
           type: BeamPageType.noTransition,
-          child: ShoppingHomePage(
+          child: ShoppingHome(
             title: AppI10N.of(context).shoppingHomePageTitle,
           ),
         );

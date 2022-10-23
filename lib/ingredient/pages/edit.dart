@@ -7,11 +7,11 @@ import 'package:aniry/ingredient/widgets/form.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 
-class IngredientEditPage extends StatelessWidget {
+class IngredientEdit extends StatelessWidget {
   final String title;
   final String? id;
 
-  IngredientEditPage({
+  IngredientEdit({
     required this.title,
     this.id,
     super.key,
