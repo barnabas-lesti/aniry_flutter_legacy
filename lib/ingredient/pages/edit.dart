@@ -1,5 +1,6 @@
 import 'package:aniry/app/i10n.dart';
 import 'package:aniry/app/item_form_controller.dart';
+import 'package:aniry/app/widgets/confirmation_dialog.dart';
 import 'package:aniry/app/widgets/page.dart';
 import 'package:aniry/ingredient/models/item.dart';
 import 'package:aniry/ingredient/provider.dart';
@@ -32,6 +33,23 @@ class IngredientEdit extends StatelessWidget {
     }
   }
 
+  void Function() _buildOnDelete(BuildContext context, IngredientProvider ingredientProvider) => () {
+        showAppConfirmationDialog(
+          context: context,
+          text: AppI10N.of(context).ingredientEditDeleteText,
+          actions: [
+            AppConfirmationDialogAction(
+              label: AppI10N.of(context).ingredientEditDeleteButton,
+              color: Colors.red[500],
+              onPressed: () {
+                ingredientProvider.deleteItem(id!);
+                Beamer.of(context).popToNamed('/ingredient');
+              },
+            ),
+          ],
+        );
+      };
+
   @override
   Widget build(context) {
     final ingredientProvider = IngredientProvider.of(context);
@@ -40,9 +58,15 @@ class IngredientEdit extends StatelessWidget {
       actions: [
         AppPageAction(
           icon: Icons.done,
-          tooltip: AppI10N.of(context).ingredientEditPageSaveTooltip,
+          tooltip: AppI10N.of(context).ingredientEditSaveTooltip,
           onPressed: () => _buildOnSave(context),
         ),
+        if (id != null)
+          AppPageAction(
+            icon: Icons.delete,
+            tooltip: AppI10N.of(context).ingredientEditDeleteTooltip,
+            onPressed: _buildOnDelete(context, ingredientProvider),
+          )
       ],
       children: [
         IngredientForm(

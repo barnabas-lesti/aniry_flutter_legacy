@@ -6,7 +6,7 @@ import 'package:aniry/app/models/feature_router.dart';
 
 final shoppingRouter = AppFeatureRouter(
   icon: Icons.playlist_add_check,
-  label: (context) => AppI10N.of(context).shoppingHomePageTabLabel,
+  label: (context) => AppI10N.of(context).shoppingHomeTab,
   routerDelegate: BeamerDelegate(
     initialPath: '/shopping',
     locationBuilder: RoutesLocationBuilder(routes: {
@@ -14,7 +14,7 @@ final shoppingRouter = AppFeatureRouter(
         return BeamPage(
           type: BeamPageType.noTransition,
           child: ShoppingHome(
-            title: AppI10N.of(context).shoppingHomePageTitle,
+            title: AppI10N.of(context).shoppingHomeTitle,
           ),
         );
       },

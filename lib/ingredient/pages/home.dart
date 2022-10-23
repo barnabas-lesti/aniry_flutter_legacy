@@ -21,7 +21,7 @@ class IngredientHome extends StatelessWidget {
       actions: [
         AppPageAction(
           icon: Icons.add,
-          tooltip: AppI10N.of(context).ingredientHomePageCreateTooltip,
+          tooltip: AppI10N.of(context).ingredientHomeCreateTooltip,
           onPressed: () => Beamer.of(context).beamToNamed('/ingredient/create'),
         ),
       ],

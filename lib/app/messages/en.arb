@@ -1,15 +1,19 @@
 {
   "@@locale": "en",
 
-  "ingredientTabLabel": "Ingredients",
+  "ingredientTab": "Ingredients",
 
-  "ingredientHomePageTitle": "Ingredients",
-  "ingredientHomePageCreateTooltip": "Create ingredient",
+  "ingredientHomeTitle": "Ingredients",
+  "ingredientHomeCreateTooltip": "Create ingredient",
+  
 
-  "ingredientCreatePageTitle": "Create ingredient",
+  "ingredientCreateTitle": "Create ingredient",
 
-  "ingredientEditPageTitle": "Edit ingredient",
-  "ingredientEditPageSaveTooltip": "Save ingredient",
+  "ingredientEditTitle": "Edit ingredient",
+  "ingredientEditSaveTooltip": "Save ingredient",
+  "ingredientEditDeleteTooltip": "Delete ingredient",
+  "ingredientEditDeleteText": "Are you sure you want to delete this ingredient?",
+  "ingredientEditDeleteButton": "Delete",
 
   "ingredientFormNameInvalid": "Please enter the name of the ingredient",
   "ingredientFormName": "Name",
@@ -22,13 +26,13 @@
 
   "ingredientListNoItems": "No ingredients to display.",
 
-  "shoppingHomePageDeleteAllText":       "Delete All items?",
-  "shoppingHomePageDeleteAllButton":     "All",
-  "shoppingHomePageDeleteCheckedText":   "Delete only the Checked items or All items?",
-  "shoppingHomePageDeleteCheckedButton": "Checked",
-  "shoppingHomePageDeleteTooltip":       "Clear list", 
-  "shoppingHomePageTabLabel":            "Shopping",
-  "shoppingHomePageTitle":               "Shopping list",
+  "shoppingHomeDeleteAllText":       "Delete All items?",
+  "shoppingHomeDeleteAllButton":     "All",
+  "shoppingHomeDeleteCheckedText":   "Delete only the Checked items or All items?",
+  "shoppingHomeDeleteCheckedButton": "Checked",
+  "shoppingHomeDeleteTooltip":       "Clear list", 
+  "shoppingHomeTab":            "Shopping",
+  "shoppingHomeTitle":               "Shopping list",
   
   "shoppingListNoItems": "There are no items in your list, add some using the input above.",
 

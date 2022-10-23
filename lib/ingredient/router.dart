@@ -7,20 +7,20 @@ import 'package:beamer/beamer.dart';
 
 final ingredientRouter = AppFeatureRouter(
   icon: IngredientItem.icon,
-  label: (context) => AppI10N.of(context).ingredientTabLabel,
+  label: (context) => AppI10N.of(context).ingredientTab,
   routerDelegate: BeamerDelegate(
     initialPath: '/ingredient',
     locationBuilder: RoutesLocationBuilder(routes: {
       '/ingredient': (context, state, data) {
         return BeamPage(
           type: BeamPageType.noTransition,
-          child: IngredientHome(title: AppI10N.of(context).ingredientHomePageTitle),
+          child: IngredientHome(title: AppI10N.of(context).ingredientHomeTitle),
         );
       },
       '/ingredient/create': (context, state, data) {
         return BeamPage(
           child: IngredientEdit(
-            title: AppI10N.of(context).ingredientCreatePageTitle,
+            title: AppI10N.of(context).ingredientCreateTitle,
           ),
         );
       },
@@ -28,7 +28,7 @@ final ingredientRouter = AppFeatureRouter(
         return BeamPage(
           popToNamed: '/ingredient',
           child: IngredientEdit(
-            title: AppI10N.of(context).ingredientEditPageTitle,
+            title: AppI10N.of(context).ingredientEditTitle,
             id: state.pathParameters['id']!,
           ),
         );
