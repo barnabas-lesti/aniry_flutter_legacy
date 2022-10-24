@@ -13,9 +13,9 @@ class AppNutrients {
 
   static AppNutrients fromJson(Map<String, dynamic> json) {
     return AppNutrients(
-      carbs: (json['carbs'] as num?)?.toDouble() ?? 0,
-      protein: (json['protein'] as num?)?.toDouble() ?? 0,
-      fat: (json['fat'] as num?)?.toDouble() ?? 0,
+      carbs: (json['carbs'] as num? ?? 0).toDouble(),
+      protein: (json['protein'] as num? ?? 0).toDouble(),
+      fat: (json['fat'] as num? ?? 0).toDouble(),
     );
   }
 

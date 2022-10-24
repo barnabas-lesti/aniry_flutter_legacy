@@ -40,10 +40,10 @@ class IngredientItem {
     return IngredientItem(
       id: json['id'] as String,
       name: json['name'] as String,
-      calories: (json['calories'] as num).toDouble(),
+      calories: (json['calories'] as num? ?? 0).toDouble(),
       nutrients: AppNutrients.fromJson(json['nutrients'] as Map<String, dynamic>),
       servings: (json['servings'] as List<dynamic>).map((e) => AppServing.fromJson(e as Map<String, dynamic>)).toList(),
-      description: json['description'] as String,
+      description: json['description'] as String? ?? '',
     );
   }
 

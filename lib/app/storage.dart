@@ -43,7 +43,8 @@ class AppStorage {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       File file = File(result.files.single.path!);
-      return AppExportedData.fromJson(json.decode(await file.readAsString()));
+      final data = json.decode(await file.readAsString());
+      return AppExportedData.fromJson(data);
     }
     return null;
   }

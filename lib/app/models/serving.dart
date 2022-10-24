@@ -13,7 +13,7 @@ class AppServing {
   static AppServing fromJson(Map<String, dynamic> json) {
     return AppServing(
       unit: json['unit'] as String? ?? AppUnit.g,
-      value: (json['value'] as num?)?.toDouble() ?? 0,
+      value: (json['value'] as num? ?? 0).toDouble(),
     );
   }
 
