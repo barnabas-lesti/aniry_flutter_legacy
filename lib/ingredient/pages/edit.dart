@@ -28,11 +28,10 @@ class IngredientEdit extends StatelessWidget {
       if (item.id.isEmpty) {
         ingredientProvider.createItem(item);
         ScaffoldMessenger.of(context).showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditCreated));
+        Beamer.of(context).popToNamed('/ingredient');
       } else {
-        ingredientProvider.updateItem(item);
-        ScaffoldMessenger.of(context).showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditUpdated));
+        _buildOnUpdate(context, ingredientProvider)(item);
       }
-      Beamer.of(context).popToNamed('/ingredient');
     }
   }
 
@@ -48,6 +47,26 @@ class IngredientEdit extends StatelessWidget {
                 ingredientProvider.deleteItem(id!);
                 ScaffoldMessenger.of(context)
                     .showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditDeleted));
+                Beamer.of(context).popToNamed('/ingredient');
+              },
+            ),
+          ],
+        );
+      };
+
+  void Function(IngredientItem) _buildOnUpdate(BuildContext context, IngredientProvider ingredientProvider) =>
+      (IngredientItem item) {
+        showAppConfirmationDialog(
+          context: context,
+          text: AppI10N.of(context).ingredientEditUpdateText,
+          actions: [
+            AppConfirmationDialogAction(
+              label: AppI10N.of(context).ingredientEditUpdateButton,
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                ingredientProvider.updateItem(item);
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditUpdated));
                 Beamer.of(context).popToNamed('/ingredient');
               },
             ),

@@ -13,6 +13,8 @@
   "ingredientEditDeleteTooltip": "Delete ingredient",
   "ingredientEditDeleteText": "Are you sure you want to delete this ingredient?",
   "ingredientEditDeleteButton": "Delete",
+  "ingredientEditUpdateText": "Are you sure you want to update this ingredient?",
+  "ingredientEditUpdateButton": "Update",
   "ingredientEditCreated": "Ingredient successfully created!",
   "ingredientEditUpdated": "Ingredient successfully updated!",
   "ingredientEditDeleted": "Ingredient successfully deleted!",
