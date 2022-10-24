@@ -1,4 +1,5 @@
 import 'package:aniry/app/storage.dart';
+import 'package:aniry/app/utils.dart';
 import 'package:aniry/ingredient/models/item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,14 +10,25 @@ class IngredientProvider extends ChangeNotifier {
     lazyLoadItems();
   }
 
-  bool itemsLoaded = false;
+  bool _itemsLoaded = false;
   List<IngredientItem> _items = [];
+  String _ingredientHomeSearchString = '';
+
   List<IngredientItem> get items => _items;
+  String get ingredientHomeSearchString => _ingredientHomeSearchString;
+  List<IngredientItem> get ingredientHomeItems {
+    return items.where((item) => AppUtils.isStringInString(item.name, ingredientHomeSearchString)).toList();
+  }
 
   set items(List<IngredientItem> items) {
     _items = items;
     notifyListeners();
-    if (itemsLoaded) _storeItems();
+    if (_itemsLoaded) _storeItems();
+  }
+
+  set ingredientHomeSearchString(String searchString) {
+    _ingredientHomeSearchString = searchString;
+    notifyListeners();
   }
 
   IngredientItem getItem(String id) {
@@ -41,10 +53,10 @@ class IngredientProvider extends ChangeNotifier {
   }
 
   Future<List<IngredientItem>> lazyLoadItems() async {
-    if (!itemsLoaded) {
+    if (!_itemsLoaded) {
       final data = await AppStorage.loadPartitionData(AppPartition.ingredient) as List<dynamic>;
       items = data.map((raw) => IngredientItem.fromJson(raw)).toList();
-      itemsLoaded = true;
+      _itemsLoaded = true;
     }
     return items;
   }
