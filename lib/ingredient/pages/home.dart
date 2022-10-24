@@ -25,11 +25,15 @@ class IngredientHome extends StatelessWidget {
           onPressed: () => Beamer.of(context).beamToNamed('/ingredient/create'),
         ),
       ],
-      child: Consumer<IngredientProvider>(
-        builder: (context, ingredientProvider, widget) => IngredientList(
-          items: ingredientProvider.items,
-          onTap: (id) => Beamer.of(context).beamToNamed('/ingredient/edit/$id'),
-        ),
+      child: Column(
+        children: [
+          Consumer<IngredientProvider>(
+            builder: (context, ingredientProvider, widget) => IngredientList(
+              items: ingredientProvider.items,
+              onTap: (id) => Beamer.of(context).beamToNamed('/ingredient/edit/$id'),
+            ),
+          ),
+        ],
       ),
     );
   }
