@@ -1,7 +1,11 @@
 import 'package:aniry/app/i10n.dart';
+import 'package:aniry/app/models/export_data.dart';
+import 'package:aniry/app/storage.dart';
 import 'package:aniry/app/widgets/button.dart';
 import 'package:aniry/app/widgets/page_scaffold.dart';
 import 'package:aniry/app/widgets/title.dart';
+import 'package:aniry/ingredient/provider.dart';
+import 'package:aniry/shopping/provider.dart';
 import 'package:flutter/material.dart';
 
 class SettingsHome extends StatelessWidget {
@@ -15,7 +19,13 @@ class SettingsHome extends StatelessWidget {
   final _space = AppPageScaffold.gap / 2;
   final _spacePadding = const EdgeInsets.only(bottom: AppPageScaffold.gap / 2);
 
-  void _onDataExportPress() {}
+  void _onDataExportPress(BuildContext context) async {
+    final ingredientProvider = IngredientProvider.of(context);
+    final shoppingProvider = ShoppingProvider.of(context);
+    final ingredients = await ingredientProvider.lazyLoadItems();
+    final shoppingItems = await shoppingProvider.lazyLoadItems();
+    await appStorage.exportData('export', AppExportData(shoppingItems: shoppingItems, ingredients: ingredients));
+  }
 
   void _onDataImportPress() {}
 
@@ -41,7 +51,7 @@ class SettingsHome extends StatelessWidget {
                 Expanded(
                   child: AppButton(
                     label: AppI10N.of(context).settingsHomeDataExportButton,
-                    onPressed: _onDataExportPress,
+                    onPressed: () => _onDataExportPress(context),
                   ),
                 ),
                 SizedBox(width: _space),

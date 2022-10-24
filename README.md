@@ -36,7 +36,7 @@ flutter run
 flutter run --release
 
 # Generate JSON serializable models (*.g.dart files)
-flutter pub run build_runner build
+flutter pub run build_runner build --delete-conflicting-outputs
 
 # Generate localized message files
 flutter gen-l10n

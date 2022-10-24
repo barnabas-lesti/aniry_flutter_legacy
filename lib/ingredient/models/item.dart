@@ -56,23 +56,4 @@ class IngredientItem {
         icon: icon,
         iconColor: color,
       );
-
-  @override
-  bool operator ==(Object other) {
-    if (other is IngredientItem) {
-      return id == other.id &&
-          name == other.name &&
-          calories == other.calories &&
-          nutrients.carbs == other.nutrients.carbs &&
-          nutrients.protein == other.nutrients.protein &&
-          nutrients.fat == other.nutrients.fat &&
-          serving.unit == other.serving.unit &&
-          serving.value == other.serving.value;
-    }
-
-    return false;
-  }
-
-  @override
-  int get hashCode => id.hashCode;
 }
