@@ -3,11 +3,7 @@ import 'package:aniry/app/models/nutrients.dart';
 import 'package:aniry/app/models/serving.dart';
 import 'package:aniry/app/models/unit.dart';
 import 'package:flutter/material.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'item.g.dart';
-
-@JsonSerializable()
 class IngredientItem {
   late String id;
   late String name;
@@ -34,26 +30,43 @@ class IngredientItem {
 
   static const String defaultServingUnit = AppUnit.g;
   static const double defaultServingValue = 100;
-  static const List<String> primaryServingUnits = [
-    AppUnit.g,
-    AppUnit.ml,
-  ];
+  static const List<String> primaryServingUnits = [AppUnit.g, AppUnit.ml];
   static const IconData icon = Icons.apple;
   static Color color = Colors.green[400]!;
 
   AppServing get serving => servings[0];
 
-  factory IngredientItem.fromJson(Map<String, dynamic> json) => _$IngredientItemFromJson(json);
+  static IngredientItem fromJson(Map<String, dynamic> json) {
+    return IngredientItem(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      calories: (json['calories'] as num).toDouble(),
+      nutrients: AppNutrients.fromJson(json['nutrients'] as Map<String, dynamic>),
+      servings: (json['servings'] as List<dynamic>).map((e) => AppServing.fromJson(e as Map<String, dynamic>)).toList(),
+      description: json['description'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$IngredientItemToJson(this);
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'calories': calories,
+      'nutrients': nutrients,
+      'servings': servings,
+      'description': description,
+    };
+  }
 
-  AppListItem toListItem() => AppListItem(
-        id: id,
-        textLeftPrimary: name,
-        textLeftSecondary: nutrients.toString(),
-        textRightPrimary: serving.toString(),
-        textRightSecondary: '${calories.toStringAsFixed(0)}${AppUnit.kcal}',
-        icon: icon,
-        iconColor: color,
-      );
+  AppListItem toListItem() {
+    return AppListItem(
+      id: id,
+      textLeftPrimary: name,
+      textLeftSecondary: nutrients.toString(),
+      textRightPrimary: serving.toString(),
+      textRightSecondary: '${calories.toStringAsFixed(0)}${AppUnit.kcal}',
+      icon: icon,
+      iconColor: color,
+    );
+  }
 }

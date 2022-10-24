@@ -1,13 +1,9 @@
 import 'package:aniry/app/models/list_item.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'item.g.dart';
-
-@JsonSerializable()
 class ShoppingItem {
-  final String id;
-  final String name;
-  bool checked;
+  late final String id;
+  late final String name;
+  late bool checked;
 
   ShoppingItem({
     required this.id,
@@ -15,9 +11,26 @@ class ShoppingItem {
     this.checked = false,
   });
 
-  factory ShoppingItem.fromJson(Map<String, dynamic> json) => _$ShoppingItemFromJson(json);
+  static ShoppingItem fromJson(Map<String, dynamic> json) {
+    return ShoppingItem(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      checked: json['checked'] as bool? ?? false,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ShoppingItemToJson(this);
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'checked': checked,
+    };
+  }
 
-  AppListItem toListItem() => AppListItem(id: id, textLeftPrimary: name);
+  AppListItem toListItem() {
+    return AppListItem(
+      id: id,
+      textLeftPrimary: name,
+    );
+  }
 }

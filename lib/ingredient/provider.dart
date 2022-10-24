@@ -36,20 +36,20 @@ class IngredientProvider extends ChangeNotifier {
     items = items.where((item) => item.id != id).toList();
   }
 
+  static IngredientProvider of(BuildContext context) {
+    return Provider.of(context, listen: false);
+  }
+
   Future<List<IngredientItem>> lazyLoadItems() async {
     if (!itemsLoaded) {
-      final data = await appStorage.fetchPartitionData(AppPartition.ingredient) as List<dynamic>;
+      final data = await AppStorage.loadPartitionData(AppPartition.ingredient) as List<dynamic>;
       items = data.map((raw) => IngredientItem.fromJson(raw)).toList();
       itemsLoaded = true;
     }
     return items;
   }
 
-  static IngredientProvider of(BuildContext context) {
-    return Provider.of(context, listen: false);
-  }
-
   Future<void> _storeItems() async {
-    appStorage.storePartitionData(AppPartition.ingredient, items);
+    AppStorage.storePartitionData(AppPartition.ingredient, items);
   }
 }
