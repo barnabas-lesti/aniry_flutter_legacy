@@ -74,7 +74,7 @@ class _ShoppingHomeState extends State<ShoppingHome> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: AppPageScaffold.gutter),
+            padding: const EdgeInsets.only(bottom: AppPageScaffold.gap),
             child: ShoppingInput(
               focusNode: inputFocusNode,
               onCreate: _buildOnCreate(context),

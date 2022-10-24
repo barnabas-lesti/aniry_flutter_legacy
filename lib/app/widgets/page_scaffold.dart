@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppPageScaffold extends StatelessWidget {
-  static const double gutter = 16;
+  static const double gap = 16;
 
   final String title;
   final Widget child;
@@ -22,7 +22,7 @@ class AppPageScaffold extends StatelessWidget {
         actions: actions,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: gutter, right: gutter, top: gutter),
+        padding: const EdgeInsets.only(left: gap, right: gap, top: gap),
         child: child,
       ),
     );
