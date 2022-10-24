@@ -6,7 +6,6 @@
   "ingredientHomeTitle": "Ingredients",
   "ingredientHomeCreateTooltip": "Create ingredient",
   
-
   "ingredientCreateTitle": "Create ingredient",
 
   "ingredientEditTitle": "Edit ingredient",
@@ -26,6 +25,8 @@
   "ingredientFormCarbs": "Carbs",
   "ingredientFormProtein": "Protein",
   "ingredientFormFat": "Fat",
+  "ingredientFormPrimaryDetails": "Primary details",
+  "ingredientFormNutrients": "Nutrients",
 
   "ingredientListNoItems": "No ingredients to display.",
 

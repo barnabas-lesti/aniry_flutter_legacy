@@ -2,7 +2,7 @@ import 'package:aniry/app/i10n.dart';
 import 'package:aniry/app/item_form_controller.dart';
 import 'package:aniry/app/widgets/confirmation_dialog.dart';
 import 'package:aniry/app/widgets/notification.dart';
-import 'package:aniry/app/widgets/page.dart';
+import 'package:aniry/app/widgets/page_scaffold.dart';
 import 'package:aniry/ingredient/models/item.dart';
 import 'package:aniry/ingredient/provider.dart';
 import 'package:aniry/ingredient/widgets/form.dart';
@@ -73,12 +73,12 @@ class IngredientEdit extends StatelessWidget {
             onPressed: _buildOnDelete(context, ingredientProvider),
           )
       ],
-      children: [
-        IngredientForm(
+      child: SingleChildScrollView(
+        child: IngredientForm(
           controller: _formController,
           item: (id != null) ? ingredientProvider.getItem(id!) : null,
         ),
-      ],
+      ),
     );
   }
 }

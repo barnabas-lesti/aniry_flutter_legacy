@@ -1,5 +1,5 @@
 import 'package:aniry/app/widgets/confirmation_dialog.dart';
-import 'package:aniry/app/widgets/page.dart';
+import 'package:aniry/app/widgets/page_scaffold.dart';
 import 'package:aniry/app/i10n.dart';
 import 'package:aniry/shopping/widgets/input.dart';
 import 'package:aniry/shopping/provider.dart';
@@ -71,24 +71,26 @@ class _ShoppingHomeState extends State<ShoppingHome> {
           ),
         ),
       ],
-      children: [
-        Container(
-          padding: const EdgeInsets.only(bottom: AppPageScaffold.gutter),
-          child: ShoppingInput(
-            focusNode: inputFocusNode,
-            onCreate: _buildOnCreate(context),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppPageScaffold.gutter),
+            child: ShoppingInput(
+              focusNode: inputFocusNode,
+              onCreate: _buildOnCreate(context),
+            ),
           ),
-        ),
-        Consumer<ShoppingProvider>(
-          builder: (context, shoppingProvider, widget) => ShoppingList(
-            items: shoppingProvider.items,
-            onDelete: shoppingProvider.deleteItem,
-            onTap: _buildOnTap(shoppingProvider),
-            onReorder: shoppingProvider.reorderItems,
-            checkedItems: shoppingProvider.checkedItems,
+          Consumer<ShoppingProvider>(
+            builder: (context, shoppingProvider, widget) => ShoppingList(
+              items: shoppingProvider.items,
+              onDelete: shoppingProvider.deleteItem,
+              onTap: _buildOnTap(shoppingProvider),
+              onReorder: shoppingProvider.reorderItems,
+              checkedItems: shoppingProvider.checkedItems,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
