@@ -1,13 +1,12 @@
 import 'package:aniry/app/storage.dart';
 import 'package:aniry/ingredient/models/item.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class IngredientProvider extends ChangeNotifier {
   IngredientProvider() {
-    _loadItems();
+    lazyLoadItems();
   }
 
   bool itemsLoaded = false;
@@ -41,13 +40,16 @@ class IngredientProvider extends ChangeNotifier {
     return Provider.of(context, listen: false);
   }
 
-  Future<void> _loadItems() async {
-    final data = await appStorage.fetchData(AppPartition.ingredient) as List<dynamic>;
-    items = data.map((raw) => IngredientItem.fromJson(raw)).toList();
-    itemsLoaded = true;
+  Future<List<IngredientItem>> lazyLoadItems() async {
+    if (!itemsLoaded) {
+      final data = await AppStorage.loadPartitionData(AppPartition.ingredient) as List<dynamic>;
+      items = data.map((raw) => IngredientItem.fromJson(raw)).toList();
+      itemsLoaded = true;
+    }
+    return items;
   }
 
   Future<void> _storeItems() async {
-    appStorage.storeData(AppPartition.ingredient, items);
+    AppStorage.storePartitionData(AppPartition.ingredient, items);
   }
 }

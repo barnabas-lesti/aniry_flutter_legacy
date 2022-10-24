@@ -1,11 +1,12 @@
 import 'package:aniry/app/storage.dart';
 import 'package:aniry/shopping/models/item.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class ShoppingProvider extends ChangeNotifier {
   ShoppingProvider() {
-    _loadItems();
+    lazyLoadItems();
   }
 
   bool itemsLoaded = false;
@@ -45,13 +46,20 @@ class ShoppingProvider extends ChangeNotifier {
     items = [];
   }
 
-  Future<void> _loadItems() async {
-    final data = await appStorage.fetchData(AppPartition.shopping) as List<dynamic>;
-    items = data.map((raw) => ShoppingItem.fromJson(raw)).toList();
-    itemsLoaded = true;
+  static ShoppingProvider of(BuildContext context) {
+    return Provider.of(context, listen: false);
+  }
+
+  Future<List<ShoppingItem>> lazyLoadItems() async {
+    if (!itemsLoaded) {
+      final data = await AppStorage.loadPartitionData(AppPartition.shopping) as List<dynamic>;
+      items = data.map((raw) => ShoppingItem.fromJson(raw)).toList();
+      itemsLoaded = true;
+    }
+    return items;
   }
 
   Future<void> _storeItems() async {
-    appStorage.storeData(AppPartition.shopping, items);
+    AppStorage.storePartitionData(AppPartition.shopping, items);
   }
 }

@@ -37,10 +37,21 @@
   "shoppingHomeDeleteCheckedText":   "Delete only the Checked items or All items?",
   "shoppingHomeDeleteCheckedButton": "Checked",
   "shoppingHomeDeleteTooltip":       "Clear list", 
-  "shoppingHomeTab":            "Shopping",
+  "shoppingTab":            "Shopping",
   "shoppingHomeTitle":               "Shopping list",
   
   "shoppingListNoItems": "There are no items in your list, add some using the input above.",
 
-  "shoppingInputLabel": "Add new item" 
+  "shoppingInputLabel": "Add new item",
+
+  "settingsTab": "Settings",
+  "settingsHomeTitle": "Settings",
+  "settingsHomeDataTitle": "Data management",
+  "settingsHomeDataText": "Here you can export your local data to a safe place, or import previously exported data.",
+  "settingsHomeDataExportButton": "Export data",
+  "settingsHomeDataExportSuccess": "Successfully exported app data.",
+  "settingsHomeDataImportButton": "Import data",
+  "settingsHomeDataImportSuccess": "Successfully imported app data.",
+  "settingsHomeDataImportConfirmationText": "Are you sure you want to overwrite you app data with the imported data?",
+  "settingsHomeDataImportConfirmationButton": "Confirm"
 }
