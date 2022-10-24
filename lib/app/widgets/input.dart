@@ -13,9 +13,9 @@ class AppInput extends StatelessWidget {
   final TextAlign? textAlign;
   final double? paddingBottom;
   final TextEditingController? controller;
+  final FocusNode? focusNode;
 
   const AppInput({
-    this.controller,
     this.validator,
     this.initialValue,
     this.label,
@@ -26,12 +26,15 @@ class AppInput extends StatelessWidget {
     this.textAlign,
     this.paddingBottom,
     this.onChanged,
+    this.controller,
+    this.focusNode,
     super.key,
   });
 
   @override
   Widget build(context) {
     final input = TextFormField(
+      focusNode: focusNode,
       controller: controller,
       onChanged: onChanged,
       textAlign: textAlign ?? TextAlign.start,

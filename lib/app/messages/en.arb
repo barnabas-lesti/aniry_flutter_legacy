@@ -46,6 +46,7 @@
 
   "settingsTab": "Settings",
   "settingsHomeTitle": "Settings",
+  "ingredientHomeSearchLabel": "Search for ingredients",
   "settingsHomeDataTitle": "Data management",
   "settingsHomeDataText": "Here you can export your local data to a safe place, or import previously exported data.",
   "settingsHomeDataExportButton": "Export data",

@@ -1,5 +1,6 @@
 import 'package:aniry/app/i10n.dart';
 import 'package:aniry/app/widgets/page_scaffold.dart';
+import 'package:aniry/app/widgets/search_input.dart';
 import 'package:aniry/ingredient/provider.dart';
 import 'package:aniry/ingredient/widgets/list.dart';
 import 'package:beamer/beamer.dart';
@@ -9,13 +10,27 @@ import 'package:provider/provider.dart';
 class IngredientHome extends StatelessWidget {
   final String title;
 
-  const IngredientHome({
+  IngredientHome({
     required this.title,
     super.key,
   });
 
+  final FocusNode _inputFocusNode = FocusNode();
+
   @override
   Widget build(context) {
+    void onSearch(String searchString) {
+      IngredientProvider.of(context).ingredientHomeSearchString = searchString;
+    }
+
+    void onListTileTap(String id) {
+      if (_inputFocusNode.hasFocus) {
+        _inputFocusNode.unfocus();
+      } else {
+        Beamer.of(context).beamToNamed('/ingredient/edit/$id');
+      }
+    }
+
     return AppPageScaffold(
       title: title,
       actions: [
@@ -27,10 +42,18 @@ class IngredientHome extends StatelessWidget {
       ],
       child: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: AppSearchInput(
+              label: AppI10N.of(context).ingredientHomeSearchLabel,
+              onSearch: onSearch,
+              focusNode: _inputFocusNode,
+            ),
+          ),
           Consumer<IngredientProvider>(
             builder: (context, ingredientProvider, widget) => IngredientList(
-              items: ingredientProvider.items,
-              onTap: (id) => Beamer.of(context).beamToNamed('/ingredient/edit/$id'),
+              items: ingredientProvider.ingredientHomeItems,
+              onTap: onListTileTap,
             ),
           ),
         ],
