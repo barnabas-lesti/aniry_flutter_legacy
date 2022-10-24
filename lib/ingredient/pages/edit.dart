@@ -2,7 +2,7 @@ import 'package:aniry/app/i10n.dart';
 import 'package:aniry/app/item_form_controller.dart';
 import 'package:aniry/app/widgets/confirmation_dialog.dart';
 import 'package:aniry/app/widgets/notification.dart';
-import 'package:aniry/app/widgets/page.dart';
+import 'package:aniry/app/widgets/page_scaffold.dart';
 import 'package:aniry/ingredient/models/item.dart';
 import 'package:aniry/ingredient/provider.dart';
 import 'package:aniry/ingredient/widgets/form.dart';
@@ -28,11 +28,10 @@ class IngredientEdit extends StatelessWidget {
       if (item.id.isEmpty) {
         ingredientProvider.createItem(item);
         ScaffoldMessenger.of(context).showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditCreated));
+        Beamer.of(context).popToNamed('/ingredient');
       } else {
-        ingredientProvider.updateItem(item);
-        ScaffoldMessenger.of(context).showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditUpdated));
+        _buildOnUpdate(context, ingredientProvider)(item);
       }
-      Beamer.of(context).popToNamed('/ingredient');
     }
   }
 
@@ -48,6 +47,26 @@ class IngredientEdit extends StatelessWidget {
                 ingredientProvider.deleteItem(id!);
                 ScaffoldMessenger.of(context)
                     .showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditDeleted));
+                Beamer.of(context).popToNamed('/ingredient');
+              },
+            ),
+          ],
+        );
+      };
+
+  void Function(IngredientItem) _buildOnUpdate(BuildContext context, IngredientProvider ingredientProvider) =>
+      (IngredientItem item) {
+        showAppConfirmationDialog(
+          context: context,
+          text: AppI10N.of(context).ingredientEditUpdateText,
+          actions: [
+            AppConfirmationDialogAction(
+              label: AppI10N.of(context).ingredientEditUpdateButton,
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                ingredientProvider.updateItem(item);
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditUpdated));
                 Beamer.of(context).popToNamed('/ingredient');
               },
             ),
@@ -73,12 +92,12 @@ class IngredientEdit extends StatelessWidget {
             onPressed: _buildOnDelete(context, ingredientProvider),
           )
       ],
-      children: [
-        IngredientForm(
+      child: SingleChildScrollView(
+        child: IngredientForm(
           controller: _formController,
           item: (id != null) ? ingredientProvider.getItem(id!) : null,
         ),
-      ],
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:aniry/app/item_form_controller.dart';
 import 'package:aniry/app/utils.dart';
 import 'package:aniry/app/widgets/input.dart';
 import 'package:aniry/app/widgets/serving_input.dart';
+import 'package:aniry/app/widgets/title.dart';
 import 'package:aniry/ingredient/models/item.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,7 @@ class IngredientForm extends StatefulWidget {
 class _IngredientFormState extends State<IngredientForm> {
   final _formKey = GlobalKey<FormState>();
   late IngredientItem _item;
+  final _paddingBottom = const EdgeInsets.only(bottom: 16);
 
   @override
   void initState() {
@@ -41,7 +43,12 @@ class _IngredientFormState extends State<IngredientForm> {
     return Form(
       key: _formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: _paddingBottom,
+            child: AppSectionTitle(AppI10N.of(context).ingredientFormPrimaryDetails),
+          ),
           AppInput(
             initialValue: _item.name,
             label: AppI10N.of(context).ingredientFormName,
@@ -64,6 +71,10 @@ class _IngredientFormState extends State<IngredientForm> {
             onSaved: (value) => _item.calories = AppUtils.stringToDouble(value),
             number: true,
             paddingBottom: 16,
+          ),
+          Padding(
+            padding: _paddingBottom,
+            child: AppSectionTitle(AppI10N.of(context).ingredientFormNutrients),
           ),
           AppInput(
             initialValue: AppUtils.doubleToString(_item.nutrients.carbs, exact: true),

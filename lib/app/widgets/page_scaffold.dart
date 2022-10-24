@@ -4,12 +4,12 @@ class AppPageScaffold extends StatelessWidget {
   static const double gutter = 16;
 
   final String title;
-  final List<Widget> children;
+  final Widget child;
   final List<Widget> actions;
 
   const AppPageScaffold({
     required this.title,
-    required this.children,
+    required this.child,
     this.actions = const [],
     Key? key,
   }) : super(key: key);
@@ -23,7 +23,7 @@ class AppPageScaffold extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: gutter, right: gutter, top: gutter),
-        child: Column(children: children),
+        child: child,
       ),
     );
   }

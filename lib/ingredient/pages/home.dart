@@ -1,5 +1,5 @@
 import 'package:aniry/app/i10n.dart';
-import 'package:aniry/app/widgets/page.dart';
+import 'package:aniry/app/widgets/page_scaffold.dart';
 import 'package:aniry/ingredient/provider.dart';
 import 'package:aniry/ingredient/widgets/list.dart';
 import 'package:beamer/beamer.dart';
@@ -25,14 +25,16 @@ class IngredientHome extends StatelessWidget {
           onPressed: () => Beamer.of(context).beamToNamed('/ingredient/create'),
         ),
       ],
-      children: [
-        Consumer<IngredientProvider>(
-          builder: (context, ingredientProvider, widget) => IngredientList(
-            items: ingredientProvider.items,
-            onTap: (id) => Beamer.of(context).beamToNamed('/ingredient/edit/$id'),
+      child: Column(
+        children: [
+          Consumer<IngredientProvider>(
+            builder: (context, ingredientProvider, widget) => IngredientList(
+              items: ingredientProvider.items,
+              onTap: (id) => Beamer.of(context).beamToNamed('/ingredient/edit/$id'),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
