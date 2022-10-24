@@ -2,7 +2,7 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 
 class AppFeatureRouter {
-  final IconData icon;
+  final Icon icon;
   final BeamerDelegate routerDelegate;
   final String Function(BuildContext) label;
 

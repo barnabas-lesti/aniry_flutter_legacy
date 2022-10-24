@@ -32,13 +32,13 @@ class IngredientItem {
     this.description = description ?? '';
   }
 
-  static String defaultServingUnit = AppUnit.g;
-  static double defaultServingValue = 100;
-  static List<String> primaryServingUnits = [
+  static const String defaultServingUnit = AppUnit.g;
+  static const double defaultServingValue = 100;
+  static const List<String> primaryServingUnits = [
     AppUnit.g,
     AppUnit.ml,
   ];
-  static IconData icon = Icons.apple;
+  static const IconData icon = Icons.apple;
   static Color color = Colors.green[400]!;
 
   AppServing get serving => servings[0];

@@ -37,10 +37,13 @@
   "shoppingHomeDeleteCheckedText":   "Delete only the Checked items or All items?",
   "shoppingHomeDeleteCheckedButton": "Checked",
   "shoppingHomeDeleteTooltip":       "Clear list", 
-  "shoppingHomeTab":            "Shopping",
+  "shoppingTab":            "Shopping",
   "shoppingHomeTitle":               "Shopping list",
   
   "shoppingListNoItems": "There are no items in your list, add some using the input above.",
 
-  "shoppingInputLabel": "Add new item" 
+  "shoppingInputLabel": "Add new item",
+
+  "settingsTab": "Settings",
+  "settingsHomeTitle": "Settings"
 }

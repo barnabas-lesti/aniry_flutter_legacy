@@ -1,5 +1,6 @@
 import 'package:aniry/app/models/feature_router.dart';
 import 'package:aniry/ingredient/router.dart';
+import 'package:aniry/settings/router.dart';
 import 'package:aniry/shopping/router.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 final featureRouters = <AppFeatureRouter>[
   ingredientRouter,
   shoppingRouter,
+  settingsRouter,
 ];
 
 final appRouterDelegate = BeamerDelegate(
@@ -64,7 +66,7 @@ class _AppRootScaffoldState extends State<_AppRootScaffold> {
           for (int i = 0; i < featureRouters.length; i++)
             BottomNavigationBarItem(
               label: featureRouters[i].label(context),
-              icon: Icon(featureRouters[i].icon),
+              icon: featureRouters[i].icon,
             ),
         ],
         onTap: (index) {

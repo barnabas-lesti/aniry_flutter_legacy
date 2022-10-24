@@ -4,9 +4,10 @@ import 'package:aniry/ingredient/models/item.dart';
 import 'package:aniry/ingredient/pages/edit.dart';
 import 'package:aniry/ingredient/pages/home.dart';
 import 'package:beamer/beamer.dart';
+import 'package:flutter/material.dart';
 
 final ingredientRouter = AppFeatureRouter(
-  icon: IngredientItem.icon,
+  icon: const Icon(IngredientItem.icon),
   label: (context) => AppI10N.of(context).ingredientTab,
   routerDelegate: BeamerDelegate(
     initialPath: '/ingredient',
