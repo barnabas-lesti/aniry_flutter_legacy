@@ -22,14 +22,14 @@ class IngredientItem {
   }) {
     this.id = id ?? '';
     this.name = name ?? '';
-    this.calories = calories ?? 0;
+    this.calories = calories ?? 0.0;
     this.nutrients = nutrients ?? AppNutrients();
     this.servings = servings ?? [AppServing(unit: defaultServingUnit, value: defaultServingValue)];
     this.description = description ?? '';
   }
 
   static const String defaultServingUnit = AppUnit.g;
-  static const double defaultServingValue = 100;
+  static const double defaultServingValue = 100.0;
   static const List<String> primaryServingUnits = [AppUnit.g, AppUnit.ml];
   static const IconData icon = Icons.apple;
   static Color color = Colors.green[400]!;
