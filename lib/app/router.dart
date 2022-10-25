@@ -1,5 +1,6 @@
 import 'package:aniry/app/models/feature_router.dart';
 import 'package:aniry/ingredient/router.dart';
+import 'package:aniry/recipe/router.dart';
 import 'package:aniry/settings/router.dart';
 import 'package:aniry/shopping/router.dart';
 import 'package:beamer/beamer.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 
 final featureRouters = <AppFeatureRouter>[
   ingredientRouter,
+  recipeRouter,
   shoppingRouter,
   settingsRouter,
 ];
@@ -56,6 +58,7 @@ class _AppRootScaffoldState extends State<_AppRootScaffold> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         selectedItemColor: Theme.of(context).colorScheme.primary,
         iconSize: 30,

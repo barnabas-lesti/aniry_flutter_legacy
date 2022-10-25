@@ -1,5 +1,6 @@
 import 'package:aniry/app/router.dart';
 import 'package:aniry/ingredient/provider.dart';
+import 'package:aniry/recipe/provider.dart';
 import 'package:aniry/shopping/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,6 +18,7 @@ class _App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<ShoppingProvider>(create: (_) => ShoppingProvider()),
         ChangeNotifierProvider<IngredientProvider>(create: (_) => IngredientProvider()),
+        ChangeNotifierProvider<RecipeProvider>(create: (_) => RecipeProvider()),
       ],
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

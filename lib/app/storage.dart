@@ -10,6 +10,7 @@ import 'package:share_plus/share_plus.dart';
 enum AppPartition {
   shopping,
   ingredient,
+  recipe,
 }
 
 class AppStorage {

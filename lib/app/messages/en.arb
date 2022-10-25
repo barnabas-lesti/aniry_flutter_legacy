@@ -5,6 +5,7 @@
 
   "ingredientHomeTitle": "Ingredients",
   "ingredientHomeCreateTooltip": "Create ingredient",
+  "ingredientHomeSearchLabel": "Search for ingredients",
   
   "ingredientCreateTitle": "Create ingredient",
 
@@ -46,7 +47,6 @@
 
   "settingsTab": "Settings",
   "settingsHomeTitle": "Settings",
-  "ingredientHomeSearchLabel": "Search for ingredients",
   "settingsHomeDataTitle": "Data management",
   "settingsHomeDataText": "Here you can export your local data to a safe place, or import previously exported data.",
   "settingsHomeDataExportButton": "Export data",
@@ -54,5 +54,27 @@
   "settingsHomeDataImportButton": "Import data",
   "settingsHomeDataImportSuccess": "Successfully imported app data.",
   "settingsHomeDataImportConfirmationText": "Are you sure you want to overwrite you app data with the imported data?",
-  "settingsHomeDataImportConfirmationButton": "Confirm"
+  "settingsHomeDataImportConfirmationButton": "Confirm",
+
+  "recipeHomeCreateTooltip": "Create recipe",
+  "recipeHomeSearchLabel": "Search for recipes",
+  "recipeListNoItems": "No recipes to display",
+  "recipeTab": "Recipes",
+  "recipeHomeTitle": "Recipes",
+  "recipeEditCreated": "Recipe successfully created!",
+  "recipeEditUpdated": "Recipe successfully updated!",
+  "recipeEditDeleted": "Recipe successfully deleted!",
+  "recipeEditUpdateText": "Are you sure you want to update this recipe?",
+  "recipeEditDeleteText": "Are you sure you want to delete this recipe?",
+  "recipeEditDeleteButton": "Delete",
+  "recipeEditUpdateButton": "Update",
+  "recipeEditSaveTooltip": "Save recipe",
+  "recipeEditDeleteTooltip": "Delete recipe",
+  "recipeFormNameInvalid": "Please enter the name of the recipe",
+  "recipeFormName": "Name",
+  "recipeFormServing": "Serving",
+  "recipeFormServingInvalid": "Please enter the serving amount",
+  "recipeFormPrimaryDetails": "Primary details",
+  "recipeCreateTitle": "Create recipe",
+  "recipeEditTitle": "Edit recipe"
 }
