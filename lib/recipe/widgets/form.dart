@@ -1,8 +1,9 @@
 import 'package:aniry/app/i10n.dart';
 import 'package:aniry/app/item_form_controller.dart';
+import 'package:aniry/app/widgets/header_action.dart';
 import 'package:aniry/app/widgets/input.dart';
 import 'package:aniry/app/widgets/serving_input.dart';
-import 'package:aniry/app/widgets/title.dart';
+import 'package:aniry/app/widgets/section_header.dart';
 import 'package:aniry/recipe/models/item.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +23,6 @@ class RecipeForm extends StatefulWidget {
 
 class _RecipeFormState extends State<RecipeForm> {
   final _formKey = GlobalKey<FormState>();
-  final _space = 16.0;
-  final _paddingBottom = const EdgeInsets.only(bottom: 16);
   late RecipeItem _item;
 
   @override
@@ -31,6 +30,8 @@ class _RecipeFormState extends State<RecipeForm> {
     super.initState();
     _item = widget.item ?? RecipeItem();
   }
+
+  void _openIngredientSelector() {}
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +48,16 @@ class _RecipeFormState extends State<RecipeForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: _paddingBottom,
-            child: AppSectionTitle(appI10N.recipeFormPrimaryDetails),
+          AppSectionHeader(
+            title: appI10N.recipeFormPrimaryDetails,
+            paddingBottom: 16,
           ),
           AppInput(
             initialValue: _item.name,
             label: appI10N.recipeFormName,
             validator: (value) => (value == null || value.isEmpty) ? appI10N.recipeFormNameInvalid : null,
             onSaved: (value) => _item.name = value,
-            paddingBottom: _space,
+            paddingBottom: 16,
           ),
           AppServingInput(
             initialValue: _item.serving,
@@ -64,8 +65,19 @@ class _RecipeFormState extends State<RecipeForm> {
             validator: (serving) => serving.value > 0 ? null : appI10N.recipeFormServingInvalid,
             onSaved: (value) => _item.servings = [value],
             units: RecipeItem.primaryServingUnits,
-            paddingBottom: _space,
+            paddingBottom: 16,
           ),
+          AppSectionHeader(
+            title: appI10N.recipeFormIngredients,
+            paddingBottom: 8,
+            actions: [
+              AppHeaderAction(
+                icon: Icons.add,
+                tooltip: appI10N.recipeFormIngredientsAddTooltip,
+                onPressed: _openIngredientSelector,
+              )
+            ],
+          )
         ],
       ),
     );

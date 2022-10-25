@@ -1,3 +1,4 @@
+import 'package:aniry/app/widgets/header_action.dart';
 import 'package:aniry/app/widgets/confirmation_dialog.dart';
 import 'package:aniry/app/widgets/page_scaffold.dart';
 import 'package:aniry/app/i10n.dart';
@@ -64,7 +65,7 @@ class _ShoppingHomeState extends State<ShoppingHome> {
       title: widget.title,
       actions: [
         Consumer<ShoppingProvider>(
-          builder: (context, shoppingProvider, widget) => AppPageAction(
+          builder: (context, shoppingProvider, widget) => AppHeaderAction(
             icon: Icons.delete,
             tooltip: AppI10N.of(context).shoppingHomeDeleteTooltip,
             onPressed: shoppingProvider.items.isNotEmpty ? _buildOnDelete(context, shoppingProvider) : null,

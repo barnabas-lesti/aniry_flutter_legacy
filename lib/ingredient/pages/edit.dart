@@ -1,5 +1,6 @@
 import 'package:aniry/app/i10n.dart';
 import 'package:aniry/app/item_form_controller.dart';
+import 'package:aniry/app/widgets/header_action.dart';
 import 'package:aniry/app/widgets/confirmation_dialog.dart';
 import 'package:aniry/app/widgets/notification.dart';
 import 'package:aniry/app/widgets/page_scaffold.dart';
@@ -77,18 +78,20 @@ class IngredientEdit extends StatelessWidget {
   @override
   Widget build(context) {
     final ingredientProvider = IngredientProvider.of(context);
+    final appI10N = AppI10N.of(context);
+
     return AppPageScaffold(
       title: title,
       actions: [
-        AppPageAction(
+        AppHeaderAction(
           icon: Icons.done,
-          tooltip: AppI10N.of(context).ingredientEditSaveTooltip,
+          tooltip: appI10N.ingredientEditSaveTooltip,
           onPressed: () => _buildOnSave(context),
         ),
         if (id != null)
-          AppPageAction(
+          AppHeaderAction(
             icon: Icons.delete,
-            tooltip: AppI10N.of(context).ingredientEditDeleteTooltip,
+            tooltip: appI10N.ingredientEditDeleteTooltip,
             onPressed: _buildOnDelete(context, ingredientProvider),
           )
       ],

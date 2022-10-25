@@ -76,5 +76,7 @@
   "recipeFormServingInvalid": "Please enter the serving amount",
   "recipeFormPrimaryDetails": "Primary details",
   "recipeCreateTitle": "Create recipe",
-  "recipeEditTitle": "Edit recipe"
+  "recipeEditTitle": "Edit recipe",
+  "recipeFormIngredients": "Ingredients",
+  "recipeFormIngredientsAddTooltip": "Add ingredients"
 }

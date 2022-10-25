@@ -5,7 +5,7 @@ import 'package:aniry/app/widgets/button.dart';
 import 'package:aniry/app/widgets/confirmation_dialog.dart';
 import 'package:aniry/app/widgets/notification.dart';
 import 'package:aniry/app/widgets/page_scaffold.dart';
-import 'package:aniry/app/widgets/title.dart';
+import 'package:aniry/app/widgets/section_header.dart';
 import 'package:aniry/ingredient/models/item.dart';
 import 'package:aniry/ingredient/provider.dart';
 import 'package:aniry/shopping/models/item.dart';
@@ -19,9 +19,6 @@ class SettingsHome extends StatelessWidget {
     required this.title,
     super.key,
   });
-
-  final _space = AppPageScaffold.gap / 2;
-  final _spacePadding = const EdgeInsets.only(bottom: AppPageScaffold.gap / 2);
 
   @override
   Widget build(context) {
@@ -74,28 +71,28 @@ class SettingsHome extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: _spacePadding,
-            child: AppSectionTitle(AppI10N.of(context).settingsHomeDataTitle),
+          AppSectionHeader(
+            title: appI10N.settingsHomeDataTitle,
+            paddingBottom: 8,
           ),
           Padding(
-            padding: _spacePadding,
-            child: Text(AppI10N.of(context).settingsHomeDataText),
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(appI10N.settingsHomeDataText),
           ),
           Padding(
-            padding: _spacePadding,
+            padding: const EdgeInsets.only(bottom: 8),
             child: Row(
               children: [
                 Expanded(
                   child: AppButton(
-                    label: AppI10N.of(context).settingsHomeDataExportButton,
+                    label: appI10N.settingsHomeDataExportButton,
                     onPressed: onExportPress,
                   ),
                 ),
-                SizedBox(width: _space),
+                const SizedBox(width: 8),
                 Expanded(
                   child: AppButton(
-                    label: AppI10N.of(context).settingsHomeDataImportButton,
+                    label: appI10N.settingsHomeDataImportButton,
                     onPressed: onImportPress,
                   ),
                 ),

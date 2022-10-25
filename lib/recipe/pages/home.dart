@@ -1,4 +1,5 @@
 import 'package:aniry/app/i10n.dart';
+import 'package:aniry/app/widgets/header_action.dart';
 import 'package:aniry/app/widgets/page_scaffold.dart';
 import 'package:aniry/app/widgets/search_input.dart';
 import 'package:aniry/recipe/provider.dart';
@@ -37,7 +38,7 @@ class RecipeHome extends StatelessWidget {
     return AppPageScaffold(
       title: title,
       actions: [
-        AppPageAction(
+        AppHeaderAction(
           icon: Icons.add,
           tooltip: appI10N.recipeHomeCreateTooltip,
           onPressed: () => beamer.beamToNamed('/recipe/create'),

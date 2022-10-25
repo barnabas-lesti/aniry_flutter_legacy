@@ -1,5 +1,6 @@
 import 'package:aniry/app/i10n.dart';
 import 'package:aniry/app/item_form_controller.dart';
+import 'package:aniry/app/widgets/header_action.dart';
 import 'package:aniry/app/widgets/confirmation_dialog.dart';
 import 'package:aniry/app/widgets/notification.dart';
 import 'package:aniry/app/widgets/page_scaffold.dart';
@@ -78,13 +79,13 @@ class RecipeEdit extends StatelessWidget {
     return AppPageScaffold(
       title: title,
       actions: [
-        AppPageAction(
+        AppHeaderAction(
           icon: Icons.done,
           tooltip: appI10N.recipeEditSaveTooltip,
           onPressed: onSave,
         ),
         if (id != null)
-          AppPageAction(
+          AppHeaderAction(
             icon: Icons.delete,
             tooltip: appI10N.recipeEditDeleteTooltip,
             onPressed: onDelete,

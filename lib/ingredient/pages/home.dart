@@ -1,4 +1,5 @@
 import 'package:aniry/app/i10n.dart';
+import 'package:aniry/app/widgets/header_action.dart';
 import 'package:aniry/app/widgets/page_scaffold.dart';
 import 'package:aniry/app/widgets/search_input.dart';
 import 'package:aniry/ingredient/provider.dart';
@@ -34,7 +35,7 @@ class IngredientHome extends StatelessWidget {
     return AppPageScaffold(
       title: title,
       actions: [
-        AppPageAction(
+        AppHeaderAction(
           icon: Icons.add,
           tooltip: AppI10N.of(context).ingredientHomeCreateTooltip,
           onPressed: () => Beamer.of(context).beamToNamed('/ingredient/create'),
