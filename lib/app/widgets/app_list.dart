@@ -2,24 +2,45 @@ import 'package:aniry/app/models/app_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+enum AppListSelectedDecoration {
+  none,
+  strikethrough,
+  checkbox,
+  checkboxAndStrikethrough,
+}
+
 class AppList extends StatelessWidget {
   final List<AppListItem> items;
-  final List<AppListItem>? selectedItems;
-  final String? noItemsText;
-  final bool? withCheckbox;
+  final List<String>? selectedIDs;
+  final String noItemsText;
+  final double? paddingBottom;
+  final int? numberOfVisibleItems;
   final bool? dense;
-  final void Function(String, bool)? onCheck;
+  final bool? showIcon;
+  final bool? showTextLeftSecondary;
+  final bool? showTextRightPrimary;
+  final bool? showTextRightSecondary;
+  final bool? showCheckbox;
+  final AppListSelectedDecoration? selectedDecoration;
+  final void Function(String, bool)? onSelect;
   final void Function(String)? onDelete;
   final void Function(List<String>)? onReorder;
   final void Function(String)? onTap;
 
   const AppList({
     required this.items,
-    this.selectedItems = const [],
-    this.noItemsText,
-    this.withCheckbox,
+    required this.noItemsText,
+    this.selectedIDs = const [],
+    this.paddingBottom,
+    this.numberOfVisibleItems,
     this.dense,
-    this.onCheck,
+    this.showIcon,
+    this.showTextLeftSecondary,
+    this.showTextRightPrimary,
+    this.showTextRightSecondary,
+    this.showCheckbox,
+    this.selectedDecoration,
+    this.onSelect,
     this.onDelete,
     this.onReorder,
     this.onTap,
@@ -49,13 +70,18 @@ class AppList extends StatelessWidget {
         for (int i = 0; i < items.length; i++)
           _AppListTile(
             key: Key(items[i].id),
-            onDelete: onDelete != null ? () => onDelete!(items[i].id) : null,
             item: items[i],
-            onCheck: onCheck != null ? (checked) => onCheck!(items[i].id, checked) : null,
+            dense: (dense ?? false),
+            selected: (selectedIDs ?? []).where((id) => items[i].id == id).isNotEmpty,
+            showCheckbox: (showCheckbox ?? false),
+            showIcon: (showIcon ?? false),
+            showTextLeftSecondary: (showTextLeftSecondary ?? false),
+            showTextRightPrimary: (showTextRightPrimary ?? false),
+            showTextRightSecondary: (showTextRightSecondary ?? false),
+            selectDecoration: selectedDecoration ?? AppListSelectedDecoration.none,
             onTap: onTap != null ? () => onTap!(items[i].id) : null,
-            withCheckbox: withCheckbox,
-            dense: dense,
-            selected: selectedItems?.where((item) => items[i].id == item.id).isNotEmpty,
+            onSelect: onSelect != null ? (selected) => onSelect!(items[i].id, selected) : null,
+            onDelete: onDelete != null ? () => onDelete!(items[i].id) : null,
           )
       ];
 
@@ -65,16 +91,25 @@ class AppList extends StatelessWidget {
   @override
   Widget build(context) {
     final tiles = _buildTiles();
-
-    return items.isEmpty
+    final list = Expanded(
+      child: onReorder != null
+          ? ReorderableListView(
+              proxyDecorator: _proxyDecorator,
+              onReorder: _onReorder,
+              children: tiles,
+            )
+          : ListView(children: _sortTiles(tiles)),
+    );
+    final content = items.isEmpty
         ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    noItemsText!,
+                    noItemsText,
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 14, overflow: TextOverflow.clip),
                   ),
@@ -82,49 +117,78 @@ class AppList extends StatelessWidget {
               )
             ],
           )
-        : Expanded(
-            child: onReorder != null
-                ? ReorderableListView(
-                    proxyDecorator: _proxyDecorator,
-                    onReorder: _onReorder,
-                    children: tiles,
-                  )
-                : ListView(children: _sortTiles(tiles)),
-          );
+        : list;
+    final sizedContent = numberOfVisibleItems != null && numberOfVisibleItems! > 0
+        ? SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: (numberOfVisibleItems! * 64).toDouble(),
+            child: content,
+          )
+        : content;
+    final paddedContent = (paddingBottom ?? 0) > 0
+        ? Padding(
+            padding: EdgeInsets.only(bottom: paddingBottom!),
+            child: sizedContent,
+          )
+        : sizedContent;
+
+    return paddedContent;
   }
 }
 
 class _AppListTile extends StatelessWidget {
   final AppListItem item;
-  final bool? selected;
-  final bool? withCheckbox;
-  final bool? dense;
+  final bool dense;
+  final bool selected;
+  final bool showIcon;
+  final bool showTextLeftSecondary;
+  final bool showTextRightPrimary;
+  final bool showTextRightSecondary;
+  final bool showCheckbox;
+  final AppListSelectedDecoration selectDecoration;
   final void Function()? onTap;
-  final void Function(bool)? onCheck;
+  final void Function(bool)? onSelect;
   final void Function()? onDelete;
 
   const _AppListTile({
     required this.item,
-    this.selected,
-    this.withCheckbox,
-    this.dense,
+    required this.selectDecoration,
+    this.dense = false,
+    this.selected = false,
+    this.showIcon = false,
+    this.showTextLeftSecondary = false,
+    this.showTextRightPrimary = false,
+    this.showTextRightSecondary = false,
+    this.showCheckbox = false,
     this.onTap,
-    this.onCheck,
+    this.onSelect,
     this.onDelete,
     Key? key,
   }) : super(key: key);
 
-  void _onCheck(bool checked) {
-    onCheck?.call(checked);
+  void _onSelect(bool selected) {
+    onSelect?.call(selected);
     onTap?.call();
   }
 
+  bool get _shouldStrikethrough {
+    return selected &&
+        (selectDecoration == AppListSelectedDecoration.strikethrough ||
+            selectDecoration == AppListSelectedDecoration.checkboxAndStrikethrough);
+  }
+
+  bool get _shouldShowCheckbox {
+    return showCheckbox ||
+        (selected &&
+            (selectDecoration == AppListSelectedDecoration.checkbox ||
+                selectDecoration == AppListSelectedDecoration.checkboxAndStrikethrough));
+  }
+
   Widget _buildTextColumn({
-    required String textPrimary,
     required CrossAxisAlignment crossAxisAlignment,
+    required String textPrimary,
     String? textSecondary,
     bool? truncate,
-    bool? lineThrough,
   }) =>
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -135,7 +199,7 @@ class _AppListTile extends StatelessWidget {
             overflow: truncate != null ? TextOverflow.ellipsis : null,
             style: TextStyle(
               fontSize: 14,
-              decoration: (lineThrough ?? false) ? TextDecoration.lineThrough : null,
+              decoration: _shouldStrikethrough ? TextDecoration.lineThrough : null,
             ),
           ),
           if (textSecondary != null)
@@ -157,40 +221,39 @@ class _AppListTile extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: SizedBox(
-          height: (dense ?? false) ? null : 64,
+          height: dense ? null : 64,
           child: Row(
             children: [
-              if (withCheckbox ?? false)
-                Checkbox(
-                  value: selected,
-                  onChanged: (checked) => _onCheck(checked ?? false),
-                ),
-              if (item.icon != null)
+              if (item.icon != null && showIcon)
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: Icon(
                     item.icon,
-                    color: item.iconColor,
+                    color: item.color,
                     size: 22,
                   ),
                 ),
               Expanded(
                 child: _buildTextColumn(
                   textPrimary: item.textLeftPrimary,
-                  textSecondary: item.textLeftSecondary,
+                  textSecondary: showTextLeftSecondary ? item.textLeftSecondary : null,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   truncate: true,
-                  lineThrough: selected,
                 ),
               ),
-              if (item.textRightPrimary != null)
+              if (showTextRightPrimary)
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
                   child: _buildTextColumn(
-                    textPrimary: item.textRightPrimary!,
-                    textSecondary: item.textRightSecondary,
+                    textPrimary: item.textRightPrimary,
+                    textSecondary: showTextRightSecondary ? item.textRightSecondary : null,
                     crossAxisAlignment: CrossAxisAlignment.end,
                   ),
+                ),
+              if (_shouldShowCheckbox)
+                Checkbox(
+                  value: selected,
+                  onChanged: (selected) => _onSelect(selected ?? false),
                 ),
             ],
           ),

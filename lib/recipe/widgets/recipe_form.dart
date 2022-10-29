@@ -1,14 +1,18 @@
 import 'package:aniry/app/app_i10n.dart';
-import 'package:aniry/app/app_item_form_controller.dart';
+import 'package:aniry/app/app_data_controller.dart';
 import 'package:aniry/app/widgets/app_header_action.dart';
 import 'package:aniry/app/widgets/app_input.dart';
+import 'package:aniry/app/widgets/app_list.dart';
 import 'package:aniry/app/widgets/app_serving_input.dart';
 import 'package:aniry/app/widgets/app_section_header.dart';
+import 'package:aniry/ingredient/Ingredient_provider.dart';
+import 'package:aniry/ingredient/models/ingredient_served.dart';
+import 'package:aniry/ingredient/widgets/ingredient_selector_dialog.dart';
 import 'package:aniry/recipe/models/recipe.dart';
 import 'package:flutter/material.dart';
 
 class RecipeForm extends StatefulWidget {
-  final AppItemFormController controller;
+  final AppDataController<Recipe?> controller;
   final Recipe? recipe;
 
   const RecipeForm({
@@ -25,19 +29,36 @@ class _RecipeFormState extends State<RecipeForm> {
   final _formKey = GlobalKey<FormState>();
   late Recipe _recipe;
 
+  void Function(List<String> ids) _buildOnIngredientSelectorDialogSave(BuildContext context) {
+    return (ids) {
+      setState(() {
+        _recipe.ingredientsServed =
+            ids.map((id) => IngredientServed(ingredient: IngredientProvider.of(context).getIngredient(id))).toList();
+      });
+    };
+  }
+
+  void Function() _buildOnEditIngredientsPress(BuildContext context) {
+    return () {
+      showIngredientSelectorDialog(
+        context: context,
+        initialSelectedIDs: _recipe.ingredientsServed.map((ingredientServed) => ingredientServed.id).toList(),
+        onSave: _buildOnIngredientSelectorDialogSave(context),
+      );
+    };
+  }
+
   @override
   void initState() {
     super.initState();
     _recipe = widget.recipe ?? Recipe();
   }
 
-  void _openIngredientSelector() {}
-
   @override
   Widget build(BuildContext context) {
     final appI10N = AppI10N.of(context);
 
-    widget.controller.onGetItem(() {
+    widget.controller.onGetData(() {
       if (!_formKey.currentState!.validate()) return null;
       _formKey.currentState!.save();
       return _recipe;
@@ -74,10 +95,18 @@ class _RecipeFormState extends State<RecipeForm> {
               AppHeaderAction(
                 icon: Icons.add,
                 tooltip: appI10N.recipeFormIngredientsAddTooltip,
-                onPressed: _openIngredientSelector,
+                onPressed: _buildOnEditIngredientsPress(context),
               )
             ],
-          )
+          ),
+          AppList(
+            items: _recipe.ingredientsServed.map((servedItem) => servedItem.ingredient.toListItem()).toList(),
+            noItemsText: appI10N.recipeFormIngredientsNoItems,
+            showIcon: true,
+            showTextRightPrimary: true,
+            showTextRightSecondary: true,
+            numberOfVisibleItems: 5,
+          ),
         ],
       ),
     );

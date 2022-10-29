@@ -1,7 +1,7 @@
 import 'package:aniry/app/app_i10n.dart';
 import 'package:aniry/app/models/app_exported_data.dart';
 import 'package:aniry/app/app_storage.dart';
-import 'package:aniry/app/widgets/app_button.dart';
+import 'package:aniry/app/widgets/app_button_group.dart';
 import 'package:aniry/app/widgets/app_confirmation_dialog.dart';
 import 'package:aniry/app/widgets/app_notification.dart';
 import 'package:aniry/app/widgets/app_page_scaffold.dart';
@@ -79,25 +79,13 @@ class SettingsHome extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(appI10N.settingsHomeDataText),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: AppButton(
-                    label: appI10N.settingsHomeDataExportButton,
-                    onPressed: onExportPress,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: AppButton(
-                    label: appI10N.settingsHomeDataImportButton,
-                    onPressed: onImportPress,
-                  ),
-                ),
-              ],
-            ),
+          AppButtonGroup(
+            actions: [
+              AppButtonGroupAction(label: appI10N.settingsHomeDataExportButton, onPressed: onExportPress),
+              AppButtonGroupAction(label: appI10N.settingsHomeDataImportButton, onPressed: onImportPress),
+            ],
+            gap: 8,
+            paddingBottom: 8,
           ),
           const Divider(height: 0),
         ],

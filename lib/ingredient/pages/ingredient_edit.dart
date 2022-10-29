@@ -1,5 +1,5 @@
 import 'package:aniry/app/app_i10n.dart';
-import 'package:aniry/app/app_item_form_controller.dart';
+import 'package:aniry/app/app_data_controller.dart';
 import 'package:aniry/app/widgets/app_header_action.dart';
 import 'package:aniry/app/widgets/app_confirmation_dialog.dart';
 import 'package:aniry/app/widgets/app_notification.dart';
@@ -20,10 +20,10 @@ class IngredientEdit extends StatelessWidget {
     super.key,
   });
 
-  final _formController = AppItemFormController<Ingredient>();
+  final _formController = AppDataController<Ingredient?>();
 
   void _buildOnSave(BuildContext context) {
-    final ingredient = _formController.getItem();
+    final ingredient = _formController.getData();
     if (ingredient != null) {
       final ingredientProvider = IngredientProvider.of(context);
       if (ingredient.id.isEmpty) {

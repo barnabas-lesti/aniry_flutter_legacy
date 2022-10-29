@@ -64,7 +64,7 @@ class _AppServingInputState extends State<AppServingInput> {
       ],
     );
 
-    return (widget.paddingBottom != null && widget.paddingBottom! > 0)
+    return (widget.paddingBottom ?? 0) > 0
         ? Padding(
             padding: EdgeInsets.only(bottom: widget.paddingBottom!),
             child: input,

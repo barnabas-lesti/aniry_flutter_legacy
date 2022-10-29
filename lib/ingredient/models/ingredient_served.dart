@@ -44,6 +44,8 @@ class IngredientServed {
     );
   }
 
+  String get id => ingredient.id;
+
   AppServing get usedIngredientServing {
     return ingredient.servings.where((serving) => serving.unit == this.serving.unit).first;
   }

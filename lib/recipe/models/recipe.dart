@@ -58,7 +58,7 @@ class Recipe {
       textRightPrimary: serving.toString(),
       textRightSecondary: '${calories.toStringAsFixed(0)}${AppUnit.kcal}',
       icon: icon,
-      iconColor: color,
+      color: color,
     );
   }
 

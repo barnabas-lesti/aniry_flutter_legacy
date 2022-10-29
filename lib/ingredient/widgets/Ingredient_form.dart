@@ -1,5 +1,5 @@
 import 'package:aniry/app/app_i10n.dart';
-import 'package:aniry/app/app_item_form_controller.dart';
+import 'package:aniry/app/app_data_controller.dart';
 import 'package:aniry/app/app_utils.dart';
 import 'package:aniry/app/widgets/app_input.dart';
 import 'package:aniry/app/widgets/app_serving_input.dart';
@@ -8,7 +8,7 @@ import 'package:aniry/ingredient/models/ingredient.dart';
 import 'package:flutter/material.dart';
 
 class IngredientForm extends StatefulWidget {
-  final AppItemFormController controller;
+  final AppDataController<Ingredient?> controller;
   final Ingredient? ingredient;
 
   const IngredientForm({
@@ -35,7 +35,7 @@ class _IngredientFormState extends State<IngredientForm> {
   Widget build(BuildContext context) {
     final appI10N = AppI10N.of(context);
 
-    widget.controller.onGetItem(() {
+    widget.controller.onGetData(() {
       if (!_formKey.currentState!.validate()) return null;
       _formKey.currentState!.save();
       return _ingredient;

@@ -1,5 +1,5 @@
 import 'package:aniry/app/app_i10n.dart';
-import 'package:aniry/app/app_item_form_controller.dart';
+import 'package:aniry/app/app_data_controller.dart';
 import 'package:aniry/app/widgets/app_header_action.dart';
 import 'package:aniry/app/widgets/app_confirmation_dialog.dart';
 import 'package:aniry/app/widgets/app_notification.dart';
@@ -20,7 +20,7 @@ class RecipeEdit extends StatelessWidget {
     super.key,
   });
 
-  final _formController = AppItemFormController<Recipe>();
+  final _formController = AppDataController<Recipe?>();
 
   @override
   Widget build(context) {
@@ -46,7 +46,7 @@ class RecipeEdit extends StatelessWidget {
     }
 
     void onSave() {
-      final recipe = _formController.getItem();
+      final recipe = _formController.getData();
       if (recipe != null) {
         if (recipe.id.isEmpty) {
           recipeProvider.createRecipe(recipe);

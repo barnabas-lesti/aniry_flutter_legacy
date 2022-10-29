@@ -61,7 +61,7 @@ class AppInput extends StatelessWidget {
       ),
     );
 
-    return (paddingBottom != null && paddingBottom! > 0)
+    return (paddingBottom ?? 0) > 0
         ? Padding(
             padding: EdgeInsets.only(bottom: paddingBottom!),
             child: input,

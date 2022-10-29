@@ -19,6 +19,10 @@ class RecipeList extends StatelessWidget {
       items: recipes.map((recipe) => recipe.toListItem()).toList(),
       onTap: onTap,
       noItemsText: AppI10N.of(context).recipeListNoItems,
+      showIcon: true,
+      showTextLeftSecondary: true,
+      showTextRightPrimary: true,
+      showTextRightSecondary: true,
     );
   }
 }

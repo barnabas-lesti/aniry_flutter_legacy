@@ -30,8 +30,15 @@
   "ingredientFormFat": "Fat",
   "ingredientFormPrimaryDetails": "Primary details",
   "ingredientFormNutrients": "Nutrients",
+  "recipeFormIngredientsNoItems": "Add ingredients with the button above",
 
   "ingredientListNoItems": "No ingredients to display.",
+
+  "ingredientSelectorDialogTitle": "Edit ingredients",
+  "ingredientSelectorDialogCancel": "Discard",
+  "ingredientSelectorDialogSave": "Save",
+  "ingredientSelectorListSearchLabel": "Search for ingredients",
+  "ingredientSelectorListNoItems": "No ingredients to display",
 
   "shoppingHomeDeleteAllText":       "Delete All items?",
   "shoppingHomeDeleteAllButton":     "All",

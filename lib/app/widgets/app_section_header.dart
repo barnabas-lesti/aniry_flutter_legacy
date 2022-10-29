@@ -33,7 +33,7 @@ class AppSectionHeader extends StatelessWidget {
             ],
           )
         : text;
-    final content = paddingBottom != null
+    final content = (paddingBottom ?? 0) > 0
         ? Padding(
             padding: EdgeInsets.only(bottom: paddingBottom!),
             child: row,

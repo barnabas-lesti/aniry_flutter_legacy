@@ -7,6 +7,7 @@ class AppSearchInput extends StatelessWidget {
   final String? initialValue;
   final TextEditingController? controller;
   final FocusNode? focusNode;
+  final double? paddingBottom;
 
   const AppSearchInput({
     required this.label,
@@ -14,17 +15,25 @@ class AppSearchInput extends StatelessWidget {
     this.controller,
     this.initialValue,
     this.focusNode,
+    this.paddingBottom,
     super.key,
   });
 
   @override
   Widget build(context) {
-    return AppInput(
+    final input = AppInput(
       focusNode: focusNode,
       label: label,
       onChanged: onSearch,
       initialValue: initialValue,
       controller: controller,
     );
+
+    return (paddingBottom ?? 0) > 0
+        ? Padding(
+            padding: EdgeInsets.only(bottom: paddingBottom!),
+            child: input,
+          )
+        : input;
   }
 }

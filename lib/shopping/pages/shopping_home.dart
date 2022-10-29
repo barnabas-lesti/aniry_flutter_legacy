@@ -84,10 +84,10 @@ class _ShoppingHomeState extends State<ShoppingHome> {
           Consumer<ShoppingProvider>(
             builder: (context, shoppingProvider, widget) => ShoppingList(
               items: shoppingProvider.items,
+              selectedIDs: shoppingProvider.checkedItems.map((item) => item.id).toList(),
               onDelete: shoppingProvider.deleteItem,
               onTap: _buildOnTap(shoppingProvider),
               onReorder: shoppingProvider.reorderItems,
-              checkedItems: shoppingProvider.checkedItems,
             ),
           ),
         ],

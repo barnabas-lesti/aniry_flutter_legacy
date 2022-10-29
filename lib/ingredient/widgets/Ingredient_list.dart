@@ -19,6 +19,10 @@ class IngredientList extends StatelessWidget {
       items: ingredients.map((ingredient) => ingredient.toListItem()).toList(),
       onTap: onTap,
       noItemsText: AppI10N.of(context).ingredientListNoItems,
+      showIcon: true,
+      showTextLeftSecondary: true,
+      showTextRightPrimary: true,
+      showTextRightSecondary: true,
     );
   }
 }
