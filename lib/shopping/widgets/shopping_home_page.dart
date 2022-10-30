@@ -1,26 +1,26 @@
 import 'package:aniry/app/widgets/app_header_action.dart';
 import 'package:aniry/app/widgets/app_confirmation_dialog.dart';
+import 'package:aniry/app/widgets/app_list.dart';
 import 'package:aniry/app/widgets/app_page_scaffold.dart';
 import 'package:aniry/app/app_i10n.dart';
-import 'package:aniry/shopping/widgets/shopping_input.dart';
+import 'package:aniry/shopping/models/shopping_item.dart';
 import 'package:aniry/shopping/shopping_provider.dart';
-import 'package:aniry/shopping/widgets/shopping_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ShoppingHome extends StatefulWidget {
+class ShoppingHomePage extends StatefulWidget {
   final String title;
 
-  const ShoppingHome({
+  const ShoppingHomePage({
     required this.title,
     super.key,
   });
 
   @override
-  State<ShoppingHome> createState() => _ShoppingHomeState();
+  State<ShoppingHomePage> createState() => _ShoppingHomePageState();
 }
 
-class _ShoppingHomeState extends State<ShoppingHome> {
+class _ShoppingHomePageState extends State<ShoppingHomePage> {
   final FocusNode inputFocusNode = FocusNode();
 
   void Function() _buildOnDelete(BuildContext context, ShoppingProvider shoppingProvider) => () {
@@ -76,13 +76,13 @@ class _ShoppingHomeState extends State<ShoppingHome> {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: AppPageScaffold.gap),
-            child: ShoppingInput(
+            child: _ShoppingHomePageInput(
               focusNode: inputFocusNode,
               onCreate: _buildOnCreate(context),
             ),
           ),
           Consumer<ShoppingProvider>(
-            builder: (context, shoppingProvider, widget) => ShoppingList(
+            builder: (context, shoppingProvider, widget) => _ShoppingHomePageList(
               items: shoppingProvider.items,
               selectedIDs: shoppingProvider.checkedItems.map((item) => item.id).toList(),
               onDelete: shoppingProvider.deleteItem,
@@ -91,6 +91,85 @@ class _ShoppingHomeState extends State<ShoppingHome> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ShoppingHomePageList extends StatelessWidget {
+  final List<ShoppingItem> items;
+  final List<String> selectedIDs;
+  final void Function(List<String>) onReorder;
+  final void Function(String) onDelete;
+  final void Function(String) onTap;
+
+  const _ShoppingHomePageList({
+    required this.items,
+    required this.selectedIDs,
+    required this.onReorder,
+    required this.onDelete,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(context) {
+    return AppList(
+      items: items.map((item) => item.toListItem()).toList(),
+      selectedIDs: selectedIDs,
+      noItemsText: AppI10N.of(context).shoppingListNoItems,
+      dense: true,
+      showCheckbox: true,
+      selectedDecoration: AppListSelectedDecoration.strikethrough,
+      expanded: true,
+      onDelete: onDelete,
+      onTap: onTap,
+      onReorder: onReorder,
+    );
+  }
+}
+
+class _ShoppingHomePageInput extends StatefulWidget {
+  final void Function(String) onCreate;
+  final FocusNode? focusNode;
+
+  const _ShoppingHomePageInput({
+    required this.onCreate,
+    this.focusNode,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<_ShoppingHomePageInput> createState() => _ShoppingHomePageInputState();
+}
+
+class _ShoppingHomePageInputState extends State<_ShoppingHomePageInput> {
+  final _controller = TextEditingController();
+
+  void _onCreate() {
+    if (_controller.text.isNotEmpty) {
+      widget.onCreate(_controller.text);
+      _controller.clear();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(context) {
+    return TextFormField(
+      focusNode: widget.focusNode,
+      onEditingComplete: _onCreate,
+      textInputAction: TextInputAction.next,
+      autocorrect: false,
+      textCapitalization: TextCapitalization.sentences,
+      controller: _controller,
+      decoration: InputDecoration(
+        labelText: AppI10N.of(context).shoppingInputLabel,
+        border: const OutlineInputBorder(),
       ),
     );
   }

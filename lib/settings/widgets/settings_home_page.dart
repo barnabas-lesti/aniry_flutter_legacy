@@ -14,10 +14,10 @@ import 'package:aniry/shopping/models/shopping_item.dart';
 import 'package:aniry/shopping/shopping_provider.dart';
 import 'package:flutter/material.dart';
 
-class SettingsHome extends StatelessWidget {
+class SettingsHomePage extends StatelessWidget {
   final String title;
 
-  const SettingsHome({
+  const SettingsHomePage({
     required this.title,
     super.key,
   });

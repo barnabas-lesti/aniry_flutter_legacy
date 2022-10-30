@@ -1,17 +1,18 @@
 import 'package:aniry/app/app_i10n.dart';
 import 'package:aniry/app/widgets/app_header_action.dart';
+import 'package:aniry/app/widgets/app_list.dart';
 import 'package:aniry/app/widgets/app_page_scaffold.dart';
 import 'package:aniry/app/widgets/app_search_input.dart';
+import 'package:aniry/recipe/models/recipe.dart';
 import 'package:aniry/recipe/recipe_provider.dart';
-import 'package:aniry/recipe/widgets/recipe_list.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class RecipeHome extends StatelessWidget {
+class RecipeHomePage extends StatelessWidget {
   final String title;
 
-  RecipeHome({
+  RecipeHomePage({
     required this.title,
     super.key,
   });
@@ -55,13 +56,37 @@ class RecipeHome extends StatelessWidget {
             ),
           ),
           Consumer<RecipeProvider>(
-            builder: (context, recipeProvider, widget) => RecipeList(
+            builder: (context, recipeProvider, widget) => _RecipeHomePageList(
               recipes: recipeProvider.recipeHomeRecipes,
               onTap: onListTileTap,
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _RecipeHomePageList extends StatelessWidget {
+  final List<Recipe> recipes;
+  final void Function(String) onTap;
+
+  const _RecipeHomePageList({
+    required this.recipes,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(context) {
+    return AppList(
+      items: recipes.map((recipe) => recipe.toListItem()).toList(),
+      noItemsText: AppI10N.of(context).recipeListNoItems,
+      showIcon: true,
+      showTextLeftSecondary: true,
+      showTextRightPrimary: true,
+      showTextRightSecondary: true,
+      expanded: true,
+      onTap: onTap,
     );
   }
 }
