@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aniry/app/app_utils.dart';
 import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
 import 'package:aniry/ingredient/models/ingredient_proxy.dart';
@@ -48,9 +49,9 @@ class Recipe {
 
   AppServing get serving => servings[0];
 
-  double get calories => IngredientProxy.getCalories(ingredientProxies);
+  double get calories => AppUtils.reduceCalories(ingredientProxies.map((proxy) => proxy.calories).toList());
 
-  AppNutrients get nutrients => IngredientProxy.getNutrients(ingredientProxies);
+  AppNutrients get nutrients => AppUtils.reduceNutrients(ingredientProxies.map((proxy) => proxy.nutrients).toList());
 
   AppListItem toListItem() {
     return AppListItem(
