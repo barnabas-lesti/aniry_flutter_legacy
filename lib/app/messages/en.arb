@@ -90,5 +90,6 @@
   "recipeEditTitle": "Edit recipe",
   "recipeFormIngredients": "Ingredients",
   "recipeFormIngredientsAddTooltip": "Add ingredients",
-  "recipeFormIngredientsNoItems": "Add ingredients with the button above"
+  "recipeFormIngredientsNoItems": "Add ingredients with the button above",
+  "recipeFormTotalCalories": "Total calories"
 }

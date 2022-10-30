@@ -1,6 +1,7 @@
 import 'package:aniry/app/app_i10n.dart';
 import 'package:aniry/app/app_data_controller.dart';
 import 'package:aniry/app/models/app_serving.dart';
+import 'package:aniry/app/models/app_unit.dart';
 import 'package:aniry/app/widgets/app_header_action.dart';
 import 'package:aniry/app/widgets/app_input.dart';
 import 'package:aniry/app/widgets/app_list.dart';
@@ -142,6 +143,22 @@ class _RecipeFormState extends State<RecipeForm> {
             onReorder: _onListReorder,
             onDelete: _onDelete,
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  appI10N.recipeFormTotalCalories,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '${_recipe.calories.toStringAsFixed(0)}${AppUnit.kcal}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
