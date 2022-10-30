@@ -1,6 +1,7 @@
 import 'package:aniry/app/app_storage.dart';
 import 'package:aniry/app/app_utils.dart';
 import 'package:aniry/ingredient/models/ingredient.dart';
+import 'package:aniry/recipe/recipe_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -42,15 +43,17 @@ class IngredientProvider extends ChangeNotifier {
     ingredients = [...ingredients, ingredient];
   }
 
-  void updateIngredient(Ingredient updatedIngredient) {
+  void updateIngredient(BuildContext context, Ingredient updatedIngredient) {
     ingredients = [
       ...ingredients.where((ingredient) => ingredient.id != updatedIngredient.id).toList(),
       updatedIngredient
     ];
+    RecipeProvider.of(context).updateIngredientInRecipes(updatedIngredient);
   }
 
-  void deleteIngredient(String id) {
+  void deleteIngredient(BuildContext context, String id) {
     ingredients = ingredients.where((ingredient) => ingredient.id != id).toList();
+    RecipeProvider.of(context).deleteIngredientFromRecipes(id);
   }
 
   static IngredientProvider of(BuildContext context) {

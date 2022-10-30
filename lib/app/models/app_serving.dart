@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aniry/app/models/app_unit.dart';
 import 'package:aniry/app/app_utils.dart';
 
@@ -22,6 +24,10 @@ class AppServing {
       'unit': unit,
       'value': value,
     };
+  }
+
+  AppServing clone() {
+    return fromJson(json.decode(json.encode(this)));
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:aniry/app/app_storage.dart';
 import 'package:aniry/app/app_utils.dart';
+import 'package:aniry/ingredient/models/ingredient.dart';
 import 'package:aniry/recipe/models/recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +47,30 @@ class RecipeProvider extends ChangeNotifier {
 
   void deleteRecipe(String id) {
     recipes = recipes.where((recipe) => recipe.id != id).toList();
+  }
+
+  Future<void> updateIngredientInRecipes(Ingredient updatedIngredient) async {
+    await lazyLoadRecipes();
+    recipes = recipes.map((recipe) {
+      final updatedProxies = recipe.ingredientProxies.map((proxy) {
+        if (proxy.id == updatedIngredient.id) {
+          proxy.ingredient = updatedIngredient.clone();
+          proxy.serving.unit = updatedIngredient.serving.unit;
+        }
+        return proxy;
+      }).toList();
+      recipe.ingredientProxies = updatedProxies;
+      return recipe;
+    }).toList();
+  }
+
+  Future<void> deleteIngredientFromRecipes(String ingredientId) async {
+    await lazyLoadRecipes();
+    recipes = recipes.map((recipe) {
+      final updatedProxies = recipe.ingredientProxies.where((proxy) => proxy.id != ingredientId).toList();
+      recipe.ingredientProxies = updatedProxies;
+      return recipe;
+    }).toList();
   }
 
   static RecipeProvider of(BuildContext context) {

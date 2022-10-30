@@ -5,14 +5,15 @@ import 'package:aniry/app/models/app_unit.dart';
 import 'package:aniry/ingredient/models/ingredient.dart';
 
 class IngredientProxy {
-  late final Ingredient ingredient;
+  late Ingredient ingredient;
   late AppServing serving;
 
   IngredientProxy({
-    required this.ingredient,
-    serving,
+    required Ingredient ingredient,
+    AppServing? serving,
   }) {
-    this.serving = serving ?? AppServing();
+    this.ingredient = ingredient.clone();
+    this.serving = serving != null ? serving.clone() : AppServing();
   }
 
   static double getCalories(List<IngredientProxy> proxies) {

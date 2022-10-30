@@ -43,9 +43,7 @@ class _RecipeFormState extends State<RecipeForm> {
             _recipe.ingredientProxies = ids.map((id) {
               final ingredient = IngredientProvider.of(context).getIngredient(id);
               final existingProxy = _recipe.ingredientProxies.where((proxy) => proxy.id == id).firstOrNull;
-              final serving = existingProxy != null
-                  ? existingProxy.serving
-                  : AppServing(unit: ingredient.serving.unit, value: ingredient.serving.value);
+              final serving = existingProxy != null ? existingProxy.serving : ingredient.serving.clone();
               return IngredientProxy(ingredient: ingredient, serving: serving);
             }).toList();
           });
@@ -84,7 +82,7 @@ class _RecipeFormState extends State<RecipeForm> {
   @override
   void initState() {
     super.initState();
-    _recipe = widget.recipe ?? Recipe();
+    _recipe = widget.recipe != null ? widget.recipe!.clone() : Recipe();
   }
 
   @override

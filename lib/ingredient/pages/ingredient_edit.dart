@@ -45,7 +45,7 @@ class IngredientEdit extends StatelessWidget {
               label: AppI10N.of(context).ingredientEditDeleteButton,
               color: Colors.red[500],
               onPressed: () {
-                ingredientProvider.deleteIngredient(id!);
+                ingredientProvider.deleteIngredient(context, id!);
                 ScaffoldMessenger.of(context)
                     .showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditDeleted));
                 Beamer.of(context).popToNamed('/ingredient');
@@ -65,7 +65,7 @@ class IngredientEdit extends StatelessWidget {
               label: AppI10N.of(context).ingredientEditUpdateButton,
               color: Theme.of(context).primaryColor,
               onPressed: () {
-                ingredientProvider.updateIngredient(ingredient);
+                ingredientProvider.updateIngredient(context, ingredient);
                 ScaffoldMessenger.of(context)
                     .showSnackBar(buildAppNotification(AppI10N.of(context).ingredientEditUpdated));
                 Beamer.of(context).popToNamed('/ingredient');

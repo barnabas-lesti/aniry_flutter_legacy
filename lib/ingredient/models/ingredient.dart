@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
 import 'package:aniry/app/models/app_serving.dart';
@@ -68,5 +70,9 @@ class Ingredient {
       icon: icon,
       color: color,
     );
+  }
+
+  Ingredient clone() {
+    return fromJson(json.decode(json.encode(this)));
   }
 }

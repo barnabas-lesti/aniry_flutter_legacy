@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
 import 'package:aniry/ingredient/models/ingredient_proxy.dart';
@@ -70,5 +72,9 @@ class Recipe {
       'ingredientProxies': ingredientProxies,
       'description': description,
     };
+  }
+
+  Recipe clone() {
+    return fromJson(json.decode(json.encode(this)));
   }
 }
