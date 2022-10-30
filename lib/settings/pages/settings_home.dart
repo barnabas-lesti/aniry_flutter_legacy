@@ -8,6 +8,8 @@ import 'package:aniry/app/widgets/app_page_scaffold.dart';
 import 'package:aniry/app/widgets/app_section_header.dart';
 import 'package:aniry/ingredient/models/ingredient.dart';
 import 'package:aniry/ingredient/Ingredient_provider.dart';
+import 'package:aniry/recipe/models/recipe.dart';
+import 'package:aniry/recipe/recipe_provider.dart';
 import 'package:aniry/shopping/models/shopping_item.dart';
 import 'package:aniry/shopping/shopping_provider.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,7 @@ class SettingsHome extends StatelessWidget {
   Widget build(context) {
     final shoppingProvider = ShoppingProvider.of(context);
     final ingredientProvider = IngredientProvider.of(context);
+    final recipeProvider = RecipeProvider.of(context);
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final appI10N = AppI10N.of(context);
 
@@ -38,6 +41,7 @@ class SettingsHome extends StatelessWidget {
             onPressed: () {
               shoppingProvider.items = data.shoppingItems;
               ingredientProvider.ingredients = data.ingredients;
+              recipeProvider.recipes = data.recipes;
               scaffoldMessenger.showSnackBar(buildAppNotification(appI10N.settingsHomeDataImportSuccess));
             },
           ),
@@ -56,10 +60,12 @@ class SettingsHome extends StatelessWidget {
       final partitions = await Future.wait([
         shoppingProvider.lazyLoadItems(),
         ingredientProvider.lazyLoadIngredients(),
+        recipeProvider.lazyLoadRecipes(),
       ]);
       final data = AppExportedData(
         shoppingItems: partitions[0] as List<ShoppingItem>,
         ingredients: partitions[1] as List<Ingredient>,
+        recipes: partitions[2] as List<Recipe>,
       );
       if (await AppStorage.exportData('export', data)) {
         scaffoldMessenger.showSnackBar(buildAppNotification(appI10N.settingsHomeDataExportSuccess));
