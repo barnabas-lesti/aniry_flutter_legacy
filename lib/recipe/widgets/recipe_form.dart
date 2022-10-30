@@ -64,6 +64,13 @@ class _RecipeFormState extends State<RecipeForm> {
     };
   }
 
+  void _onListReorder(List<String> ids) {
+    setState(() {
+      _recipe.ingredientsServed =
+          ids.map((id) => _recipe.ingredientsServed.where((proxy) => proxy.id == id).first).toList();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -123,6 +130,7 @@ class _RecipeFormState extends State<RecipeForm> {
             showTextRightSecondary: true,
             numberOfVisibleItems: 5,
             onTap: _buildOnListTileTap(context),
+            onReorder: _onListReorder,
           ),
         ],
       ),
