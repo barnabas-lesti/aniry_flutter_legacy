@@ -1,13 +1,12 @@
-import 'package:aniry/app/app_utils.dart';
 import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
 import 'package:aniry/app/models/app_serving.dart';
+import 'package:aniry/app/models/app_calculable_item.dart';
 import 'package:aniry/app/models/app_unit.dart';
 import 'package:aniry/ingredient/models/ingredient.dart';
 
-class IngredientProxy {
+class IngredientProxy extends AppCalculableItem {
   late Ingredient ingredient;
-  late AppServing serving;
 
   IngredientProxy({
     required Ingredient ingredient,
@@ -24,18 +23,21 @@ class IngredientProxy {
     );
   }
 
+  @override
   String get id => ingredient.id;
 
+  @override
   double get calories {
-    return AppUtils.getProxyCalories(
+    return AppCalculableItem.calculateProxyCalories(
       itemCalories: ingredient.calories,
       itemServing: ingredient.serving,
       proxyServing: serving,
     );
   }
 
+  @override
   AppNutrients get nutrients {
-    return AppUtils.getProxyNutrients(
+    return AppCalculableItem.calculateProxyNutrients(
       itemNutrients: ingredient.nutrients,
       itemServing: ingredient.serving,
       proxyServing: serving,

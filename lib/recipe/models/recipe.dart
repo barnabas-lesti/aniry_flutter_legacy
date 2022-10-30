@@ -3,15 +3,13 @@ import 'dart:convert';
 import 'package:aniry/app/app_utils.dart';
 import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
+import 'package:aniry/app/models/app_calculable_item.dart';
 import 'package:aniry/ingredient/models/ingredient_proxy.dart';
 import 'package:aniry/app/models/app_serving.dart';
 import 'package:aniry/app/models/app_unit.dart';
 import 'package:flutter/material.dart';
 
-class Recipe {
-  late String id;
-  late String name;
-  late List<AppServing> servings;
+class Recipe extends AppCalculableItem {
   late List<IngredientProxy> ingredientProxies;
   late String description;
 
@@ -47,11 +45,16 @@ class Recipe {
     );
   }
 
+  @override
   AppServing get serving => servings[0];
 
-  double get calories => AppUtils.reduceCalories(ingredientProxies.map((proxy) => proxy.calories).toList());
+  @override
+  double get calories =>
+      AppCalculableItem.reduceListOfCalories(ingredientProxies.map((proxy) => proxy.calories).toList());
 
-  AppNutrients get nutrients => AppUtils.reduceNutrients(ingredientProxies.map((proxy) => proxy.nutrients).toList());
+  @override
+  AppNutrients get nutrients =>
+      AppCalculableItem.reduceListOfNutrients(ingredientProxies.map((proxy) => proxy.nutrients).toList());
 
   AppListItem toListItem() {
     return AppListItem(

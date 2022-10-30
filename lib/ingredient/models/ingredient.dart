@@ -3,15 +3,11 @@ import 'dart:convert';
 import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
 import 'package:aniry/app/models/app_serving.dart';
+import 'package:aniry/app/models/app_calculable_item.dart';
 import 'package:aniry/app/models/app_unit.dart';
 import 'package:flutter/material.dart';
 
-class Ingredient {
-  late String id;
-  late String name;
-  late double calories;
-  late AppNutrients nutrients;
-  late List<AppServing> servings;
+class Ingredient extends AppCalculableItem {
   late String description;
 
   Ingredient({
@@ -34,8 +30,9 @@ class Ingredient {
   static const double defaultServingValue = 100.0;
   static const List<String> primaryServingUnits = [AppUnit.g, AppUnit.ml];
   static const IconData icon = Icons.apple;
-  static Color color = Colors.green[400]!;
+  static final Color color = Colors.green[400]!;
 
+  @override
   AppServing get serving => servings[0];
 
   static Ingredient fromJson(Map<String, dynamic> json) {
