@@ -56,6 +56,7 @@ class Recipe extends AppCalculableItem {
   AppNutrients get nutrients =>
       AppCalculableItem.reduceListOfNutrients(ingredientProxies.map((proxy) => proxy.nutrients).toList());
 
+  @override
   AppListItem toListItem() {
     return AppListItem(
       id: id,

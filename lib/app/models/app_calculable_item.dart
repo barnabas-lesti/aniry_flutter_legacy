@@ -1,3 +1,4 @@
+import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
 import 'package:aniry/app/models/app_serving.dart';
 
@@ -8,6 +9,8 @@ abstract class AppCalculableItem {
   late AppNutrients nutrients;
   late AppServing serving;
   late List<AppServing> servings;
+
+  AppListItem toListItem();
 
   static double reduceListOfCalories(List<double> listOfCalories) {
     double calories = 0;

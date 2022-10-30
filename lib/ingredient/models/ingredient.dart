@@ -57,6 +57,7 @@ class Ingredient extends AppCalculableItem {
     };
   }
 
+  @override
   AppListItem toListItem() {
     return AppListItem(
       id: id,
