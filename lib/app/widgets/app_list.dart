@@ -128,7 +128,7 @@ class AppList extends StatelessWidget {
     final sizedContent = numberOfVisibleItems != null && numberOfVisibleItems! > 0
         ? SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: (numberOfVisibleItems! * 64).toDouble(),
+            height: ((items.length < numberOfVisibleItems! ? items.length : numberOfVisibleItems!) * 64).toDouble(),
             child: content,
           )
         : content;

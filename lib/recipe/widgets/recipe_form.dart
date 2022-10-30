@@ -71,6 +71,12 @@ class _RecipeFormState extends State<RecipeForm> {
     });
   }
 
+  void _onDelete(String id) {
+    setState(() {
+      _recipe.ingredientsServed = _recipe.ingredientsServed.where((proxy) => proxy.id != id).toList();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -131,6 +137,7 @@ class _RecipeFormState extends State<RecipeForm> {
             numberOfVisibleItems: 5,
             onTap: _buildOnListTileTap(context),
             onReorder: _onListReorder,
+            onDelete: _onDelete,
           ),
         ],
       ),
