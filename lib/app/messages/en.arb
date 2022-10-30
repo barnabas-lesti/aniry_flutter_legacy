@@ -91,5 +91,8 @@
   "recipeFormIngredients": "Ingredients",
   "recipeFormIngredientsAddTooltip": "Add ingredients",
   "recipeFormIngredientsNoItems": "Add ingredients with the button above",
-  "recipeFormTotalCalories": "Total calories"
+  "recipeFormTotalCalories": "Total calories",
+
+  "diaryTab": "Calculator",
+  "diaryHomePageTitle": "Calculator"
 }
