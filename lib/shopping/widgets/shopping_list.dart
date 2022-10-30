@@ -28,6 +28,7 @@ class ShoppingList extends StatelessWidget {
       dense: true,
       showCheckbox: true,
       selectedDecoration: AppListSelectedDecoration.strikethrough,
+      expanded: true,
       onDelete: onDelete,
       onTap: onTap,
       onReorder: onReorder,

@@ -123,8 +123,8 @@ class _IngredientSelectorListState extends State<_IngredientSelectorList> {
           onSearch: _onSearch,
           paddingBottom: 16,
         ),
-        Consumer<IngredientProvider>(
-          builder: (context, ingredientProvider, w) => AppList(
+        Consumer<IngredientProvider>(builder: (context, ingredientProvider, w) {
+          return AppList(
             items: ingredientProvider.ingredients
                 .where((ingredient) => AppUtils.isStringInString(ingredient.name, _searchString))
                 .map((ingredient) => ingredient.toListItem())
@@ -136,8 +136,8 @@ class _IngredientSelectorListState extends State<_IngredientSelectorList> {
             numberOfVisibleItems: 5,
             paddingBottom: 16,
             onTap: _onTap,
-          ),
-        ),
+          );
+        }),
       ],
     );
   }

@@ -17,12 +17,13 @@ class RecipeList extends StatelessWidget {
   Widget build(context) {
     return AppList(
       items: recipes.map((recipe) => recipe.toListItem()).toList(),
-      onTap: onTap,
       noItemsText: AppI10N.of(context).recipeListNoItems,
       showIcon: true,
       showTextLeftSecondary: true,
       showTextRightPrimary: true,
       showTextRightSecondary: true,
+      expanded: true,
+      onTap: onTap,
     );
   }
 }

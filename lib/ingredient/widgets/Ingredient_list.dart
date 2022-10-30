@@ -23,6 +23,7 @@ class IngredientList extends StatelessWidget {
       showTextLeftSecondary: true,
       showTextRightPrimary: true,
       showTextRightSecondary: true,
+      expanded: true,
     );
   }
 }

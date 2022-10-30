@@ -21,6 +21,8 @@ class AppList extends StatelessWidget {
   final bool? showTextRightPrimary;
   final bool? showTextRightSecondary;
   final bool? showCheckbox;
+  final bool? shrinkWrap;
+  final bool? expanded;
   final AppListSelectedDecoration? selectedDecoration;
   final void Function(String, bool)? onSelect;
   final void Function(String)? onDelete;
@@ -40,6 +42,8 @@ class AppList extends StatelessWidget {
     this.showTextRightSecondary,
     this.showCheckbox,
     this.selectedDecoration,
+    this.shrinkWrap,
+    this.expanded,
     this.onSelect,
     this.onDelete,
     this.onReorder,
@@ -91,15 +95,18 @@ class AppList extends StatelessWidget {
   @override
   Widget build(context) {
     final tiles = _buildTiles();
-    final list = Expanded(
-      child: onReorder != null
-          ? ReorderableListView(
-              proxyDecorator: _proxyDecorator,
-              onReorder: _onReorder,
-              children: tiles,
-            )
-          : ListView(children: _sortTiles(tiles)),
-    );
+    final list = onReorder != null
+        ? ReorderableListView(
+            proxyDecorator: _proxyDecorator,
+            onReorder: _onReorder,
+            shrinkWrap: (shrinkWrap ?? false),
+            children: tiles,
+          )
+        : ListView(
+            shrinkWrap: (shrinkWrap ?? false),
+            children: _sortTiles(tiles),
+          );
+    final expandedList = (expanded ?? false) ? Expanded(child: list) : list;
     final content = items.isEmpty
         ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -117,7 +124,7 @@ class AppList extends StatelessWidget {
               )
             ],
           )
-        : list;
+        : expandedList;
     final sizedContent = numberOfVisibleItems != null && numberOfVisibleItems! > 0
         ? SizedBox(
             width: MediaQuery.of(context).size.width,
