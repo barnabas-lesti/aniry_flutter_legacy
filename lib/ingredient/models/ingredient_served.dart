@@ -1,5 +1,7 @@
+import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
 import 'package:aniry/app/models/app_serving.dart';
+import 'package:aniry/app/models/app_unit.dart';
 import 'package:aniry/ingredient/models/ingredient.dart';
 
 class IngredientServed {
@@ -67,5 +69,17 @@ class IngredientServed {
       'ingredient': ingredient,
       'serving': serving,
     };
+  }
+
+  AppListItem toListItem() {
+    return AppListItem(
+      id: id,
+      textLeftPrimary: ingredient.name,
+      textLeftSecondary: nutrients.toString(),
+      textRightPrimary: serving.toString(),
+      textRightSecondary: '${calories.toStringAsFixed(0)}${AppUnit.kcal}',
+      icon: Ingredient.icon,
+      color: Ingredient.color,
+    );
   }
 }

@@ -5,29 +5,31 @@ class AppInput extends StatelessWidget {
   final String? Function(String?)? validator;
   final String? initialValue;
   final String? label;
-  final void Function(String)? onSaved;
-  final void Function()? onTap;
-  final void Function(String)? onChanged;
   final bool? number;
   final bool? readonly;
   final TextAlign? textAlign;
   final double? paddingBottom;
   final TextEditingController? controller;
   final FocusNode? focusNode;
+  final String? suffix;
+  final void Function(String)? onSaved;
+  final void Function()? onTap;
+  final void Function(String)? onChanged;
 
   const AppInput({
     this.validator,
     this.initialValue,
     this.label,
-    this.onSaved,
     this.number,
     this.readonly,
-    this.onTap,
     this.textAlign,
     this.paddingBottom,
-    this.onChanged,
     this.controller,
     this.focusNode,
+    this.suffix,
+    this.onSaved,
+    this.onChanged,
+    this.onTap,
     super.key,
   });
 
@@ -36,13 +38,10 @@ class AppInput extends StatelessWidget {
     final input = TextFormField(
       focusNode: focusNode,
       controller: controller,
-      onChanged: onChanged,
       textAlign: textAlign ?? TextAlign.start,
-      onTap: onTap,
       readOnly: (readonly ?? false) ? readonly! : false,
       validator: validator,
       initialValue: initialValue,
-      onSaved: (value) => onSaved?.call(value ?? ''),
       keyboardType: number ?? false ? const TextInputType.numberWithOptions(decimal: true) : null,
       inputFormatters: number ?? false
           ? <TextInputFormatter>[
@@ -58,7 +57,11 @@ class AppInput extends StatelessWidget {
         labelText: label,
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        suffix: (suffix ?? '').isNotEmpty ? Text(suffix!) : null,
       ),
+      onChanged: onChanged,
+      onTap: onTap,
+      onSaved: (value) => onSaved?.call(value ?? ''),
     );
 
     return (paddingBottom ?? 0) > 0

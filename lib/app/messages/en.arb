@@ -30,7 +30,11 @@
   "ingredientFormFat": "Fat",
   "ingredientFormPrimaryDetails": "Primary details",
   "ingredientFormNutrients": "Nutrients",
-  "recipeFormIngredientsNoItems": "Add ingredients with the button above",
+
+  "ingredientServingEditorDialogTitle": "Edit serving",
+  "ingredientServingEditorDialogServingLabel": "Amount in the recipe",
+  "ingredientServingEditorDialogCancel": "Discard",
+  "ingredientServingEditorDialogSave": "Save",
 
   "ingredientListNoItems": "No ingredients to display.",
 
@@ -85,5 +89,6 @@
   "recipeCreateTitle": "Create recipe",
   "recipeEditTitle": "Edit recipe",
   "recipeFormIngredients": "Ingredients",
-  "recipeFormIngredientsAddTooltip": "Add ingredients"
+  "recipeFormIngredientsAddTooltip": "Add ingredients",
+  "recipeFormIngredientsNoItems": "Add ingredients with the button above"
 }

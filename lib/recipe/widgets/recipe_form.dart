@@ -8,8 +8,10 @@ import 'package:aniry/app/widgets/app_section_header.dart';
 import 'package:aniry/ingredient/Ingredient_provider.dart';
 import 'package:aniry/ingredient/models/ingredient_served.dart';
 import 'package:aniry/ingredient/widgets/ingredient_selector_dialog.dart';
+import 'package:aniry/ingredient/widgets/ingredient_serving_editor_dialog.dart';
 import 'package:aniry/recipe/models/recipe.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 
 class RecipeForm extends StatefulWidget {
   final AppDataController<Recipe?> controller;
@@ -29,21 +31,35 @@ class _RecipeFormState extends State<RecipeForm> {
   final _formKey = GlobalKey<FormState>();
   late Recipe _recipe;
 
-  void Function(List<String> ids) _buildOnIngredientSelectorDialogSave(BuildContext context) {
-    return (ids) {
-      setState(() {
-        _recipe.ingredientsServed =
-            ids.map((id) => IngredientServed(ingredient: IngredientProvider.of(context).getIngredient(id))).toList();
-      });
-    };
-  }
-
   void Function() _buildOnEditIngredientsPress(BuildContext context) {
     return () {
       showIngredientSelectorDialog(
         context: context,
         initialSelectedIDs: _recipe.ingredientsServed.map((ingredientServed) => ingredientServed.id).toList(),
-        onSave: _buildOnIngredientSelectorDialogSave(context),
+        onSave: (ids) {
+          setState(() {
+            _recipe.ingredientsServed = ids.map((id) {
+              final ingredient = IngredientProvider.of(context).getIngredient(id);
+              final existingIngredientServed = _recipe.ingredientsServed.where((served) => served.id == id).firstOrNull;
+              final serving = existingIngredientServed != null ? existingIngredientServed.serving : ingredient.serving;
+              return IngredientServed(ingredient: ingredient, serving: serving);
+            }).toList();
+          });
+        },
+      );
+    };
+  }
+
+  void Function(String) _buildOnListTileTap(BuildContext context) {
+    return (id) {
+      showIngredientServingEditorDialog(
+        context: context,
+        initialServing: _recipe.ingredientsServed.firstWhere((served) => served.id == id).serving,
+        onSave: (serving) {
+          setState(() {
+            _recipe.ingredientsServed.firstWhere((served) => served.id == id).serving.value = serving.value;
+          });
+        },
       );
     };
   }
@@ -100,12 +116,13 @@ class _RecipeFormState extends State<RecipeForm> {
             ],
           ),
           AppList(
-            items: _recipe.ingredientsServed.map((servedItem) => servedItem.ingredient.toListItem()).toList(),
+            items: _recipe.ingredientsServed.map((servedItem) => servedItem.toListItem()).toList(),
             noItemsText: appI10N.recipeFormIngredientsNoItems,
             showIcon: true,
             showTextRightPrimary: true,
             showTextRightSecondary: true,
             numberOfVisibleItems: 5,
+            onTap: _buildOnListTileTap(context),
           ),
         ],
       ),
