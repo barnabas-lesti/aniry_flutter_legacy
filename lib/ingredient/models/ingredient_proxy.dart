@@ -4,33 +4,33 @@ import 'package:aniry/app/models/app_serving.dart';
 import 'package:aniry/app/models/app_unit.dart';
 import 'package:aniry/ingredient/models/ingredient.dart';
 
-class IngredientServed {
-  late Ingredient ingredient;
+class IngredientProxy {
+  late final Ingredient ingredient;
   late AppServing serving;
 
-  IngredientServed({
+  IngredientProxy({
     required this.ingredient,
     serving,
   }) {
-    this.serving = serving ?? ingredient.serving ?? AppServing();
+    this.serving = serving ?? AppServing();
   }
 
-  static double getCalories(List<IngredientServed> ingredientsServed) {
+  static double getCalories(List<IngredientProxy> proxies) {
     double calories = 0;
-    for (int i = 0; i < ingredientsServed.length; i++) {
-      calories += ingredientsServed[i].calories;
+    for (int i = 0; i < proxies.length; i++) {
+      calories += proxies[i].calories;
     }
     return calories;
   }
 
-  static AppNutrients getNutrients(List<IngredientServed> ingredientsServed) {
+  static AppNutrients getNutrients(List<IngredientProxy> proxies) {
     double carbs = 0;
     double protein = 0;
     double fat = 0;
-    for (int i = 0; i < ingredientsServed.length; i++) {
-      carbs += ingredientsServed[i].nutrients.carbs;
-      protein += ingredientsServed[i].nutrients.protein;
-      fat += ingredientsServed[i].nutrients.fat;
+    for (int i = 0; i < proxies.length; i++) {
+      carbs += proxies[i].nutrients.carbs;
+      protein += proxies[i].nutrients.protein;
+      fat += proxies[i].nutrients.fat;
     }
     return AppNutrients(
       carbs: carbs,
@@ -39,8 +39,8 @@ class IngredientServed {
     );
   }
 
-  static IngredientServed fromJson(Map<String, dynamic> json) {
-    return IngredientServed(
+  static IngredientProxy fromJson(Map<String, dynamic> json) {
+    return IngredientProxy(
       serving: AppServing.fromJson(json['serving'] as Map<String, dynamic>),
       ingredient: Ingredient.fromJson(json['ingredient'] as Map<String, dynamic>),
     );
@@ -48,19 +48,15 @@ class IngredientServed {
 
   String get id => ingredient.id;
 
-  AppServing get usedIngredientServing {
-    return ingredient.servings.where((serving) => serving.unit == this.serving.unit).first;
-  }
-
   double get calories {
-    return (ingredient.calories / usedIngredientServing.value) * serving.value;
+    return (ingredient.calories / ingredient.serving.value) * serving.value;
   }
 
   AppNutrients get nutrients {
     return AppNutrients(
-      carbs: (ingredient.nutrients.carbs / usedIngredientServing.value) * serving.value,
-      protein: (ingredient.nutrients.protein / usedIngredientServing.value) * serving.value,
-      fat: (ingredient.nutrients.fat / usedIngredientServing.value) * serving.value,
+      carbs: (ingredient.nutrients.carbs / ingredient.serving.value) * serving.value,
+      protein: (ingredient.nutrients.protein / ingredient.serving.value) * serving.value,
+      fat: (ingredient.nutrients.fat / ingredient.serving.value) * serving.value,
     );
   }
 
