@@ -1,0 +1,164 @@
+import 'package:aniry/app/app_i10n.dart';
+import 'package:aniry/app/app_data_controller.dart';
+import 'package:aniry/app/models/app_serving.dart';
+import 'package:aniry/app/models/app_unit.dart';
+import 'package:aniry/app/widgets/app_header_action.dart';
+import 'package:aniry/app/widgets/app_input.dart';
+import 'package:aniry/app/widgets/app_list.dart';
+import 'package:aniry/app/widgets/app_serving_input.dart';
+import 'package:aniry/app/widgets/app_section_header.dart';
+import 'package:aniry/ingredient/Ingredient_provider.dart';
+import 'package:aniry/ingredient/models/ingredient_proxy.dart';
+import 'package:aniry/ingredient/widgets/ingredient_selector_dialog.dart';
+import 'package:aniry/ingredient/widgets/ingredient_serving_editor_dialog.dart';
+import 'package:aniry/recipe/models/recipe.dart';
+import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
+
+class RecipeForm extends StatefulWidget {
+  final AppDataController<Recipe?> controller;
+  final Recipe? recipe;
+
+  const RecipeForm({
+    required this.controller,
+    this.recipe,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<RecipeForm> createState() => _RecipeFormState();
+}
+
+class _RecipeFormState extends State<RecipeForm> {
+  final _formKey = GlobalKey<FormState>();
+  late Recipe _recipe;
+
+  void Function() _buildOnEditIngredientsPress(BuildContext context) {
+    return () {
+      showIngredientSelectorDialog(
+        context: context,
+        initialSelectedIDs: _recipe.ingredientProxies.map((proxy) => proxy.id).toList(),
+        onSave: (ids) {
+          setState(() {
+            _recipe.ingredientProxies = ids.map((id) {
+              final ingredient = IngredientProvider.of(context).getIngredient(id);
+              final existingProxy = _recipe.ingredientProxies.where((proxy) => proxy.id == id).firstOrNull;
+              final serving = existingProxy != null ? existingProxy.serving : ingredient.serving.clone();
+              return IngredientProxy(ingredient: ingredient, serving: serving);
+            }).toList();
+          });
+        },
+      );
+    };
+  }
+
+  void Function(String) _buildOnListTileTap(BuildContext context) {
+    return (id) {
+      showIngredientServingEditorDialog(
+        context: context,
+        initialServing: _recipe.ingredientProxies.firstWhere((proxy) => proxy.id == id).serving,
+        onSave: (serving) {
+          setState(() {
+            _recipe.ingredientProxies.firstWhere((proxy) => proxy.id == id).serving.value = serving.value;
+          });
+        },
+      );
+    };
+  }
+
+  void _onListReorder(List<String> ids) {
+    setState(() {
+      _recipe.ingredientProxies =
+          ids.map((id) => _recipe.ingredientProxies.where((proxy) => proxy.id == id).first).toList();
+    });
+  }
+
+  void _onDelete(String id) {
+    setState(() {
+      _recipe.ingredientProxies = _recipe.ingredientProxies.where((proxy) => proxy.id != id).toList();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _recipe = widget.recipe != null ? widget.recipe!.clone() : Recipe();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appI10N = AppI10N.of(context);
+
+    widget.controller.onGetData(() {
+      if (!_formKey.currentState!.validate()) return null;
+      _formKey.currentState!.save();
+      return _recipe;
+    });
+
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppSectionHeader(
+            title: appI10N.recipeFormPrimaryDetails,
+            paddingBottom: 16,
+          ),
+          AppInput(
+            initialValue: _recipe.name,
+            label: appI10N.recipeFormName,
+            validator: (value) => (value == null || value.isEmpty) ? appI10N.recipeFormNameInvalid : null,
+            onSaved: (value) => _recipe.name = value,
+            paddingBottom: 16,
+          ),
+          AppServingInput(
+            initialValue: _recipe.serving,
+            label: appI10N.recipeFormServing,
+            validator: (serving) => serving.value > 0 ? null : appI10N.recipeFormServingInvalid,
+            onSaved: (value) => _recipe.servings = [value],
+            units: Recipe.primaryServingUnits,
+            paddingBottom: 16,
+          ),
+          AppSectionHeader(
+            title: appI10N.recipeFormIngredients,
+            paddingBottom: 8,
+            actions: [
+              AppHeaderAction(
+                icon: Icons.add,
+                tooltip: appI10N.recipeFormIngredientsAddTooltip,
+                onPressed: _buildOnEditIngredientsPress(context),
+              )
+            ],
+          ),
+          AppList(
+            items: _recipe.ingredientProxies.map((proxy) => proxy.toListItem()).toList(),
+            noItemsText: appI10N.recipeFormIngredientsNoItems,
+            showIcon: true,
+            showTextRightPrimary: true,
+            showTextRightSecondary: true,
+            numberOfVisibleItems: 5,
+            onTap: _buildOnListTileTap(context),
+            onReorder: _onListReorder,
+            onDelete: _onDelete,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  appI10N.recipeFormTotalCalories,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '${_recipe.calories.toStringAsFixed(0)}${AppUnit.kcal}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
