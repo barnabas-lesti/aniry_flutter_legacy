@@ -4,7 +4,6 @@ import 'package:aniry/app/widgets/app_header_action.dart';
 import 'package:aniry/app/widgets/app_list.dart';
 import 'package:aniry/app/widgets/app_page_scaffold.dart';
 import 'package:aniry/app/widgets/app_section_header.dart';
-import 'package:aniry/ingredient/widgets/ingredient_selector_dialog.dart';
 import 'package:aniry/ingredient/widgets/ingredient_serving_editor_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -38,23 +37,24 @@ class _DiaryHomePageEditor extends StatefulWidget {
 
 class _DiaryHomePageEditorState extends State<_DiaryHomePageEditor> {
   void Function() _buildOnEditIngredientsPress(BuildContext context) {
-    return () {
-      showIngredientSelectorDialog(
-        context: context,
-        initialSelectedIDs: [],
-        // initialSelectedIDs: _recipe.ingredientProxies.map((proxy) => proxy.id).toList(),
-        onSave: (ids) {
-          setState(() {
-            // _recipe.ingredientProxies = ids.map((id) {
-            //   final ingredient = IngredientProvider.of(context).getIngredient(id);
-            //   final existingProxy = _recipe.ingredientProxies.where((proxy) => proxy.id == id).firstOrNull;
-            //   final serving = existingProxy != null ? existingProxy.serving : ingredient.serving.clone();
-            //   return IngredientProxy(ingredient: ingredient, serving: serving);
-            // }).toList();
-          });
-        },
-      );
-    };
+    return () {};
+    // return () {
+    //   showIngredientSelectorDialog(
+    //     context: context,
+    //     initialSelectedIDs: [],
+    //     // initialSelectedIDs: _recipe.ingredientProxies.map((proxy) => proxy.id).toList(),
+    //     onSave: (ids) {
+    //       setState(() {
+    //         // _recipe.ingredientProxies = ids.map((id) {
+    //         //   final ingredient = IngredientProvider.of(context).getIngredient(id);
+    //         //   final existingProxy = _recipe.ingredientProxies.where((proxy) => proxy.id == id).firstOrNull;
+    //         //   final serving = existingProxy != null ? existingProxy.serving : ingredient.serving.clone();
+    //         //   return IngredientProxy(ingredient: ingredient, serving: serving);
+    //         // }).toList();
+    //       });
+    //     },
+    //   );
+    // };
   }
 
   void Function(String) _buildOnListTileTap(BuildContext context) {

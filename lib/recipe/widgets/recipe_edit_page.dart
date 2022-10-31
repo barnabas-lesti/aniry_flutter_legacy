@@ -4,6 +4,7 @@ import 'package:aniry/app/models/app_unit.dart';
 import 'package:aniry/app/widgets/app_header_action.dart';
 import 'package:aniry/app/widgets/app_confirmation_dialog.dart';
 import 'package:aniry/app/widgets/app_input.dart';
+import 'package:aniry/app/widgets/app_item_selector_dialog.dart';
 import 'package:aniry/app/widgets/app_list.dart';
 import 'package:aniry/app/widgets/app_notification.dart';
 import 'package:aniry/app/widgets/app_page_scaffold.dart';
@@ -11,7 +12,6 @@ import 'package:aniry/app/widgets/app_section_header.dart';
 import 'package:aniry/app/widgets/app_serving_input.dart';
 import 'package:aniry/ingredient/Ingredient_provider.dart';
 import 'package:aniry/ingredient/models/ingredient_proxy.dart';
-import 'package:aniry/ingredient/widgets/ingredient_selector_dialog.dart';
 import 'package:aniry/ingredient/widgets/ingredient_serving_editor_dialog.dart';
 import 'package:aniry/recipe/models/recipe.dart';
 import 'package:aniry/recipe/recipe_provider.dart';
@@ -130,13 +130,15 @@ class _RecipeEditPageFormState extends State<_RecipeEditPageForm> {
 
   void Function() _buildOnEditIngredientsPress(BuildContext context) {
     return () {
-      showIngredientSelectorDialog(
+      final ingredientProvider = IngredientProvider.of(context);
+      showAppItemSelectorDialog(
         context: context,
-        initialSelectedIDs: _recipe.ingredientProxies.map((proxy) => proxy.id).toList(),
+        selectedIDs: _recipe.ingredientProxies.map((proxy) => proxy.id),
+        listItems: ingredientProvider.ingredients.map((ingredient) => ingredient.toListItem()),
         onSave: (ids) {
           setState(() {
             _recipe.ingredientProxies = ids.map((id) {
-              final ingredient = IngredientProvider.of(context).getIngredient(id);
+              final ingredient = ingredientProvider.getIngredient(id);
               final existingProxy = _recipe.ingredientProxies.where((proxy) => proxy.id == id).firstOrNull;
               final serving = existingProxy != null ? existingProxy.serving : ingredient.serving.clone();
               return IngredientProxy(ingredient: ingredient, serving: serving);

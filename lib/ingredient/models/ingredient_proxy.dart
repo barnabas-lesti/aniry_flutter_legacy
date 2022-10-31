@@ -55,6 +55,7 @@ class IngredientProxy extends AppCalculableItem {
   AppListItem toListItem() {
     return AppListItem(
       id: id,
+      origin: AppListItemOrigin.ingredientProxy,
       textLeftPrimary: ingredient.name,
       textLeftSecondary: nutrients.toString(),
       textRightPrimary: serving.toString(),

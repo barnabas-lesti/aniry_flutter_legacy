@@ -30,6 +30,7 @@ class ShoppingItem {
   AppListItem toListItem() {
     return AppListItem(
       id: id,
+      origin: AppListItemOrigin.shoppingItem,
       textLeftPrimary: name,
     );
   }

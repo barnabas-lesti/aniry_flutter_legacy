@@ -60,6 +60,7 @@ class Recipe extends AppCalculableItem {
   AppListItem toListItem() {
     return AppListItem(
       id: id,
+      origin: AppListItemOrigin.recipe,
       textLeftPrimary: name,
       textLeftSecondary: nutrients.toString(),
       textRightPrimary: serving.toString(),

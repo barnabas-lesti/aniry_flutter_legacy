@@ -55,6 +55,7 @@ class RecipeProxy extends AppCalculableItem {
   AppListItem toListItem() {
     return AppListItem(
       id: id,
+      origin: AppListItemOrigin.recipeProxy,
       textLeftPrimary: recipe.name,
       textLeftSecondary: nutrients.toString(),
       textRightPrimary: serving.toString(),
