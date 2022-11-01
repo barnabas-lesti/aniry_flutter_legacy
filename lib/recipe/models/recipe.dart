@@ -1,17 +1,19 @@
 import 'dart:convert';
 
-import 'package:aniry/app/app_utils.dart';
 import 'package:aniry/app/models/app_list_item.dart';
-import 'package:aniry/app/models/app_nutrients.dart';
 import 'package:aniry/app/models/app_calculable_item.dart';
+import 'package:aniry/app/models/app_nutrients.dart';
 import 'package:aniry/ingredient/models/ingredient_proxy.dart';
 import 'package:aniry/app/models/app_serving.dart';
 import 'package:aniry/app/models/app_unit.dart';
 import 'package:flutter/material.dart';
 
-class Recipe extends AppCalculableItem {
-  late List<IngredientProxy> ingredientProxies;
+class Recipe {
+  late String id;
+  late String name;
+  late List<AppServing> servings;
   late String description;
+  late List<IngredientProxy> ingredientProxies;
 
   Recipe({
     id,
@@ -27,6 +29,14 @@ class Recipe extends AppCalculableItem {
     this.description = description ?? '';
   }
 
+  AppServing get serving => servings[0];
+
+  double get calories =>
+      AppCalculableItem.reduceCaloriesList(ingredientProxies.map((proxy) => proxy.calories).toList());
+
+  AppNutrients get nutrients =>
+      AppCalculableItem.reduceNutrientsList(ingredientProxies.map((proxy) => proxy.nutrients).toList());
+
   static const String defaultServingUnit = AppUnit.plate;
   static const double defaultServingValue = 1.0;
   static const List<String> primaryServingUnits = [AppUnit.plate, AppUnit.piece];
@@ -37,30 +47,31 @@ class Recipe extends AppCalculableItem {
     return Recipe(
       id: json['id'] as String,
       name: json['name'] as String,
-      servings: (json['servings'] as List<dynamic>).map((e) => AppServing.fromJson(e as Map<String, dynamic>)).toList(),
+      servings: (json['servings'] as List<dynamic>)
+          .map((serving) => AppServing.fromJson(serving as Map<String, dynamic>))
+          .toList(),
       ingredientProxies: (json['ingredientProxies'] as List<dynamic>? ?? [])
-          .map((e) => IngredientProxy.fromJson(e as Map<String, dynamic>))
+          .map((proxy) => IngredientProxy.fromJson(proxy as Map<String, dynamic>))
           .toList(),
       description: json['description'] as String? ?? '',
     );
   }
 
-  @override
-  AppServing get serving => servings[0];
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{
+      'id': id,
+      'name': name,
+      'servings': servings,
+    };
+    if (ingredientProxies.isNotEmpty) json['ingredientProxies'] = ingredientProxies;
+    if (description.isNotEmpty) json['description'] = description;
+    return json;
+  }
 
-  @override
-  double get calories =>
-      AppCalculableItem.reduceListOfCalories(ingredientProxies.map((proxy) => proxy.calories).toList());
-
-  @override
-  AppNutrients get nutrients =>
-      AppCalculableItem.reduceListOfNutrients(ingredientProxies.map((proxy) => proxy.nutrients).toList());
-
-  @override
   AppListItem toListItem() {
     return AppListItem(
       id: id,
-      origin: AppListItemOrigin.recipe,
+      source: Recipe,
       textLeftPrimary: name,
       textLeftSecondary: nutrients.toString(),
       textRightPrimary: serving.toString(),
@@ -70,14 +81,13 @@ class Recipe extends AppCalculableItem {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'id': id,
-      'name': name,
-      'servings': servings,
-      'ingredientProxies': ingredientProxies,
-      'description': description,
-    };
+  AppCalculableItem toCalculableItem() {
+    return AppCalculableItem(
+      source: Recipe,
+      calories: calories,
+      nutrients: nutrients,
+      serving: serving,
+    );
   }
 
   Recipe clone() {

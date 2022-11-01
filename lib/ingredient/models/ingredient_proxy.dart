@@ -5,7 +5,8 @@ import 'package:aniry/app/models/app_calculable_item.dart';
 import 'package:aniry/app/models/app_unit.dart';
 import 'package:aniry/ingredient/models/ingredient.dart';
 
-class IngredientProxy extends AppCalculableItem {
+class IngredientProxy {
+  late AppServing serving;
   late Ingredient ingredient;
 
   IngredientProxy({
@@ -23,21 +24,18 @@ class IngredientProxy extends AppCalculableItem {
     );
   }
 
-  @override
   String get id => ingredient.id;
 
-  @override
   double get calories {
-    return AppCalculableItem.calculateProxyCalories(
+    return AppCalculableItem.getProxyCalories(
       itemCalories: ingredient.calories,
       itemServing: ingredient.serving,
       proxyServing: serving,
     );
   }
 
-  @override
   AppNutrients get nutrients {
-    return AppCalculableItem.calculateProxyNutrients(
+    return AppCalculableItem.getProxyNutrients(
       itemNutrients: ingredient.nutrients,
       itemServing: ingredient.serving,
       proxyServing: serving,
@@ -51,17 +49,25 @@ class IngredientProxy extends AppCalculableItem {
     };
   }
 
-  @override
   AppListItem toListItem() {
     return AppListItem(
-      id: id,
-      origin: AppListItemOrigin.ingredientProxy,
+      id: ingredient.id,
+      source: IngredientProxy,
       textLeftPrimary: ingredient.name,
       textLeftSecondary: nutrients.toString(),
       textRightPrimary: serving.toString(),
       textRightSecondary: '${calories.toStringAsFixed(0)}${AppUnit.kcal}',
       icon: Ingredient.icon,
       color: Ingredient.color,
+    );
+  }
+
+  AppCalculableItem toCalculableItem() {
+    return AppCalculableItem(
+      source: IngredientProxy,
+      calories: calories,
+      nutrients: nutrients,
+      serving: serving,
     );
   }
 }

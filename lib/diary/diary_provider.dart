@@ -1,5 +1,7 @@
 import 'package:aniry/app/models/app_calculable_item.dart';
 import 'package:aniry/ingredient/Ingredient_provider.dart';
+import 'package:aniry/ingredient/models/ingredient.dart';
+import 'package:aniry/recipe/models/recipe.dart';
 import 'package:aniry/recipe/recipe_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +25,10 @@ class DiaryProvider extends ChangeNotifier {
       IngredientProvider.of(context).lazyLoadIngredients(),
       RecipeProvider.of(context).lazyLoadRecipes(),
     ]);
-    calculableItems = [...partitions[0], ...partitions[1]];
+    calculableItems = [
+      ...(partitions[0] as List<Ingredient>).map((ingredient) => ingredient.toCalculableItem()),
+      ...(partitions[1] as List<Recipe>).map((recipe) => recipe.toCalculableItem()),
+    ];
     return calculableItems;
   }
 }

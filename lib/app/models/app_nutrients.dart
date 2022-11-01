@@ -11,20 +11,22 @@ class AppNutrients {
     this.fat = 0,
   });
 
-  static AppNutrients fromJson(Map<String, dynamic> json) {
-    return AppNutrients(
-      carbs: (json['carbs'] as num? ?? 0).toDouble(),
-      protein: (json['protein'] as num? ?? 0).toDouble(),
-      fat: (json['fat'] as num? ?? 0).toDouble(),
-    );
+  static AppNutrients fromJson(Map<String, dynamic>? json) {
+    return json != null
+        ? AppNutrients(
+            carbs: (json['carbs'] as num? ?? 0).toDouble(),
+            protein: (json['protein'] as num? ?? 0).toDouble(),
+            fat: (json['fat'] as num? ?? 0).toDouble(),
+          )
+        : AppNutrients();
   }
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'carbs': carbs,
-      'protein': protein,
-      'fat': fat,
-    };
+    final json = <String, dynamic>{};
+    if (carbs != 0) json['carbs'] = carbs;
+    if (protein != 0) json['protein'] = protein;
+    if (fat != 0) json['fat'] = fat;
+    return json;
   }
 
   @override

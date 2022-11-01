@@ -1,33 +1,35 @@
-import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
 import 'package:aniry/app/models/app_serving.dart';
 
-abstract class AppCalculableItem {
-  late String id;
-  late String name;
-  late double calories;
-  late AppNutrients nutrients;
-  late AppServing serving;
-  late List<AppServing> servings;
+class AppCalculableItem {
+  final Type source;
+  final double calories;
+  final AppNutrients nutrients;
+  final AppServing serving;
 
-  AppListItem toListItem();
+  const AppCalculableItem({
+    required this.source,
+    required this.calories,
+    required this.nutrients,
+    required this.serving,
+  });
 
-  static double reduceListOfCalories(List<double> listOfCalories) {
+  static double reduceCaloriesList(List<double> caloriesList) {
     double calories = 0;
-    for (int index = 0; index < listOfCalories.length; index++) {
-      calories += listOfCalories[index];
+    for (int index = 0; index < caloriesList.length; index++) {
+      calories += caloriesList[index];
     }
     return calories;
   }
 
-  static AppNutrients reduceListOfNutrients(List<AppNutrients> listOfNutrients) {
+  static AppNutrients reduceNutrientsList(List<AppNutrients> nutrientsList) {
     double carbs = 0;
     double protein = 0;
     double fat = 0;
-    for (int index = 0; index < listOfNutrients.length; index++) {
-      carbs += listOfNutrients[index].carbs;
-      protein += listOfNutrients[index].protein;
-      fat += listOfNutrients[index].fat;
+    for (int index = 0; index < nutrientsList.length; index++) {
+      carbs += nutrientsList[index].carbs;
+      protein += nutrientsList[index].protein;
+      fat += nutrientsList[index].fat;
     }
     return AppNutrients(
       carbs: carbs,
@@ -36,7 +38,7 @@ abstract class AppCalculableItem {
     );
   }
 
-  static double calculateProxyCalories({
+  static double getProxyCalories({
     required double itemCalories,
     required AppServing itemServing,
     required AppServing proxyServing,
@@ -44,7 +46,7 @@ abstract class AppCalculableItem {
     return (itemCalories / itemServing.value) * proxyServing.value;
   }
 
-  static AppNutrients calculateProxyNutrients({
+  static AppNutrients getProxyNutrients({
     required AppNutrients itemNutrients,
     required AppServing itemServing,
     required AppServing proxyServing,
