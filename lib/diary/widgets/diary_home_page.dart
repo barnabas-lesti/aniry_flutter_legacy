@@ -79,6 +79,11 @@ class _DiaryHomePageEditorState extends State<_DiaryHomePageEditor> {
             }
             _diaryItem.ingredientProxies = ingredientProxies;
             _diaryItem.recipeProxies = recipeProxies;
+
+            final ids = items.map((item) => item.id).toList();
+            final filteredOrderedIDs = _diaryItem.orderedIDs.where((orderedID) => ids.contains(orderedID)).toList();
+            filteredOrderedIDs.addAll(ids.where((id) => !filteredOrderedIDs.contains(id)));
+            _diaryItem.orderedIDs = filteredOrderedIDs;
           });
         },
       );
@@ -100,12 +105,11 @@ class _DiaryHomePageEditorState extends State<_DiaryHomePageEditor> {
     };
   }
 
-  // void _onListReorder(List<AppListItem> items) {
-  //   setState(() {
-  //     _recipe.ingredientProxies =
-  //         ids.map((id) => _recipe.ingredientProxies.where((proxy) => proxy.id == id).first).toList();
-  //   });
-  // }
+  void _onListReorder(List<AppListItem> items) {
+    setState(() {
+      _diaryItem.orderedIDs = items.map((item) => item.id).toList();
+    });
+  }
 
   void _onDelete(AppListItem item) {
     setState(() {
@@ -141,7 +145,7 @@ class _DiaryHomePageEditorState extends State<_DiaryHomePageEditor> {
           showTextRightSecondary: true,
           numberOfVisibleItems: 5,
           onTap: _buildOnListTileTap(context),
-          // onReorder: _onListReorder,
+          onReorder: _onListReorder,
           onDelete: _onDelete,
         ),
         Padding(
