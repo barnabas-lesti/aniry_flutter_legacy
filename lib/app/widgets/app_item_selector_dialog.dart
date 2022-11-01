@@ -129,5 +129,6 @@ class _AppItemSelectorDialogProvider extends ChangeNotifier {
     } else {
       selectedItems.removeWhere((selectedItem) => selectedItem.id == item.id);
     }
+    notifyListeners();
   }
 }
