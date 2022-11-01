@@ -12,6 +12,12 @@
   "appServingEditorDialogCancel": "Cancel",
   "appServingEditorDialogSave": "Save",
 
+  "appNutrientsChartCarbs": "Carbs",
+  "appNutrientsChartProtein": "Protein",
+  "appNutrientsChartFat": "Fat",
+
+  "appTotalCalories": "Total calories",
+
   "ingredientTab": "Ingredients",
 
   "ingredientHomeTitle": "Ingredients",
@@ -103,6 +109,7 @@
   "recipeFormIngredientsAddTooltip": "Add ingredients",
   "recipeFormIngredientsNoItems": "Add ingredients with the button above",
   "recipeFormTotalCalories": "Total calories",
+  "recipeFormNutrients": "Nutrients",
 
   "diaryTab": "Calculator",
   "diaryHomePageTitle": "Calculator",

@@ -7,10 +7,12 @@ import 'package:aniry/app/widgets/app_input.dart';
 import 'package:aniry/app/widgets/app_item_selector_dialog.dart';
 import 'package:aniry/app/widgets/app_list.dart';
 import 'package:aniry/app/widgets/app_notification.dart';
+import 'package:aniry/app/widgets/app_nutrients_chart.dart';
 import 'package:aniry/app/widgets/app_page_scaffold.dart';
 import 'package:aniry/app/widgets/app_section_header.dart';
 import 'package:aniry/app/widgets/app_serving_editor_dialog.dart';
 import 'package:aniry/app/widgets/app_serving_input.dart';
+import 'package:aniry/app/widgets/app_total_calories.dart';
 import 'package:aniry/ingredient/Ingredient_provider.dart';
 import 'package:aniry/ingredient/models/ingredient_proxy.dart';
 import 'package:aniry/recipe/models/recipe.dart';
@@ -237,23 +239,17 @@ class _RecipeEditPageFormState extends State<_RecipeEditPageForm> {
             onTap: (item) => _buildOnListTileTap(context)(item.id),
             onReorder: (items) => _onListReorder(items.map((item) => item.id).toList()),
             onDelete: (item) => _onDelete(item.id),
+            paddingBottom: 16,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  appI10N.recipeFormTotalCalories,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  '${_recipe.calories.toStringAsFixed(0)}${AppUnit.kcal}',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          )
+          AppTotalCalories(
+            calories: _recipe.calories,
+            paddingBottom: 16,
+          ),
+          AppSectionHeader(
+            title: appI10N.recipeFormNutrients,
+            paddingBottom: 16,
+          ),
+          AppNutrientsChart(nutrients: _recipe.nutrients),
         ],
       ),
     );

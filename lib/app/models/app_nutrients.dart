@@ -1,4 +1,5 @@
 import 'package:aniry/app/app_utils.dart';
+import 'package:flutter/material.dart';
 
 class AppNutrients {
   late double carbs;
@@ -10,6 +11,10 @@ class AppNutrients {
     this.protein = 0,
     this.fat = 0,
   });
+
+  static Color carbsColor = Colors.blue[300]!;
+  static Color proteinColor = Colors.red[300]!;
+  static Color fatColor = Colors.orange[300]!;
 
   static AppNutrients fromJson(Map<String, dynamic>? json) {
     return json != null
