@@ -1,16 +1,15 @@
 import 'package:aniry/app/models/app_list_item.dart';
-import 'package:aniry/app/models/app_serving.dart';
 import 'package:aniry/app/models/app_unit.dart';
 import 'package:aniry/app/widgets/app_header_action.dart';
 import 'package:aniry/app/widgets/app_item_selector_dialog.dart';
 import 'package:aniry/app/widgets/app_list.dart';
 import 'package:aniry/app/widgets/app_page_scaffold.dart';
 import 'package:aniry/app/widgets/app_section_header.dart';
+import 'package:aniry/app/widgets/app_serving_editor_dialog.dart';
 import 'package:aniry/diary/models/diary_item.dart';
 import 'package:aniry/ingredient/Ingredient_provider.dart';
 import 'package:aniry/ingredient/models/ingredient.dart';
 import 'package:aniry/ingredient/models/ingredient_proxy.dart';
-import 'package:aniry/ingredient/widgets/ingredient_serving_editor_dialog.dart';
 import 'package:aniry/recipe/models/recipe_proxy.dart';
 import 'package:aniry/recipe/recipe_provider.dart';
 import 'package:flutter/material.dart';
@@ -92,13 +91,18 @@ class _DiaryHomePageEditorState extends State<_DiaryHomePageEditor> {
 
   void Function(AppListItem) _buildOnListTileTap(BuildContext context) {
     return (item) {
-      showIngredientServingEditorDialog(
+      showAppServingEditorDialog(
         context: context,
-        initialServing: AppServing(),
-        // initialServing: _recipe.ingredientProxies.firstWhere((proxy) => proxy.id == id).serving,
+        initialServing: (item.source == Ingredient || item.source == IngredientProxy)
+            ? _diaryItem.ingredientProxies.firstWhere((proxy) => proxy.id == item.id).serving
+            : _diaryItem.recipeProxies.firstWhere((proxy) => proxy.id == item.id).serving,
         onSave: (serving) {
           setState(() {
-            // _recipe.ingredientProxies.firstWhere((proxy) => proxy.id == id).serving.value = serving.value;
+            if (item.source == Ingredient || item.source == IngredientProxy) {
+              _diaryItem.ingredientProxies.firstWhere((proxy) => proxy.id == item.id).serving.value = serving.value;
+            } else {
+              _diaryItem.recipeProxies.firstWhere((proxy) => proxy.id == item.id).serving.value = serving.value;
+            }
           });
         },
       );

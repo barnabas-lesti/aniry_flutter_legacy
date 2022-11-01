@@ -1,11 +1,10 @@
-import 'package:aniry/app/app_i10n.dart';
 import 'package:aniry/app/app_utils.dart';
 import 'package:aniry/app/models/app_serving.dart';
 import 'package:aniry/app/widgets/app_button_group.dart';
 import 'package:aniry/app/widgets/app_input.dart';
 import 'package:flutter/material.dart';
 
-void showIngredientServingEditorDialog({
+void showAppServingEditorDialog({
   required BuildContext context,
   required AppServing initialServing,
   required void Function(AppServing) onSave,
@@ -13,7 +12,7 @@ void showIngredientServingEditorDialog({
   showDialog(
     context: context,
     builder: (context) {
-      return IngredientServingEditorDialog(
+      return _AppServingEditorDialog(
         initialServing: initialServing,
         onSave: onSave,
       );
@@ -21,21 +20,20 @@ void showIngredientServingEditorDialog({
   );
 }
 
-class IngredientServingEditorDialog extends StatefulWidget {
+class _AppServingEditorDialog extends StatefulWidget {
   final AppServing initialServing;
   final void Function(AppServing) onSave;
 
-  const IngredientServingEditorDialog({
+  const _AppServingEditorDialog({
     required this.initialServing,
     required this.onSave,
-    super.key,
   });
 
   @override
-  State<IngredientServingEditorDialog> createState() => _IngredientServingEditorDialogState();
+  State<_AppServingEditorDialog> createState() => _AppServingEditorDialogState();
 }
 
-class _IngredientServingEditorDialogState extends State<IngredientServingEditorDialog> {
+class _AppServingEditorDialogState extends State<_AppServingEditorDialog> {
   late AppServing _serving;
 
   void Function() _buildOnSave(BuildContext context) {
@@ -53,10 +51,8 @@ class _IngredientServingEditorDialogState extends State<IngredientServingEditorD
 
   @override
   Widget build(BuildContext context) {
-    final appI10N = AppI10N.of(context);
-
     return SimpleDialog(
-      title: Text(appI10N.ingredientServingEditorDialogTitle),
+      title: const Text('Edit serving'),
       titlePadding: const EdgeInsets.all(16),
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
       contentPadding: const EdgeInsets.only(right: 16, bottom: 16, left: 16),
@@ -64,18 +60,18 @@ class _IngredientServingEditorDialogState extends State<IngredientServingEditorD
         AppInput(
           number: true,
           initialValue: AppUtils.doubleToString(_serving.value, exact: true),
-          label: appI10N.ingredientServingEditorDialogServingLabel,
+          label: 'Serving',
           onChanged: (value) => _serving.value = AppUtils.stringToDouble(value),
           paddingBottom: 16,
           suffix: _serving.unit,
         ),
         AppButtonGroup(actions: [
           AppButtonGroupAction(
-            label: appI10N.ingredientServingEditorDialogCancel,
+            label: 'Cancel',
             onPressed: () => Navigator.pop(context),
           ),
           AppButtonGroupAction(
-            label: appI10N.ingredientServingEditorDialogSave,
+            label: 'Save',
             onPressed: _buildOnSave(context),
           ),
         ]),

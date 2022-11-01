@@ -9,10 +9,10 @@ import 'package:aniry/app/widgets/app_list.dart';
 import 'package:aniry/app/widgets/app_notification.dart';
 import 'package:aniry/app/widgets/app_page_scaffold.dart';
 import 'package:aniry/app/widgets/app_section_header.dart';
+import 'package:aniry/app/widgets/app_serving_editor_dialog.dart';
 import 'package:aniry/app/widgets/app_serving_input.dart';
 import 'package:aniry/ingredient/Ingredient_provider.dart';
 import 'package:aniry/ingredient/models/ingredient_proxy.dart';
-import 'package:aniry/ingredient/widgets/ingredient_serving_editor_dialog.dart';
 import 'package:aniry/recipe/models/recipe.dart';
 import 'package:aniry/recipe/recipe_provider.dart';
 import 'package:beamer/beamer.dart';
@@ -151,7 +151,7 @@ class _RecipeEditPageFormState extends State<_RecipeEditPageForm> {
 
   void Function(String) _buildOnListTileTap(BuildContext context) {
     return (id) {
-      showIngredientServingEditorDialog(
+      showAppServingEditorDialog(
         context: context,
         initialServing: _recipe.ingredientProxies.firstWhere((proxy) => proxy.id == id).serving,
         onSave: (serving) {
