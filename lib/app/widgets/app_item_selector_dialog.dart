@@ -59,9 +59,10 @@ class _AppItemSelectorDialog extends StatelessWidget {
                 items: provider.filteredItems,
                 noItemsText: appI10N.appItemSelectorDialogNoItems,
                 selectedItems: provider.selectedItems,
+                numberOfVisibleItems: 5,
                 showIcon: true,
                 showCheckbox: true,
-                numberOfVisibleItems: 5,
+                fixedHeight: true,
                 paddingBottom: 16,
                 onTap: (item) => provider.toggleItem(item),
               );

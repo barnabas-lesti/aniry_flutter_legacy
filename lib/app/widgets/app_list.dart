@@ -15,6 +15,7 @@ class AppList extends StatelessWidget {
   final String noItemsText;
   final double? paddingBottom;
   final int? numberOfVisibleItems;
+  final bool? fixedHeight;
   final bool? dense;
   final bool? showIcon;
   final bool? showTextLeftSecondary;
@@ -35,6 +36,7 @@ class AppList extends StatelessWidget {
     this.selectedItems,
     this.paddingBottom,
     this.numberOfVisibleItems,
+    this.fixedHeight,
     this.dense,
     this.showIcon,
     this.showTextLeftSecondary,
@@ -129,7 +131,11 @@ class AppList extends StatelessWidget {
     final sizedContent = numberOfVisibleItems != null && numberOfVisibleItems! > 0
         ? SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: ((items.length < numberOfVisibleItems! ? items.length : numberOfVisibleItems!) * 64).toDouble(),
+            height: (((fixedHeight ?? false)
+                        ? numberOfVisibleItems!
+                        : (items.length < numberOfVisibleItems! ? items.length : numberOfVisibleItems!)) *
+                    64)
+                .toDouble(),
             child: content,
           )
         : content;

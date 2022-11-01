@@ -1,3 +1,4 @@
+import 'package:aniry/app/app_i10n.dart';
 import 'package:aniry/app/app_utils.dart';
 import 'package:aniry/app/models/app_serving.dart';
 import 'package:aniry/app/widgets/app_button_group.dart';
@@ -51,8 +52,10 @@ class _AppServingEditorDialogState extends State<_AppServingEditorDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final appI10N = AppI10N.of(context);
+
     return SimpleDialog(
-      title: const Text('Edit serving'),
+      title: Text(appI10N.appServingEditorDialogTitle),
       titlePadding: const EdgeInsets.all(16),
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
       contentPadding: const EdgeInsets.only(right: 16, bottom: 16, left: 16),
@@ -60,18 +63,18 @@ class _AppServingEditorDialogState extends State<_AppServingEditorDialog> {
         AppInput(
           number: true,
           initialValue: AppUtils.doubleToString(_serving.value, exact: true),
-          label: 'Serving',
+          label: appI10N.appServingEditorDialogServingLabel,
           onChanged: (value) => _serving.value = AppUtils.stringToDouble(value),
           paddingBottom: 16,
           suffix: _serving.unit,
         ),
         AppButtonGroup(actions: [
           AppButtonGroupAction(
-            label: 'Cancel',
+            label: appI10N.appServingEditorDialogCancel,
             onPressed: () => Navigator.pop(context),
           ),
           AppButtonGroupAction(
-            label: 'Save',
+            label: appI10N.appServingEditorDialogSave,
             onPressed: _buildOnSave(context),
           ),
         ]),

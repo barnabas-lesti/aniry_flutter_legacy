@@ -1,3 +1,4 @@
+import 'package:aniry/app/app_i10n.dart';
 import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_unit.dart';
 import 'package:aniry/app/widgets/app_header_action.dart';
@@ -128,23 +129,24 @@ class _DiaryHomePageEditorState extends State<_DiaryHomePageEditor> {
 
   @override
   Widget build(BuildContext context) {
+    final appI10N = AppI10N.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppSectionHeader(
-          title: 'Items',
+          title: appI10N.diaryHomePageItemsTitle,
           paddingBottom: 8,
           actions: [
             AppHeaderAction(
               icon: Icons.add,
-              tooltip: 'Add items',
+              tooltip: appI10N.diaryHomePageItemsAddLabel,
               onPressed: _buildOnEditIngredientsPress(context),
             )
           ],
         ),
         AppList(
           items: _diaryItem.listItems,
-          noItemsText: 'No items',
+          noItemsText: appI10N.diaryHomePageNoItems,
           showIcon: true,
           showTextRightPrimary: true,
           showTextRightSecondary: true,
@@ -158,9 +160,9 @@ class _DiaryHomePageEditorState extends State<_DiaryHomePageEditor> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Total calories',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Text(
+                appI10N.diaryHomePageTotalCalories,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
                 '${_diaryItem.calories.toStringAsFixed(0)}${AppUnit.kcal}',
