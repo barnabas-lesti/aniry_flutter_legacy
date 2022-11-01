@@ -1,6 +1,12 @@
 {
   "@@locale": "en",
 
+  "appItemSelectorDialogTitle": "Select items",
+  "appItemSelectorDialogSearchLabel": "Search items",
+  "appItemSelectorDialogNoItems": "No items available",
+  "appItemSelectorDialogCancel": "Discard",
+  "appItemSelectorDialogSave": "Save",
+
   "ingredientTab": "Ingredients",
 
   "ingredientHomeTitle": "Ingredients",
@@ -91,5 +97,8 @@
   "recipeFormIngredients": "Ingredients",
   "recipeFormIngredientsAddTooltip": "Add ingredients",
   "recipeFormIngredientsNoItems": "Add ingredients with the button above",
-  "recipeFormTotalCalories": "Total calories"
+  "recipeFormTotalCalories": "Total calories",
+
+  "diaryTab": "Calculator",
+  "diaryHomePageTitle": "Calculator"
 }

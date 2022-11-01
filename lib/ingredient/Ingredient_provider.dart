@@ -56,8 +56,8 @@ class IngredientProvider extends ChangeNotifier {
     RecipeProvider.of(context).deleteIngredientFromRecipes(id);
   }
 
-  static IngredientProvider of(BuildContext context) {
-    return Provider.of(context, listen: false);
+  static IngredientProvider of(BuildContext context, {bool listen = false}) {
+    return Provider.of(context, listen: listen);
   }
 
   Future<List<Ingredient>> lazyLoadIngredients() async {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aniry/app/models/app_calculable_item.dart';
 import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
 import 'package:aniry/app/models/app_serving.dart';
@@ -34,7 +35,7 @@ class Ingredient {
   static const double defaultServingValue = 100.0;
   static const List<String> primaryServingUnits = [AppUnit.g, AppUnit.ml];
   static const IconData icon = Icons.apple;
-  static Color color = Colors.green[400]!;
+  static final Color color = Colors.green[400]!;
 
   AppServing get serving => servings[0];
 
@@ -44,31 +45,44 @@ class Ingredient {
       name: json['name'] as String,
       calories: (json['calories'] as num? ?? 0).toDouble(),
       nutrients: AppNutrients.fromJson(json['nutrients'] as Map<String, dynamic>),
-      servings: (json['servings'] as List<dynamic>).map((e) => AppServing.fromJson(e as Map<String, dynamic>)).toList(),
+      servings: (json['servings'] as List<dynamic>)
+          .map((serving) => AppServing.fromJson(serving as Map<String, dynamic>))
+          .toList(),
       description: json['description'] as String? ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
+    final json = <String, dynamic>{
       'id': id,
       'name': name,
-      'calories': calories,
       'nutrients': nutrients,
       'servings': servings,
-      'description': description,
     };
+    if (calories != 0) json['calories'] = calories;
+    if (description.isNotEmpty) json['description'] = description;
+    return json;
   }
 
   AppListItem toListItem() {
     return AppListItem(
       id: id,
+      source: Ingredient,
       textLeftPrimary: name,
       textLeftSecondary: nutrients.toString(),
       textRightPrimary: serving.toString(),
       textRightSecondary: '${calories.toStringAsFixed(0)}${AppUnit.kcal}',
       icon: icon,
       color: color,
+    );
+  }
+
+  AppCalculableItem toCalculableItem() {
+    return AppCalculableItem(
+      source: Ingredient,
+      calories: calories,
+      nutrients: nutrients,
+      serving: serving,
     );
   }
 

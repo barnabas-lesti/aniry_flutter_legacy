@@ -13,8 +13,8 @@ class ShoppingItem {
 
   static ShoppingItem fromJson(Map<String, dynamic> json) {
     return ShoppingItem(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: json['id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
       checked: json['checked'] as bool? ?? false,
     );
   }
@@ -30,6 +30,7 @@ class ShoppingItem {
   AppListItem toListItem() {
     return AppListItem(
       id: id,
+      source: ShoppingItem,
       textLeftPrimary: name,
     );
   }

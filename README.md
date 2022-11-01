@@ -53,3 +53,4 @@ flutter gen-l10n
 - https://github.com/flutter/samples/tree/main/provider_shopper
 - https://docs.flutter.dev/development/accessibility-and-localization/internationalization
 - https://localizely.com/flutter-arb/
+- https://medium.com/@manoelsrs/dart-extends-vs-implements-vs-with-b070f9637b36

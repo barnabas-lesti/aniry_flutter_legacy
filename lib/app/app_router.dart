@@ -1,4 +1,5 @@
 import 'package:aniry/app/models/app_feature_router.dart';
+import 'package:aniry/diary/diary_router.dart';
 import 'package:aniry/ingredient/Ingredient_router.dart';
 import 'package:aniry/recipe/recipe_router.dart';
 import 'package:aniry/settings/settings_router.dart';
@@ -7,6 +8,7 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 
 final featureRouters = <AppFeatureRouter>[
+  diaryRouter,
   ingredientRouter,
   recipeRouter,
   shoppingRouter,

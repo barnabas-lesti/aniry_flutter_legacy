@@ -11,7 +11,7 @@ enum AppListSelectedDecoration {
 
 class AppList extends StatelessWidget {
   final List<AppListItem> items;
-  final List<String>? selectedIDs;
+  final List<AppListItem>? selectedItems;
   final String noItemsText;
   final double? paddingBottom;
   final int? numberOfVisibleItems;
@@ -24,15 +24,15 @@ class AppList extends StatelessWidget {
   final bool? shrinkWrap;
   final bool? expanded;
   final AppListSelectedDecoration? selectedDecoration;
-  final void Function(String, bool)? onSelect;
-  final void Function(String)? onDelete;
-  final void Function(List<String>)? onReorder;
-  final void Function(String)? onTap;
+  final void Function(AppListItem, bool)? onSelect;
+  final void Function(AppListItem)? onDelete;
+  final void Function(List<AppListItem>)? onReorder;
+  final void Function(AppListItem)? onTap;
 
   const AppList({
     required this.items,
     required this.noItemsText,
-    this.selectedIDs = const [],
+    this.selectedItems,
     this.paddingBottom,
     this.numberOfVisibleItems,
     this.dense,
@@ -53,8 +53,9 @@ class AppList extends StatelessWidget {
 
   void _onReorder(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) newIndex -= 1;
-    items.insert(newIndex, items.removeAt(oldIndex));
-    onReorder!(items.map((item) => item.id).toList());
+    final reorderedItems = [...items];
+    reorderedItems.insert(newIndex, reorderedItems.removeAt(oldIndex));
+    onReorder!(reorderedItems);
   }
 
   Widget _proxyDecorator(Widget child, int index, Animation<double> animation) {
@@ -76,16 +77,16 @@ class AppList extends StatelessWidget {
             key: Key(items[i].id),
             item: items[i],
             dense: (dense ?? false),
-            selected: (selectedIDs ?? []).where((id) => items[i].id == id).isNotEmpty,
+            selected: (selectedItems ?? []).where((selectedItem) => items[i].id == selectedItem.id).isNotEmpty,
             showCheckbox: (showCheckbox ?? false),
             showIcon: (showIcon ?? false),
             showTextLeftSecondary: (showTextLeftSecondary ?? false),
             showTextRightPrimary: (showTextRightPrimary ?? false),
             showTextRightSecondary: (showTextRightSecondary ?? false),
             selectDecoration: selectedDecoration ?? AppListSelectedDecoration.none,
-            onTap: onTap != null ? () => onTap!(items[i].id) : null,
-            onSelect: onSelect != null ? (selected) => onSelect!(items[i].id, selected) : null,
-            onDelete: onDelete != null ? () => onDelete!(items[i].id) : null,
+            onTap: onTap != null ? () => onTap!(items[i]) : null,
+            onSelect: onSelect != null ? (selected) => onSelect!(items[i], selected) : null,
+            onDelete: onDelete != null ? () => onDelete!(items[i]) : null,
           )
       ];
 

@@ -73,8 +73,8 @@ class RecipeProvider extends ChangeNotifier {
     }).toList();
   }
 
-  static RecipeProvider of(BuildContext context) {
-    return Provider.of(context, listen: false);
+  static RecipeProvider of(BuildContext context, {bool listen = false}) {
+    return Provider.of(context, listen: listen);
   }
 
   Future<List<Recipe>> lazyLoadRecipes() async {
