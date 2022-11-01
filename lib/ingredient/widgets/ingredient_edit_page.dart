@@ -5,6 +5,7 @@ import 'package:aniry/app/widgets/app_header_action.dart';
 import 'package:aniry/app/widgets/app_confirmation_dialog.dart';
 import 'package:aniry/app/widgets/app_input.dart';
 import 'package:aniry/app/widgets/app_notification.dart';
+import 'package:aniry/app/widgets/app_nutrients_chart.dart';
 import 'package:aniry/app/widgets/app_page_scaffold.dart';
 import 'package:aniry/app/widgets/app_section_header.dart';
 import 'package:aniry/app/widgets/app_serving_input.dart';
@@ -198,6 +199,7 @@ class _IngredientEditPageFormState extends State<_IngredientEditPageForm> {
             number: true,
             paddingBottom: 16,
           ),
+          AppNutrientsChart(nutrients: _ingredient.nutrients),
         ],
       ),
     );
