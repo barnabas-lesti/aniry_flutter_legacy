@@ -1,6 +1,7 @@
 import 'package:aniry/app/models/app_calculable_item.dart';
 import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
+import 'package:aniry/app/widgets/app_list.dart';
 import 'package:aniry/ingredient/models/ingredient_proxy.dart';
 import 'package:aniry/recipe/models/recipe_proxy.dart';
 import 'package:collection/collection.dart';
@@ -36,11 +37,14 @@ class DiaryItem {
   }
 
   List<AppListItem> get listItems {
-    return orderedIDs.map((id) {
-      final ingredientProxy = ingredientProxies.where((proxy) => proxy.id == id).firstOrNull;
-      if (ingredientProxy != null) return ingredientProxy.toListItem();
-      final recipeProxy = recipeProxies.where((proxy) => proxy.id == id).first;
-      return recipeProxy.toListItem();
-    }).toList();
+    return orderedIDs
+        .map((id) {
+          final ingredientProxy = ingredientProxies.where((proxy) => proxy.id == id).firstOrNull;
+          if (ingredientProxy != null) return ingredientProxy.toListItem();
+          final recipeProxy = recipeProxies.where((proxy) => proxy.id == id).firstOrNull;
+          if (recipeProxy != null) return recipeProxy.toListItem();
+        })
+        .whereType<AppListItem>()
+        .toList();
   }
 }
