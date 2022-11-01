@@ -7,6 +7,11 @@
   "appItemSelectorDialogCancel": "Discard",
   "appItemSelectorDialogSave": "Save",
 
+  "appServingEditorDialogTitle": "Edit serving",
+  "appServingEditorDialogServingLabel": "Serving",
+  "appServingEditorDialogCancel": "Cancel",
+  "appServingEditorDialogSave": "Save",
+
   "ingredientTab": "Ingredients",
 
   "ingredientHomeTitle": "Ingredients",
@@ -100,5 +105,9 @@
   "recipeFormTotalCalories": "Total calories",
 
   "diaryTab": "Calculator",
-  "diaryHomePageTitle": "Calculator"
+  "diaryHomePageTitle": "Calculator",
+  "diaryHomePageItemsTitle": "Items",
+  "diaryHomePageItemsAddLabel": "Add items",
+  "diaryHomePageNoItems": "No items",
+  "diaryHomePageTotalCalories": "Total calories"
 }
