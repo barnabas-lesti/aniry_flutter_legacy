@@ -111,9 +111,9 @@ class _DiaryHomePageEditorState extends State<_DiaryHomePageEditor> {
           showTextRightPrimary: true,
           showTextRightSecondary: true,
           numberOfVisibleItems: 5,
-          onTap: _buildOnListTileTap(context),
-          onReorder: _onListReorder,
-          onDelete: _onDelete,
+          onTap: (item) => _buildOnListTileTap(context)(item.id),
+          onReorder: (items) => _onListReorder(items.map((item) => item.id).toList()),
+          onDelete: (item) => _onDelete(item.id),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),

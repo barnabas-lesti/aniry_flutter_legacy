@@ -1,9 +1,9 @@
+import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/widgets/app_header_action.dart';
 import 'package:aniry/app/widgets/app_confirmation_dialog.dart';
 import 'package:aniry/app/widgets/app_list.dart';
 import 'package:aniry/app/widgets/app_page_scaffold.dart';
 import 'package:aniry/app/app_i10n.dart';
-import 'package:aniry/shopping/models/shopping_item.dart';
 import 'package:aniry/shopping/shopping_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -83,11 +83,11 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
           ),
           Consumer<ShoppingProvider>(
             builder: (context, shoppingProvider, widget) => _ShoppingHomePageList(
-              items: shoppingProvider.items,
-              selectedIDs: shoppingProvider.checkedItems.map((item) => item.id).toList(),
-              onDelete: shoppingProvider.deleteItem,
-              onTap: _buildOnTap(shoppingProvider),
-              onReorder: shoppingProvider.reorderItems,
+              items: shoppingProvider.items.map((item) => item.toListItem()).toList(),
+              selectedItems: shoppingProvider.checkedItems.map((item) => item.toListItem()).toList(),
+              onDelete: (item) => shoppingProvider.deleteItem(item.id),
+              onTap: (item) => _buildOnTap(shoppingProvider)(item.id),
+              onReorder: (items) => shoppingProvider.reorderItems(items.map((item) => item.id).toList()),
             ),
           ),
         ],
@@ -97,15 +97,15 @@ class _ShoppingHomePageState extends State<ShoppingHomePage> {
 }
 
 class _ShoppingHomePageList extends StatelessWidget {
-  final List<ShoppingItem> items;
-  final List<String> selectedIDs;
-  final void Function(List<String>) onReorder;
-  final void Function(String) onDelete;
-  final void Function(String) onTap;
+  final List<AppListItem> items;
+  final List<AppListItem> selectedItems;
+  final void Function(List<AppListItem>) onReorder;
+  final void Function(AppListItem) onDelete;
+  final void Function(AppListItem) onTap;
 
   const _ShoppingHomePageList({
     required this.items,
-    required this.selectedIDs,
+    required this.selectedItems,
     required this.onReorder,
     required this.onDelete,
     required this.onTap,
@@ -114,8 +114,8 @@ class _ShoppingHomePageList extends StatelessWidget {
   @override
   Widget build(context) {
     return AppList(
-      items: items.map((item) => item.toListItem()).toList(),
-      selectedIDs: selectedIDs,
+      items: items,
+      selectedItems: selectedItems,
       noItemsText: AppI10N.of(context).shoppingListNoItems,
       dense: true,
       showCheckbox: true,

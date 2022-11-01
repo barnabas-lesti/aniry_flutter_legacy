@@ -77,7 +77,7 @@ class _IngredientHomePageList extends StatelessWidget {
   Widget build(context) {
     return AppList(
       items: ingredients.map((ingredient) => ingredient.toListItem()).toList(),
-      onTap: onTap,
+      onTap: (item) => onTap(item.id),
       noItemsText: AppI10N.of(context).ingredientListNoItems,
       showIcon: true,
       showTextLeftSecondary: true,

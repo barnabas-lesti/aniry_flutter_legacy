@@ -9,17 +9,17 @@ import 'package:provider/provider.dart';
 
 void showAppItemSelectorDialog({
   required BuildContext context,
-  required Iterable<String> selectedIDs,
-  required Iterable<AppListItem> listItems,
-  required void Function(Iterable<String>) onSave,
+  required List<AppListItem> items,
+  required List<AppListItem> selectedItems,
+  required void Function(List<AppListItem>) onSave,
 }) {
   showDialog(
     context: context,
     builder: (context) {
       return ChangeNotifierProvider<_AppItemSelectorDialogProvider>(
         create: (c) => _AppItemSelectorDialogProvider(
-          selectedIDs: selectedIDs,
-          listItems: listItems,
+          items: items,
+          selectedItems: selectedItems,
         ),
         child: _AppItemSelectorDialog(
           onSave: onSave,
@@ -30,7 +30,7 @@ void showAppItemSelectorDialog({
 }
 
 class _AppItemSelectorDialog extends StatelessWidget {
-  final void Function(Iterable<String>) onSave;
+  final void Function(List<AppListItem>) onSave;
 
   const _AppItemSelectorDialog({
     required this.onSave,
@@ -56,14 +56,14 @@ class _AppItemSelectorDialog extends StatelessWidget {
             ),
             Consumer<_AppItemSelectorDialogProvider>(builder: (c, p, w) {
               return AppList(
-                items: provider.filteredListItems.toList(),
+                items: provider.filteredItems,
                 noItemsText: appI10N.appItemSelectorDialogNoItems,
-                selectedIDs: provider.selectedIDs.toList(),
+                selectedItems: provider.selectedItems,
                 showIcon: true,
                 showCheckbox: true,
                 numberOfVisibleItems: 5,
                 paddingBottom: 16,
-                onTap: (id) => provider.toggleID(id),
+                onTap: (item) => provider.toggleItem(item),
               );
             }),
           ],
@@ -76,7 +76,7 @@ class _AppItemSelectorDialog extends StatelessWidget {
           AppButtonGroupAction(
             label: appI10N.appItemSelectorDialogSave,
             onPressed: () {
-              onSave(provider.selectedIDs);
+              onSave(provider.selectedItems);
               Navigator.pop(context);
             },
           ),
@@ -87,34 +87,34 @@ class _AppItemSelectorDialog extends StatelessWidget {
 }
 
 class _AppItemSelectorDialogProvider extends ChangeNotifier {
-  late Iterable<String> _selectedIDs;
-  late Iterable<AppListItem> _listItems;
+  late List<AppListItem> _items;
+  late List<AppListItem> _selectedItems;
   late String _searchString;
 
   _AppItemSelectorDialogProvider({
-    required Iterable<String> selectedIDs,
-    required Iterable<AppListItem> listItems,
+    required List<AppListItem> items,
+    required List<AppListItem> selectedItems,
   }) {
-    this.selectedIDs = selectedIDs;
-    this.listItems = listItems;
+    this.items = items;
+    this.selectedItems = selectedItems;
     searchString = '';
   }
 
-  set selectedIDs(Iterable<String> ids) {
-    _selectedIDs = ids;
+  set selectedItems(List<AppListItem> selectedItems) {
+    _selectedItems = selectedItems;
     notifyListeners();
   }
 
-  Iterable<String> get selectedIDs => _selectedIDs;
+  List<AppListItem> get selectedItems => _selectedItems;
 
-  set listItems(Iterable<AppListItem> items) {
-    _listItems = items;
+  set items(List<AppListItem> items) {
+    _items = items;
     notifyListeners();
   }
 
-  Iterable<AppListItem> get listItems => _listItems;
-  Iterable<AppListItem> get filteredListItems =>
-      listItems.where((item) => AppUtils.isStringInString(item.textLeftPrimary, searchString));
+  List<AppListItem> get items => _items;
+  List<AppListItem> get filteredItems =>
+      items.where((item) => AppUtils.isStringInString(item.textLeftPrimary, searchString)).toList();
 
   set searchString(String string) {
     _searchString = string;
@@ -123,11 +123,11 @@ class _AppItemSelectorDialogProvider extends ChangeNotifier {
 
   String get searchString => _searchString;
 
-  void toggleID(String id) {
-    if (selectedIDs.contains(id)) {
-      selectedIDs = [...selectedIDs.where((selectedId) => selectedId != id)];
+  void toggleItem(AppListItem item) {
+    if (selectedItems.where((selectedItem) => selectedItem.id == item.id).isEmpty) {
+      selectedItems.add(item);
     } else {
-      selectedIDs = [...selectedIDs, id];
+      selectedItems.removeWhere((selectedItem) => selectedItem.id == item.id);
     }
   }
 }

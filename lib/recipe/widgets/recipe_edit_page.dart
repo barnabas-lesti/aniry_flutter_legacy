@@ -133,13 +133,13 @@ class _RecipeEditPageFormState extends State<_RecipeEditPageForm> {
       final ingredientProvider = IngredientProvider.of(context);
       showAppItemSelectorDialog(
         context: context,
-        selectedIDs: _recipe.ingredientProxies.map((proxy) => proxy.id),
-        listItems: ingredientProvider.ingredients.map((ingredient) => ingredient.toListItem()),
-        onSave: (ids) {
+        items: ingredientProvider.ingredients.map((ingredient) => ingredient.toListItem()).toList(),
+        selectedItems: _recipe.ingredientProxies.map((proxy) => proxy.toListItem()).toList(),
+        onSave: (items) {
           setState(() {
-            _recipe.ingredientProxies = ids.map((id) {
-              final ingredient = ingredientProvider.getIngredient(id);
-              final existingProxy = _recipe.ingredientProxies.where((proxy) => proxy.id == id).firstOrNull;
+            _recipe.ingredientProxies = items.map((item) {
+              final ingredient = ingredientProvider.getIngredient(item.id);
+              final existingProxy = _recipe.ingredientProxies.where((proxy) => proxy.id == ingredient.id).firstOrNull;
               final serving = existingProxy != null ? existingProxy.serving : ingredient.serving.clone();
               return IngredientProxy(ingredient: ingredient, serving: serving);
             }).toList();
@@ -234,9 +234,9 @@ class _RecipeEditPageFormState extends State<_RecipeEditPageForm> {
             showTextRightPrimary: true,
             showTextRightSecondary: true,
             numberOfVisibleItems: 5,
-            onTap: _buildOnListTileTap(context),
-            onReorder: _onListReorder,
-            onDelete: _onDelete,
+            onTap: (item) => _buildOnListTileTap(context)(item.id),
+            onReorder: (items) => _onListReorder(items.map((item) => item.id).toList()),
+            onDelete: (item) => _onDelete(item.id),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),

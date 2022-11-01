@@ -86,7 +86,7 @@ class _RecipeHomePageList extends StatelessWidget {
       showTextRightPrimary: true,
       showTextRightSecondary: true,
       expanded: true,
-      onTap: onTap,
+      onTap: (item) => onTap(item.id),
     );
   }
 }
