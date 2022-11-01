@@ -118,7 +118,7 @@ class _DiaryHomePageEditorState extends State<_DiaryHomePageEditor> {
   void _onDelete(AppListItem item) {
     setState(() {
       _diaryItem.orderedIDs.remove(item.id);
-      if (item.source == Ingredient) {
+      if (item.source == Ingredient || item.source == IngredientProxy) {
         _diaryItem.ingredientProxies = _diaryItem.ingredientProxies.where((proxy) => proxy.id != item.id).toList();
       } else {
         _diaryItem.recipeProxies = _diaryItem.recipeProxies.where((proxy) => proxy.id != item.id).toList();
