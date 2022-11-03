@@ -14,28 +14,17 @@ class AppCalculableItem {
     required this.serving,
   });
 
-  static double reduceCaloriesList(List<double> caloriesList) {
-    double calories = 0;
-    for (int index = 0; index < caloriesList.length; index++) {
-      calories += caloriesList[index];
-    }
-    return calories;
+  static double reduceCalories(Iterable<double> calories) {
+    return calories.fold(0, (value, element) => value + element);
   }
 
-  static AppNutrients reduceNutrientsList(List<AppNutrients> nutrientsList) {
-    double carbs = 0;
-    double protein = 0;
-    double fat = 0;
-    for (int index = 0; index < nutrientsList.length; index++) {
-      carbs += nutrientsList[index].carbs;
-      protein += nutrientsList[index].protein;
-      fat += nutrientsList[index].fat;
-    }
-    return AppNutrients(
-      carbs: carbs,
-      protein: protein,
-      fat: fat,
-    );
+  static AppNutrients reduceNutrients(Iterable<AppNutrients> nutrients) {
+    return nutrients.fold(AppNutrients(), (value, element) {
+      value.carbs + element.carbs;
+      value.protein + element.protein;
+      value.fat + element.fat;
+      return value;
+    });
   }
 
   static double getProxyCalories({

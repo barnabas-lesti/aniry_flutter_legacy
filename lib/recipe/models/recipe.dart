@@ -31,11 +31,13 @@ class Recipe {
 
   AppServing get serving => servings[0];
 
-  double get calories =>
-      AppCalculableItem.reduceCaloriesList(ingredientProxies.map((proxy) => proxy.calories).toList());
+  double get calories {
+    return AppCalculableItem.reduceCalories(ingredientProxies.map((proxy) => proxy.calories).toList());
+  }
 
-  AppNutrients get nutrients =>
-      AppCalculableItem.reduceNutrientsList(ingredientProxies.map((proxy) => proxy.nutrients).toList());
+  AppNutrients get nutrients {
+    return AppCalculableItem.reduceNutrients(ingredientProxies.map((proxy) => proxy.nutrients).toList());
+  }
 
   static const String defaultServingUnit = AppUnit.plate;
   static const double defaultServingValue = 1.0;
