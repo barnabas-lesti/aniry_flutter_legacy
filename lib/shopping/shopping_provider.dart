@@ -9,18 +9,19 @@ class ShoppingProvider extends ChangeNotifier {
     lazyLoadItems();
   }
 
-  bool itemsLoaded = false;
+  bool _itemsLoaded = false;
   List<ShoppingItem> _items = [];
+
   List<ShoppingItem> get items => _items;
   List<ShoppingItem> get checkedItems => items.where((item) => item.checked).toList();
 
   set items(List<ShoppingItem> items) {
     _items = items;
     notifyListeners();
-    if (itemsLoaded) _storeItems();
+    if (_itemsLoaded) _storeItems();
   }
 
-  void addItem(String name) {
+  void createItem(String name) {
     items = [...items, ShoppingItem(id: const Uuid().v4(), name: name)];
   }
 
@@ -38,23 +39,23 @@ class ShoppingProvider extends ChangeNotifier {
     items = items.where((item) => !item.checked).toList();
   }
 
-  void reorderItems(List<String> ids) {
-    items = ids.map((id) => items.singleWhere((item) => item.id == id)).toList();
-  }
-
   void deleteAllItems() {
     items = [];
   }
 
-  static ShoppingProvider of(BuildContext context) {
-    return Provider.of(context, listen: false);
+  void reorderItems(List<String> orderedIDs) {
+    items = orderedIDs.map((id) => items.singleWhere((item) => item.id == id)).toList();
+  }
+
+  static ShoppingProvider of(BuildContext context, {bool listen = false}) {
+    return Provider.of(context, listen: listen);
   }
 
   Future<List<ShoppingItem>> lazyLoadItems() async {
-    if (!itemsLoaded) {
+    if (!_itemsLoaded) {
       final data = await AppStorage.loadPartitionData(AppPartition.shopping) as List<dynamic>;
       items = data.map((raw) => ShoppingItem.fromJson(raw)).toList();
-      itemsLoaded = true;
+      _itemsLoaded = true;
     }
     return items;
   }

@@ -66,6 +66,7 @@
   "shoppingHomeDeleteCheckedText":   "Delete only the Checked items or All items?",
   "shoppingHomeDeleteCheckedButton": "Checked",
   "shoppingHomeDeleteTooltip":       "Clear list", 
+  "shoppingHomeAddTooltip":       "Add new item", 
   "shoppingTab":            "Shopping",
   "shoppingHomeTitle":               "Shopping list",
   

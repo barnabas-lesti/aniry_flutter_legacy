@@ -13,18 +13,19 @@ class ShoppingItem {
 
   static ShoppingItem fromJson(Map<String, dynamic> json) {
     return ShoppingItem(
-      id: json['id'] as String? ?? '',
-      name: json['name'] as String? ?? '',
+      id: json['id'] as String,
+      name: json['name'] as String,
       checked: json['checked'] as bool? ?? false,
     );
   }
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
+    final Map<String, dynamic> json = {
       'id': id,
       'name': name,
-      'checked': checked,
     };
+    if (checked) json['checked'] = checked;
+    return json;
   }
 
   AppListItem toListItem() {
