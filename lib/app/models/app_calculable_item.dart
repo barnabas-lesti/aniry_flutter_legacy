@@ -20,9 +20,9 @@ class AppCalculableItem {
 
   static AppNutrients reduceNutrients(Iterable<AppNutrients> nutrients) {
     return nutrients.fold(AppNutrients(), (value, element) {
-      value.carbs + element.carbs;
-      value.protein + element.protein;
-      value.fat + element.fat;
+      value.carbs += element.carbs;
+      value.protein += element.protein;
+      value.fat += element.fat;
       return value;
     });
   }
