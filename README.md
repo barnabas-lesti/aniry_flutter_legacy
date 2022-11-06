@@ -3,7 +3,7 @@
 Aniry calorie counter mobile application.
 
 ## First time setup
-### Install and configure the following tools:
+### Tools
 - [Git](https://git-scm.com/downloads)
   - On Mac, install [Xcode](https://developer.apple.com/xcode/) from the App Store and verify that **Git** is available:
 ```bash
@@ -20,7 +20,7 @@ git config user.email "barnabas.lesti@gmail.com"
 - [VSCode](https://code.visualstudio.com/download) with recommended extensions
 - Verify that the app can be started
 
-### Set up simulators
+### Simulators
   - For Android, install [Android Studio](https://developer.android.com/studio)
   - For iOS, **Xcode** handles the simulators
 
@@ -41,6 +41,57 @@ flutter pub run build_runner build --delete-conflicting-outputs
 # Generate localized message files
 flutter gen-l10n
 ```
+
+## Conventions
+### State management
+- Prioritize the use of `StatelessWidget` where possible.
+  - Utilize constructor parameters and default values.
+- Use `StatefulWidget` when widget state can/should change and the widget doesn't need to interact with other widgets.
+- Create controllers where child widget data needs to be accessed from parent on specific events on demand, eg.:
+  - `TextFormField` widget text is required in parent when a specific event occurs.
+  - An `IngredientFormController` should be passed to the `IngredientForm` that has a `getIngredient` function. This will return an `Ingredient` instance when parent save button is pressed.
+- Only use `Providers` as repositories, when state needs to be shared around the feature/app, data of the provider can change and re-build of widgets is required.
+  - These providers should be injected on root app level.
+
+### Models
+- All models should be located in the `/models` folder of a feature.
+- Ordering of properties and functions in a model:
+  1. Argument definitions.
+  2. Constructor and argument assignments.
+  3. Private properties + Getter and Setter if any:
+  4. Static properties
+  5. Static methods
+  6. Public instance methods
+  7. Private instance methods
+```dart
+class Foo {
+  late String id;
+
+  Foo({ required this.id });
+
+  String _description;
+
+  String _name;
+  String get name => _name;
+  set name(String value) => _name = value;
+
+  static final Color color = Colors.green[400]!;
+
+  static Foo fromJson(Map<String, dynamic> json) {}
+
+  Map<String, dynamic> toJson() {}
+
+  void _foo() {}
+}
+```
+
+### Widgets
+- All widgets should be located in the `/widgets` folder of a feature.
+- Screens count as widgets.
+- All non one line/statement properties or methods should be defined as private getters or methods on the widget class (not in the `build` function).
+- Methods that require context should be built using `_build` methods.
+- Related methods (like `showWidget` or `buildWidget`) should be created in the same file as public methods.
+- Related widgets (like `_AppListTile` for `AppList`) should be created in the same file as private widgets (if not needed elsewhere).
 
 ## Resources
 - https://docs.flutter.dev/
