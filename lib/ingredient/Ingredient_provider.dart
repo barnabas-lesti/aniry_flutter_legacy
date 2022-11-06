@@ -1,7 +1,6 @@
 import 'package:aniry/app/app_storage.dart';
 import 'package:aniry/app/app_utils.dart';
 import 'package:aniry/ingredient/models/ingredient.dart';
-import 'package:aniry/recipe/recipe_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -12,26 +11,26 @@ class IngredientProvider extends ChangeNotifier {
   }
 
   bool _ingredientsLoaded = false;
+
   List<Ingredient> _ingredients = [];
-  String _ingredientHomeSearchString = '';
-
   List<Ingredient> get ingredients => _ingredients;
-  String get ingredientHomeSearchString => _ingredientHomeSearchString;
-  List<Ingredient> get ingredientHomeIngredients {
-    return ingredients
-        .where((ingredient) => AppUtils.isStringInString(ingredient.name, ingredientHomeSearchString))
-        .toList();
-  }
-
   set ingredients(List<Ingredient> ingredients) {
     _ingredients = ingredients;
     notifyListeners();
     _storeIngredients();
   }
 
+  String _ingredientHomeSearchString = '';
+  String get ingredientHomeSearchString => _ingredientHomeSearchString;
   set ingredientHomeSearchString(String searchString) {
     _ingredientHomeSearchString = searchString;
     notifyListeners();
+  }
+
+  List<Ingredient> get ingredientHomeIngredients {
+    return ingredients
+        .where((ingredient) => AppUtils.isStringInString(ingredient.name, ingredientHomeSearchString))
+        .toList();
   }
 
   Ingredient getIngredient(String id) {
@@ -43,17 +42,15 @@ class IngredientProvider extends ChangeNotifier {
     ingredients = [...ingredients, ingredient];
   }
 
-  void updateIngredient(BuildContext context, Ingredient updatedIngredient) {
+  void updateIngredient(Ingredient updatedIngredient) {
     ingredients = [
       ...ingredients.where((ingredient) => ingredient.id != updatedIngredient.id).toList(),
       updatedIngredient
     ];
-    RecipeProvider.of(context).updateIngredientInRecipes(updatedIngredient);
   }
 
-  void deleteIngredient(BuildContext context, String id) {
+  void deleteIngredient(String id) {
     ingredients = ingredients.where((ingredient) => ingredient.id != id).toList();
-    RecipeProvider.of(context).deleteIngredientFromRecipes(id);
   }
 
   static IngredientProvider of(BuildContext context, {bool listen = false}) {

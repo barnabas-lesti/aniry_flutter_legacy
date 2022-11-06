@@ -10,14 +10,14 @@ final diaryRouter = AppFeatureRouter(
   routerDelegate: BeamerDelegate(
     initialPath: '/diary',
     locationBuilder: RoutesLocationBuilder(routes: {
-      '/diary': (context, state, data) {
-        return BeamPage(
-          type: BeamPageType.noTransition,
-          child: DiaryHomePage(
-            title: AppI10N.of(context).diaryHomePageTitle,
-          ),
-        );
-      },
+      // '/diary': (context, state, data) {
+      //   return BeamPage(
+      //     type: BeamPageType.noTransition,
+      //     child: DiaryHomePage(
+      //       title: AppI10N.of(context).diaryHomePageTitle,
+      //     ),
+      //   );
+      // },
     }),
   ),
 );

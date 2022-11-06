@@ -8,11 +8,11 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 
 final featureRouters = <AppFeatureRouter>[
-  diaryRouter,
+  // diaryRouter,
   ingredientRouter,
   recipeRouter,
-  shoppingRouter,
-  settingsRouter,
+  // shoppingRouter,
+  // settingsRouter,
 ];
 
 final appRouterDelegate = BeamerDelegate(

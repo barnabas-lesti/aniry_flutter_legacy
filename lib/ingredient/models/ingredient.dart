@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:aniry/app/models/app_calculable_item.dart';
 import 'package:aniry/app/models/app_list_item.dart';
 import 'package:aniry/app/models/app_nutrients.dart';
+import 'package:aniry/app/models/app_servable_item.dart';
 import 'package:aniry/app/models/app_serving.dart';
 import 'package:aniry/app/models/app_unit.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +67,6 @@ class Ingredient {
   AppListItem toListItem() {
     return AppListItem(
       id: id,
-      source: Ingredient,
       textLeftPrimary: name,
       textLeftSecondary: nutrients.toString(),
       textRightPrimary: serving.toString(),
@@ -77,12 +76,15 @@ class Ingredient {
     );
   }
 
-  AppCalculableItem toCalculableItem() {
-    return AppCalculableItem(
-      source: Ingredient,
+  AppServableItem toServableItem() {
+    return AppServableItem(
+      id: id,
+      name: name,
       calories: calories,
       nutrients: nutrients,
       serving: serving,
+      icon: icon,
+      color: color,
     );
   }
 

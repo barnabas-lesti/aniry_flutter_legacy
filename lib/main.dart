@@ -16,9 +16,15 @@ class _App extends StatelessWidget {
   Widget build(context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ShoppingProvider>(create: (_) => ShoppingProvider()),
-        ChangeNotifierProvider<IngredientProvider>(create: (_) => IngredientProvider()),
-        ChangeNotifierProvider<RecipeProvider>(create: (_) => RecipeProvider()),
+        ChangeNotifierProvider<ShoppingProvider>(create: (c) => ShoppingProvider()),
+        ChangeNotifierProvider<IngredientProvider>(create: (c) => IngredientProvider()),
+        ChangeNotifierProxyProvider<IngredientProvider, RecipeProvider>(
+          create: (c) => RecipeProvider(),
+          update: (context, ingredientProvider, recipeProvider) {
+            recipeProvider!.ingredients = ingredientProvider.ingredients;
+            return recipeProvider;
+          },
+        ),
       ],
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

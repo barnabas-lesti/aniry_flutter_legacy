@@ -27,7 +27,6 @@ git config user.email "barnabas.lesti@gmail.com"
 ## Development
 Follow [Flutters test-drive](https://docs.flutter.dev/get-started/test-drive) instructions.
 
-
 ```bash
 # Start development server on simulator
 flutter run
@@ -41,6 +40,9 @@ flutter pub run build_runner build --delete-conflicting-outputs
 # Generate localized message files
 flutter gen-l10n
 ```
+
+Application file location on simulator:
+- 'Library/Developer/CoreSimulator/Devices/272369ED-9FA9-473A-84BE-52BF363A2F46/data/Containers/Data/Application/CAD10C54-7048-4542-9C1A-54F7A911C07C/Documents'
 
 ## Conventions
 ### State management

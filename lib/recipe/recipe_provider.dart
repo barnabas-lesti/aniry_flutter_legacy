@@ -1,10 +1,14 @@
 import 'package:aniry/app/app_storage.dart';
 import 'package:aniry/app/app_utils.dart';
+import 'package:aniry/app/models/app_served_item.dart';
+import 'package:aniry/app/models/app_serving.dart';
 import 'package:aniry/ingredient/models/ingredient.dart';
 import 'package:aniry/recipe/models/recipe.dart';
+import 'package:aniry/recipe/models/recipe_source.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:collection/collection.dart';
 
 class RecipeProvider extends ChangeNotifier {
   RecipeProvider() {
@@ -12,24 +16,58 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   bool _recipesLoaded = false;
-  List<Recipe> _recipes = [];
-  String _recipeHomeSearchString = '';
 
-  List<Recipe> get recipes => _recipes;
-  String get recipeHomeSearchString => _recipeHomeSearchString;
-  List<Recipe> get recipeHomeRecipes {
-    return recipes.where((recipe) => AppUtils.isStringInString(recipe.name, recipeHomeSearchString)).toList();
+  List<Ingredient> _ingredients = [];
+  List<Ingredient> get ingredients => _ingredients;
+  set ingredients(List<Ingredient> ingredients) {
+    print('RecipeProvider::set::ingredients');
+    _ingredients = ingredients;
+    notifyListeners();
   }
 
-  set recipes(List<Recipe> recipes) {
-    _recipes = recipes;
+  List<RecipeSource> _recipeSources = [];
+  List<RecipeSource> get recipeSources => _recipeSources;
+  set recipeSources(List<RecipeSource> recipeSources) {
+    print('RecipeProvider::set::recipeSources');
+    _recipeSources = recipeSources;
     notifyListeners();
     _storeRecipes();
   }
 
+  List<Recipe> get recipes {
+    print('RecipeProvider::get::recipes');
+    return recipeSources.map((recipeSource) {
+      final servedItems = recipeSource.servedItemSources
+          .map((servedItemSource) {
+            final servableItem = ingredients
+                .where((ingredient) => ingredient.id == servedItemSource.itemID)
+                .firstOrNull
+                ?.toServableItem();
+            if (servableItem == null) return null;
+            return AppServedItem(
+              serving: AppServing(unit: servableItem.serving.unit, value: servedItemSource.serving.value),
+              item: servableItem,
+            );
+          })
+          .whereType<AppServedItem>()
+          .toList();
+      return recipeSource.toRecipe(servedItems: servedItems);
+    }).toList();
+  }
+
+  set recipes(List<Recipe> recipes) {
+    recipeSources = recipes.map((recipe) => RecipeSource.fromRecipe(recipe)).toList();
+  }
+
+  String _recipeHomeSearchString = '';
+  String get recipeHomeSearchString => _recipeHomeSearchString;
   set recipeHomeSearchString(String searchString) {
     _recipeHomeSearchString = searchString;
     notifyListeners();
+  }
+
+  List<Recipe> get recipeHomeRecipes {
+    return recipes.where((recipe) => AppUtils.isStringInString(recipe.name, recipeHomeSearchString)).toList();
   }
 
   Recipe getRecipe(String id) {
@@ -49,30 +87,6 @@ class RecipeProvider extends ChangeNotifier {
     recipes = recipes.where((recipe) => recipe.id != id).toList();
   }
 
-  Future<void> updateIngredientInRecipes(Ingredient updatedIngredient) async {
-    await lazyLoadRecipes();
-    recipes = recipes.map((recipe) {
-      final updatedProxies = recipe.ingredientProxies.map((proxy) {
-        if (proxy.id == updatedIngredient.id) {
-          proxy.ingredient = updatedIngredient.clone();
-          proxy.serving.unit = updatedIngredient.serving.unit;
-        }
-        return proxy;
-      }).toList();
-      recipe.ingredientProxies = updatedProxies;
-      return recipe;
-    }).toList();
-  }
-
-  Future<void> deleteIngredientFromRecipes(String ingredientId) async {
-    await lazyLoadRecipes();
-    recipes = recipes.map((recipe) {
-      final updatedProxies = recipe.ingredientProxies.where((proxy) => proxy.id != ingredientId).toList();
-      recipe.ingredientProxies = updatedProxies;
-      return recipe;
-    }).toList();
-  }
-
   static RecipeProvider of(BuildContext context, {bool listen = false}) {
     return Provider.of(context, listen: listen);
   }
@@ -80,7 +94,7 @@ class RecipeProvider extends ChangeNotifier {
   Future<List<Recipe>> lazyLoadRecipes() async {
     if (!_recipesLoaded) {
       final data = await AppStorage.loadPartitionData(AppPartition.recipe) as List<dynamic>;
-      _recipes = data.map((raw) => Recipe.fromJson(raw)).toList();
+      _recipeSources = data.map((raw) => RecipeSource.fromJson(raw)).toList();
       _recipesLoaded = true;
       notifyListeners();
     }
@@ -88,6 +102,6 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<void> _storeRecipes() async {
-    AppStorage.storePartitionData(AppPartition.recipe, recipes);
+    AppStorage.storePartitionData(AppPartition.recipe, recipeSources);
   }
 }

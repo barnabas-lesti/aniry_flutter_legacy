@@ -1,16 +1,16 @@
 import 'package:aniry/ingredient/models/ingredient.dart';
-import 'package:aniry/recipe/models/recipe.dart';
+import 'package:aniry/recipe/models/recipe_source.dart';
 import 'package:aniry/shopping/models/shopping_item.dart';
 
 class AppExportedData {
   late final List<ShoppingItem> shoppingItems;
   late final List<Ingredient> ingredients;
-  late final List<Recipe> recipes;
+  late final List<RecipeSource> recipeSources;
 
   AppExportedData({
     this.shoppingItems = const [],
     this.ingredients = const [],
-    this.recipes = const [],
+    this.recipeSources = const [],
   });
 
   static AppExportedData fromJson(Map<String, dynamic> json) {
@@ -21,8 +21,9 @@ class AppExportedData {
       ingredients: ((json['ingredients'] ?? []) as List<dynamic>)
           .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
           .toList(),
-      recipes:
-          ((json['recipes'] ?? []) as List<dynamic>).map((e) => Recipe.fromJson(e as Map<String, dynamic>)).toList(),
+      recipeSources: ((json['recipeSources'] ?? []) as List<dynamic>)
+          .map((e) => RecipeSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -30,7 +31,7 @@ class AppExportedData {
     return <String, dynamic>{
       'shoppingItems': shoppingItems,
       'ingredients': ingredients,
-      'recipes': recipes,
+      'recipeSources': recipeSources,
     };
   }
 }

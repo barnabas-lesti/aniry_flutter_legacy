@@ -1,6 +1,6 @@
 import 'package:aniry/app/app_i10n.dart';
 import 'package:aniry/app/app_data_controller.dart';
-import 'package:aniry/app/models/app_unit.dart';
+import 'package:aniry/app/models/app_served_item.dart';
 import 'package:aniry/app/widgets/app_header_action.dart';
 import 'package:aniry/app/widgets/app_confirmation_dialog.dart';
 import 'package:aniry/app/widgets/app_input.dart';
@@ -14,7 +14,6 @@ import 'package:aniry/app/widgets/app_serving_editor_dialog.dart';
 import 'package:aniry/app/widgets/app_serving_input.dart';
 import 'package:aniry/app/widgets/app_total_calories.dart';
 import 'package:aniry/ingredient/Ingredient_provider.dart';
-import 'package:aniry/ingredient/models/ingredient_proxy.dart';
 import 'package:aniry/recipe/models/recipe.dart';
 import 'package:aniry/recipe/recipe_provider.dart';
 import 'package:beamer/beamer.dart';
@@ -136,14 +135,14 @@ class _RecipeEditPageFormState extends State<_RecipeEditPageForm> {
       showAppItemSelectorDialog(
         context: context,
         items: ingredientProvider.ingredients.map((ingredient) => ingredient.toListItem()).toList(),
-        selectedItems: _recipe.ingredientProxies.map((proxy) => proxy.toListItem()).toList(),
+        selectedItems: _recipe.servedItems.map((item) => item.toListItem()).toList(),
         onSave: (items) {
           setState(() {
-            _recipe.ingredientProxies = items.map((item) {
+            _recipe.servedItems = items.map((item) {
               final ingredient = ingredientProvider.getIngredient(item.id);
-              final existingProxy = _recipe.ingredientProxies.where((proxy) => proxy.id == ingredient.id).firstOrNull;
-              final serving = existingProxy != null ? existingProxy.serving : ingredient.serving.clone();
-              return IngredientProxy(ingredient: ingredient, serving: serving);
+              final existingServedItem = _recipe.servedItems.where((item) => item.id == ingredient.id).firstOrNull;
+              final serving = existingServedItem != null ? existingServedItem.serving : ingredient.serving.clone();
+              return AppServedItem(item: ingredient.toServableItem(), serving: serving);
             }).toList();
           });
         },
@@ -155,10 +154,10 @@ class _RecipeEditPageFormState extends State<_RecipeEditPageForm> {
     return (id) {
       showAppServingEditorDialog(
         context: context,
-        initialServing: _recipe.ingredientProxies.firstWhere((proxy) => proxy.id == id).serving,
+        initialServing: _recipe.servedItems.where((item) => item.id == id).firstOrNull!.serving,
         onSave: (serving) {
           setState(() {
-            _recipe.ingredientProxies.firstWhere((proxy) => proxy.id == id).serving.value = serving.value;
+            _recipe.servedItems.where((item) => item.id == id).firstOrNull!.serving.value = serving.value;
           });
         },
       );
@@ -167,14 +166,13 @@ class _RecipeEditPageFormState extends State<_RecipeEditPageForm> {
 
   void _onListReorder(List<String> ids) {
     setState(() {
-      _recipe.ingredientProxies =
-          ids.map((id) => _recipe.ingredientProxies.where((proxy) => proxy.id == id).first).toList();
+      _recipe.servedItems = ids.map((id) => _recipe.servedItems.where((item) => item.id == id).first).toList();
     });
   }
 
   void _onDelete(String id) {
     setState(() {
-      _recipe.ingredientProxies = _recipe.ingredientProxies.where((proxy) => proxy.id != id).toList();
+      _recipe.servedItems = _recipe.servedItems.where((item) => item.id != id).toList();
     });
   }
 
@@ -230,7 +228,7 @@ class _RecipeEditPageFormState extends State<_RecipeEditPageForm> {
             ],
           ),
           AppList(
-            items: _recipe.ingredientProxies.map((proxy) => proxy.toListItem()).toList(),
+            items: _recipe.servedItems.map((item) => item.toListItem()).toList(),
             noItemsText: appI10N.recipeFormIngredientsNoItems,
             showIcon: true,
             showTextRightPrimary: true,

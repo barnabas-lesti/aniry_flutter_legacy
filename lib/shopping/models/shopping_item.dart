@@ -49,7 +49,6 @@ class ShoppingItem {
   AppListItem toListItem() {
     return AppListItem(
       id: id,
-      source: ShoppingItem,
       textLeftPrimary: name,
     );
   }
